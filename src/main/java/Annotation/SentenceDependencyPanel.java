@@ -2,8 +2,8 @@ package Annotation;
 
 import AnnotatedSentence.AnnotatedSentence;
 import AnnotatedSentence.AnnotatedWord;
-import AnnotatedSentence.AutoProcessor.AutoDependency.TurkishSentenceAutoDependency;
 import AnnotatedSentence.ViewLayerType;
+import AutoProcessor.TurkishSentenceAutoDependency;
 import DataCollector.Sentence.SentenceAnnotatorPanel;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyType;

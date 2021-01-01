@@ -6,7 +6,7 @@
 
     <groupId>io.github.starlangsoftware</groupId>
     <artifactId>UniversalDependencyParser</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>NlpToolkit.UniversalDependencyParser</name>
@@ -50,12 +50,12 @@
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>AnnotatedSentence</artifactId>
-            <version>1.0.22</version>
+            <version>1.0.23</version>
         </dependency>
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>DataCollector</artifactId>
-            <version>1.0.8</version>
+            <version>1.0.9</version>
         </dependency>
     </dependencies>
 
@@ -120,6 +120,33 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sentence-dependency</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>Annotation.TestSentenceDependencyFrame</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>sentence-dependency</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
