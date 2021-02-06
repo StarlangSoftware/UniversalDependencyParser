@@ -33,7 +33,7 @@ Use Git for cloning the code to your local or below line for Ubuntu:
 
 	git clone <your-fork-git-link>
 
-A directory called Classification will be created. Or you can use below link for exploring the code:
+A directory called UniversalDependencyParser will be created. Or you can use below link for exploring the code:
 
 	git clone https://github.com/olcaytaner/UniversalDependencyParser.git
 
@@ -43,7 +43,7 @@ Steps for opening the cloned project:
 
 * Start IDE
 * Select **File | Open** from main menu
-* Choose `Classification/pom.xml` file
+* Choose `UniversalDependencyParser/pom.xml` file
 * Select open as project option
 * Couple of seconds, dependencies with Maven will be downloaded. 
 
@@ -52,11 +52,11 @@ Steps for opening the cloned project:
 
 **From IDE**
 
-After being done with the downloading and Maven indexing, select **Build Project** option from **Build** menu. After compilation process, user can run Classification.
+After being done with the downloading and Maven indexing, select **Build Project** option from **Build** menu. After compilation process, user can run UniversalDependencyParser.
 
 **From Console**
 
-Go to `Classification` directory and compile with 
+Go to `UniversalDependencyParser` directory and compile with 
 
      mvn compile 
 
@@ -64,7 +64,7 @@ Go to `Classification` directory and compile with
 
 **From IDE**
 
-Use `package` of 'Lifecycle' from maven window on the right and from `Classification` root module.
+Use `package` of 'Lifecycle' from maven window on the right and from `UniversalDependencyParser` root module.
 
 **From Console**
 
@@ -77,5 +77,5 @@ Use below line to generate jar file:
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>UniversalDependencyParser</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
