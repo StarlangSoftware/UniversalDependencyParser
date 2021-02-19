@@ -170,7 +170,7 @@ public class GraphParser {
         }
     }
 
-    public ArrayList<Integer> chuLiuEdmonds(WeightedGraph graph, ArrayList<Integer> bestInEdge, HashMap<Integer, ArrayList<Integer>> kicksOut) {
+    public void chuLiuEdmonds(WeightedGraph graph, ArrayList<Integer> bestInEdge, HashMap<Integer, ArrayList<Integer>> kicksOut) {
         ArrayList<SimpleEntry<Connection, Integer>> temporaryConnections = findConnections(graph);
         ArrayList<SimpleEntry<Connection, Integer>> cycle = new ArrayList<>();
         boolean isCycle = false;
@@ -194,7 +194,6 @@ public class GraphParser {
             chuLiuEdmonds(graph, bestInEdge, kicksOut);
             expandGraph(graph, clone, bestInEdge, kicksOut);
         }
-        return bestInEdge;
     }
 
     public ArrayList<Connection> findMaximumSpanningTree(UniversalDependencyTreeBankSentence sentence, GraphSystem system) {
@@ -209,8 +208,8 @@ public class GraphParser {
         WeightedGraph graph = generateGraph(sentence, oracle, root);
         ArrayList<Integer> bestInEdge = new ArrayList<>();
         HashMap<Integer, ArrayList<Integer>> kicksOut = new HashMap<>();
-        ArrayList<Integer> edgeNumbers = chuLiuEdmonds(graph, bestInEdge, kicksOut);
-        HashSet<Integer> set = new HashSet<>(edgeNumbers);
+        chuLiuEdmonds(graph, bestInEdge, kicksOut);
+        HashSet<Integer> set = new HashSet<>(bestInEdge);
         for (UniversalDependencyTreeBankWord word : graph.getKeySet()) {
             for (int i = 0; i < graph.get(word).size(); i++) {
                 if (set.contains(graph.get(word).get(i).getValue().getValue())) {
