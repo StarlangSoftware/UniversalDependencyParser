@@ -4,7 +4,7 @@ import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 import Parser.GraphBasedParser.GraphParser;
 import Parser.GraphBasedParser.WeightedGraph;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -40,7 +40,7 @@ public class GraphParserTest {
         ArrayList<Integer> bestInEdge = new ArrayList<>();
         parser.chuLiuEdmonds(graph, bestInEdge, new HashMap<>());
         HashSet<Integer> set = new HashSet<>(bestInEdge);
-        Assertions.assertEquals(expectedList, set);
+        Assert.assertEquals(expectedList, set);
         graph.clear();
         expectedList.clear();
         UniversalDependencyTreeBankWord word1 = new UniversalDependencyTreeBankWord(2, "word1", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(2, "root"), "_", "_");
@@ -61,7 +61,7 @@ public class GraphParserTest {
         bestInEdge = new ArrayList<>();
         parser.chuLiuEdmonds(graph, bestInEdge, new HashMap<>());
         set = new HashSet<>(bestInEdge);
-        Assertions.assertEquals(expectedList, set);
+        Assert.assertEquals(expectedList, set);
         graph.clear();
         expectedList.clear();
         UniversalDependencyTreeBankWord word4 = new UniversalDependencyTreeBankWord(5, "word4", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(5, "root"), "_", "_");
@@ -87,6 +87,6 @@ public class GraphParserTest {
         bestInEdge = new ArrayList<>();
         parser.chuLiuEdmonds(graph, bestInEdge, new HashMap<>());
         set = new HashSet<>(bestInEdge);
-        Assertions.assertEquals(expectedList, set);
+        Assert.assertEquals(expectedList, set);
     }
 }
