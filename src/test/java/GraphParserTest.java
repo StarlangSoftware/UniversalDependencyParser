@@ -37,7 +37,9 @@ public class GraphParserTest {
         expectedList.add(1);
         expectedList.add(4);
         expectedList.add(8);
-        HashSet<Integer> set = new HashSet<>(parser.chuLiuEdmonds(graph, new ArrayList<>(), new HashMap<>()));
+        ArrayList<Integer> bestInEdge = new ArrayList<>();
+        parser.chuLiuEdmonds(graph, bestInEdge, new HashMap<>());
+        HashSet<Integer> set = new HashSet<>(bestInEdge);
         Assertions.assertEquals(expectedList, set);
         graph.clear();
         expectedList.clear();
@@ -56,7 +58,35 @@ public class GraphParserTest {
         expectedList.add(1);
         expectedList.add(3);
         expectedList.add(5);
-        set = new HashSet<>(parser.chuLiuEdmonds(graph, new ArrayList<>(), new HashMap<>()));
+        bestInEdge = new ArrayList<>();
+        parser.chuLiuEdmonds(graph, bestInEdge, new HashMap<>());
+        set = new HashSet<>(bestInEdge);
+        Assertions.assertEquals(expectedList, set);
+        graph.clear();
+        expectedList.clear();
+        UniversalDependencyTreeBankWord word4 = new UniversalDependencyTreeBankWord(5, "word4", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(5, "root"), "_", "_");
+        UniversalDependencyTreeBankWord word5 = new UniversalDependencyTreeBankWord(6, "word5", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(6, "root"), "_", "_");
+        graph.addDirectedEdge(root, word1, new SimpleEntry<>(5.0, 1));
+        graph.addDirectedEdge(root, word2, new SimpleEntry<>(7.0, 2));
+        graph.addDirectedEdge(root, word3, new SimpleEntry<>(4.0, 3));
+        graph.addDirectedEdge(word1, word2, new SimpleEntry<>(6.0, 6));
+        graph.addDirectedEdge(word2, word1, new SimpleEntry<>(3.0, 5));
+        graph.addDirectedEdge(word3, word2, new SimpleEntry<>(12.0, 4));
+        graph.addDirectedEdge(word1, word4, new SimpleEntry<>(2.0, 7));
+        graph.addDirectedEdge(word4, word1, new SimpleEntry<>(7.0, 11));
+        graph.addDirectedEdge(word4, word2, new SimpleEntry<>(5.6, 10));
+        graph.addDirectedEdge(word5, word4, new SimpleEntry<>(9.0, 8));
+        graph.addDirectedEdge(word4, word5, new SimpleEntry<>(6.0, 9));
+        graph.addDirectedEdge(word3, word5, new SimpleEntry<>(6.0, 13));
+        graph.addDirectedEdge(word5, word3, new SimpleEntry<>(8.0, 12));
+        expectedList.add(3);
+        expectedList.add(4);
+        expectedList.add(8);
+        expectedList.add(11);
+        expectedList.add(13);
+        bestInEdge = new ArrayList<>();
+        parser.chuLiuEdmonds(graph, bestInEdge, new HashMap<>());
+        set = new HashSet<>(bestInEdge);
         Assertions.assertEquals(expectedList, set);
     }
 }
