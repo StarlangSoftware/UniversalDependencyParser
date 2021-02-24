@@ -19,6 +19,10 @@ public class WeightedGraph {
         edgeList.clear();
     }
 
+    public boolean containsKey(UniversalDependencyTreeBankWord word) {
+        return edgeList.containsKey(word);
+    }
+
     private boolean containsConnection(UniversalDependencyTreeBankWord from, UniversalDependencyTreeBankWord to) {
         for (int i = 0; i < edgeList.get(from).size(); i++) {
             if (edgeList.get(from).get(i).getKey().equals(to)) {

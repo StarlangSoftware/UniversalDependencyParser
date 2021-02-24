@@ -92,7 +92,7 @@ public class GraphParser {
                     return true;
                 } else {
                     cycle.add(new SimpleEntry<>(current, entry.getKey()));
-                    if (graph.get(currentWord, i).getKey().getId() != Integer.MIN_VALUE && findCycle(graph, temporaryConnections, cycle, graph.get(currentWord).get(i).getKey())) {
+                    if (graph.containsKey(graph.get(currentWord, i).getKey()) && findCycle(graph, temporaryConnections, cycle, graph.get(currentWord).get(i).getKey())) {
                         return true;
                     }
                     cycle.remove(cycle.size() - 1);
@@ -176,7 +176,7 @@ public class GraphParser {
         boolean isCycle = false;
         for (int i = 0; i < temporaryConnections.size(); i++) {
             cycle.add(temporaryConnections.get(i));
-            if (temporaryConnections.get(i).getKey().getTo().getId() != Integer.MIN_VALUE) {
+            if (graph.containsKey(temporaryConnections.get(i).getKey().getTo())) {
                 isCycle = findCycle(graph, temporaryConnections, cycle, temporaryConnections.get(i).getKey().getTo());
                 if (isCycle) {
                     break;

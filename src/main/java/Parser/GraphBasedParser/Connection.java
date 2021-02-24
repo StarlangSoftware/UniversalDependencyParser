@@ -34,4 +34,9 @@ public class Connection {
         Connection second = (Connection) obj;
         return this.from.getName().equals(second.from.getName()) && this.from.getId() == second.from.getId() && this.to.getName().equals(second.to.getName()) && this.to.getId() == second.to.getId() && this.length == second.length;
     }
+
+    @Override
+    public String toString() {
+        return "[" + from.getId() + " " + from.getName() + ", " + to.getId() + " " + to.getName() + ", " + length + "]";
+    }
 }
