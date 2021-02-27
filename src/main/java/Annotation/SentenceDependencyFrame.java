@@ -22,6 +22,7 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
 
     static final protected String DELETEWORD = "deleteword";
     JList<String> errorList;
+    JScrollPane scrollPane;
     private JCheckBox autoDependencyDetectionOption;
 
     @Override
@@ -35,9 +36,11 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
         toolBar.add(autoDependencyDetectionOption);
         JPanel errorPanel = new JPanel(new BorderLayout(50, 0));
         errorList = new JList<>();
-        errorPanel.add(errorList);
+        scrollPane = new JScrollPane(errorList);
+        errorPanel.add(scrollPane);
         bottom.add(errorPanel, BorderLayout.SOUTH);
-        errorList.setVisible(false);
+        scrollPane.setPreferredSize(new Dimension(200, 100));
+        scrollPane.setVisible(false);
         JButton button = new DrawingButton(DataCollector.class, this, "delete", DELETEWORD, "Delete Word");
         button.setVisible(true);
         toolBar.add(button);
@@ -94,9 +97,9 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                     listModel.addElement(dependencyError.toString());
                 }
                 errorList.setModel(listModel);
-                errorList.setVisible(true);
+                scrollPane.setVisible(true);
             } else {
-                errorList.setVisible(false);
+                scrollPane.setVisible(false);
             }
         }
     }
