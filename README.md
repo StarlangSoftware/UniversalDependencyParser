@@ -31,7 +31,7 @@ The developments in the dependency treebanking made it clear that Turkish langua
 ![Choose File](choosefile.png)
 5. For each word in the sentence, click the word, and link that word to its head. Select appropriate dependency tag for that dependency.
 ![Dependency Annotation](dependency.png)
-7. Click one of the next buttons to go to other files.
+6. Click one of the next buttons to go to other files.
 
 For Developers
 ============
