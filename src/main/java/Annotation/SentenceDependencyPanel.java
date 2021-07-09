@@ -182,8 +182,8 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
             if (draggedWordIndex + 1 < selectedWordIndex && UniversalDependencyType.values()[i].equals(UniversalDependencyType.GOESWITH)){
                 continue;
             }
-            if (selectedWord.getParse() != null){
-                String uvPos = selectedWord.getParse().getUniversalDependencyPos();
+            if (selectedWord.getUniversalDependencyPos() != null){
+                String uvPos = selectedWord.getUniversalDependencyPos();
                 String dependency = UniversalDependencyType.values()[i].toString();
                 if (uvPos != null && !AnnotatedSentence.checkDependencyWithUniversalPosTag(dependency, uvPos)){
                     continue;
