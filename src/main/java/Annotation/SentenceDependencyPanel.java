@@ -190,7 +190,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                 }
             }
             numberOfValidItemsUntilNow++;
-            if (selectedWord.getUniversalDependency() != null && selectedWord.getUniversalDependency().toString().equalsIgnoreCase(UniversalDependencyType.values()[i].toString())){
+            if (selectedWord.getUniversalDependency() != null && selectedWord.getUniversalDependency().toString().equalsIgnoreCase(UniversalDependencyType.values()[i].toString().replace('_', ':'))){
                 selectedIndex = numberOfValidItemsUntilNow;
             }
             listModel.addElement(UniversalDependencyType.values()[i].toString());
