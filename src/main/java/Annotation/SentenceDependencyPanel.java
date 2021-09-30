@@ -2,26 +2,78 @@ package Annotation;
 
 import AnnotatedSentence.AnnotatedSentence;
 import AnnotatedSentence.AnnotatedWord;
+import AnnotatedSentence.AnnotatedCorpus;
 import AnnotatedSentence.ViewLayerType;
 import AutoProcessor.TurkishSentenceAutoDependency;
 import DataCollector.Sentence.SentenceAnnotatorPanel;
+import DataStructure.CounterHashMap;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyType;
+import Dictionary.Word;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
+
     private boolean dragged = false;
     private int dragX = -1, dragY = -1;
     private TurkishSentenceAutoDependency turkishSentenceAutoDependency;
+    private HashMap<String, ArrayList<AnnotatedWord>> mappedWords;
+    private HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences;
 
-    public SentenceDependencyPanel(String currentPath, String rawFileName) {
+    public SentenceDependencyPanel(String currentPath, String rawFileName, HashMap<String, ArrayList<AnnotatedWord>> mappedWords, HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences) {
         super(currentPath, rawFileName, ViewLayerType.DEPENDENCY);
+        this.mappedWords = mappedWords;
+        this.mappedSentences = mappedSentences;
         turkishSentenceAutoDependency = new TurkishSentenceAutoDependency();
+        list.setCellRenderer(new ListRenderer());
+    }
+
+    private class ListRenderer extends DefaultListCellRenderer {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component cell = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
+            String examples = "<html>";
+            int count = 0;
+            for (AnnotatedSentence annotatedSentence : mappedSentences.get(selectedWord.getName())){
+                for (int i = 0; i < annotatedSentence.wordCount(); i++){
+                    AnnotatedWord word = (AnnotatedWord) annotatedSentence.getWord(i);
+                    if (word.getName().equals(selectedWord.getName())){
+                        if (word.getUniversalDependency().toString().equals(value)){
+                            ArrayList<Word> wordList = annotatedSentence.getWords();
+                            String sentenceString = "";
+                            for (int k = 0; k < wordList.size(); k++){
+                                if (i == k){
+                                    sentenceString += " <b><font color=\"red\">" + wordList.get(k).getName() + "</font></b>";
+                                } else {
+                                    if (k + 1 == word.getUniversalDependency().to()){
+                                        sentenceString += " <b><font color=\"blue\">" + wordList.get(k).getName() + "</font></b>";
+                                    } else {
+                                        sentenceString += " " + wordList.get(k).getName();
+                                    }
+                                }
+                            }
+                            examples += sentenceString + "<br>";
+                            count++;
+                        }
+                    }
+                }
+                if (count >= 20){
+                    break;
+                }
+            }
+            examples += "</html>";
+            ((JComponent) cell).setToolTipText(examples);
+            return this;
+        }
     }
 
     public void deleteWord(){
@@ -164,36 +216,57 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
         }
     }
 
+    private UniversalDependencyType[] possibleValues(String word){
+        if (!mappedWords.containsKey(word)){
+            return UniversalDependencyType.values();
+        }
+        ArrayList<AnnotatedWord> words = mappedWords.get(word);
+        CounterHashMap<UniversalDependencyType> counts = new CounterHashMap<>();
+        for (UniversalDependencyType universalDependencyType : UniversalDependencyType.values()){
+            counts.put(universalDependencyType);
+        }
+        for (AnnotatedWord annotatedWord : words){
+            counts.put(UniversalDependencyRelation.getDependencyTag(annotatedWord.getUniversalDependency().toString()));
+        }
+        List<Map.Entry<UniversalDependencyType, Integer>> sortedCounts = counts.topN(counts.size());
+        UniversalDependencyType[] result = new UniversalDependencyType[sortedCounts.size()];
+        int i = 0;
+        for (Map.Entry<UniversalDependencyType, Integer> entry : sortedCounts){
+            result[i] = entry.getKey();
+            i++;
+        }
+        return result;
+    }
+
     public int populateLeaf(AnnotatedSentence sentence, int wordIndex){
         int numberOfValidItemsUntilNow = -1;
         int selectedIndex = -1;
         listModel.clear();
         AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
-        for (int i = 0; i < UniversalDependencyType.values().length; i++){
+        UniversalDependencyType[] typeList = possibleValues(selectedWord.getName());
+        for (int i = 0; i < typeList.length; i++){
             if (draggedWordIndex > selectedWordIndex){
-                if (UniversalDependencyType.values()[i].equals(UniversalDependencyType.FIXED) ||
-                        UniversalDependencyType.values()[i].equals(UniversalDependencyType.FLAT) ||
-                        UniversalDependencyType.values()[i].equals(UniversalDependencyType.CONJ) ||
-                        UniversalDependencyType.values()[i].equals(UniversalDependencyType.APPOS) ||
-                        UniversalDependencyType.values()[i].equals(UniversalDependencyType.GOESWITH)){
+                if (typeList[i].equals(UniversalDependencyType.FIXED) || typeList[i].equals(UniversalDependencyType.FLAT) ||
+                        typeList[i].equals(UniversalDependencyType.CONJ) || typeList[i].equals(UniversalDependencyType.APPOS) ||
+                        typeList[i].equals(UniversalDependencyType.GOESWITH)){
                     continue;
                 }
             }
-            if (draggedWordIndex + 1 < selectedWordIndex && UniversalDependencyType.values()[i].equals(UniversalDependencyType.GOESWITH)){
+            if (draggedWordIndex + 1 < selectedWordIndex && typeList[i].equals(UniversalDependencyType.GOESWITH)){
                 continue;
             }
             if (selectedWord.getUniversalDependencyPos() != null){
                 String uvPos = selectedWord.getUniversalDependencyPos();
-                String dependency = UniversalDependencyType.values()[i].toString();
+                String dependency = typeList[i].toString();
                 if (uvPos != null && !AnnotatedSentence.checkDependencyWithUniversalPosTag(dependency, uvPos)){
                     continue;
                 }
             }
             numberOfValidItemsUntilNow++;
-            if (selectedWord.getUniversalDependency() != null && selectedWord.getUniversalDependency().toString().equalsIgnoreCase(UniversalDependencyType.values()[i].toString().replace('_', ':'))){
+            if (selectedWord.getUniversalDependency() != null && selectedWord.getUniversalDependency().toString().equalsIgnoreCase(typeList[i].toString().replace('_', ':'))){
                 selectedIndex = numberOfValidItemsUntilNow;
             }
-            listModel.addElement(UniversalDependencyType.values()[i].toString());
+            listModel.addElement(typeList[i].toString());
         }
         return selectedIndex;
     }
