@@ -43,31 +43,20 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
             AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
             String examples = "<html>";
             int count = 0;
-            for (AnnotatedSentence annotatedSentence : mappedSentences.get(selectedWord.getName())){
-                for (int i = 0; i < annotatedSentence.wordCount(); i++){
-                    AnnotatedWord word = (AnnotatedWord) annotatedSentence.getWord(i);
-                    if (word.getName().equals(selectedWord.getName())){
-                        if (word.getUniversalDependency().toString().equals(value)){
-                            ArrayList<Word> wordList = annotatedSentence.getWords();
-                            String sentenceString = "";
-                            for (int k = 0; k < wordList.size(); k++){
-                                if (i == k){
-                                    sentenceString += " <b><font color=\"red\">" + wordList.get(k).getName() + "</font></b>";
-                                } else {
-                                    if (k + 1 == word.getUniversalDependency().to()){
-                                        sentenceString += " <b><font color=\"blue\">" + wordList.get(k).getName() + "</font></b>";
-                                    } else {
-                                        sentenceString += " " + wordList.get(k).getName();
-                                    }
-                                }
+            if (mappedSentences.containsKey(selectedWord.getName())){
+                for (AnnotatedSentence annotatedSentence : mappedSentences.get(selectedWord.getName())){
+                    for (int i = 0; i < annotatedSentence.wordCount(); i++){
+                        AnnotatedWord word = (AnnotatedWord) annotatedSentence.getWord(i);
+                        if (word.getName().equals(selectedWord.getName())){
+                            if (word.getUniversalDependency().toString().equals(value)){
+                                examples += annotatedSentence.toDependencyString(i) + "<br>";
+                                count++;
                             }
-                            examples += sentenceString + "<br>";
-                            count++;
                         }
                     }
-                }
-                if (count >= 20){
-                    break;
+                    if (count >= 20){
+                        break;
+                    }
                 }
             }
             examples += "</html>";

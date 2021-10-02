@@ -101,20 +101,7 @@ public class ViewSentenceDependencyAnnotationFrame extends ViewSentenceAnnotatio
                 if (word.getUniversalDependency() != null){
                     row.add("" + word.getUniversalDependency().to());
                     row.add(word.getUniversalDependency().toString());
-                    String sentenceString = "<html>";
-                    ArrayList<Word> wordList = sentence.getWords();
-                    for (int k = 0; k < wordList.size(); k++){
-                        if (j == k){
-                            sentenceString += " <b><font color=\"red\">" + wordList.get(k).getName() + "</font></b>";
-                        } else {
-                            if (k + 1 == word.getUniversalDependency().to()){
-                                sentenceString += " <b><font color=\"blue\">" + wordList.get(k).getName() + "</font></b>";
-                            } else {
-                                sentenceString += " " + wordList.get(k).getName();
-                            }
-                        }
-                    }
-                    row.add(sentenceString + "</html>");
+                    row.add("<html>" + sentence.toDependencyString(j) + "</html>");
                 } else {
                     row.add("-");
                     row.add("-");
