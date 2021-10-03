@@ -47,7 +47,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                 for (AnnotatedSentence annotatedSentence : mappedSentences.get(selectedWord.getName())){
                     for (int i = 0; i < annotatedSentence.wordCount(); i++){
                         AnnotatedWord word = (AnnotatedWord) annotatedSentence.getWord(i);
-                        if (word.getName().equals(selectedWord.getName())){
+                        if (word.getName().equals(selectedWord.getName()) && word.getUniversalDependency() != null){
                             if (word.getUniversalDependency().toString().equals(value)){
                                 examples += annotatedSentence.toDependencyString(i) + "<br>";
                                 count++;
