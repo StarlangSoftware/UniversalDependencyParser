@@ -30,7 +30,7 @@ public class State {
         if (stack.size() > 1) {
             UniversalDependencyTreeBankWord beforeLast = stack.get(stack.size() - 2).getKey();
             int index = stack.get(stack.size() - 1).getValue();
-            beforeLast.setRelation(new UniversalDependencyRelation(index, type.toString()));
+            beforeLast.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.remove(stack.size() - 2);
             relations.add(new AbstractMap.SimpleEntry<>(beforeLast, new UniversalDependencyRelation(index, type.toString())));
         }
@@ -40,7 +40,7 @@ public class State {
         if (stack.size() > 1) {
             UniversalDependencyTreeBankWord last = stack.get(stack.size() - 1).getKey();
             int index = stack.get(stack.size() - 2).getValue();
-            last.setRelation(new UniversalDependencyRelation(index, type.toString()));
+            last.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.pop();
             relations.add(new AbstractMap.SimpleEntry<>(last, new UniversalDependencyRelation(index, type.toString())));
         }

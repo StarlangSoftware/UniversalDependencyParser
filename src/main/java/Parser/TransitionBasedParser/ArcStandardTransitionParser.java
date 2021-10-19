@@ -37,10 +37,10 @@ public class ArcStandardTransitionParser extends TransitionParser {
         stack.add(new AbstractMap.SimpleEntry<>(new UniversalDependencyTreeBankWord(0, "root", "", null, "", null, new UniversalDependencyRelation(-1, ""), "", ""), 0));
         State state = new State(stack, wordList, new ArrayList<>());
         if (wordList.size() > 0) {
-            instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+            instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
             stack.add(wordList.remove(0));
             if (wordList.size() > 1) {
-                instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+                instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                 stack.add(wordList.remove(0));
             }
             while (wordList.size() > 0 || stack.size() > 1) {
@@ -50,14 +50,14 @@ public class ArcStandardTransitionParser extends TransitionParser {
                     beforeTop = stack.get(stack.size() - 2).getKey();
                     beforeTopRelation = beforeTop.getRelation();
                     if (beforeTop.getId() == topRelation.to() && checkForMoreRelation(wordList, top.getId())) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "RightArc(" + topRelation.toString() + ")"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "RIGHTARC(" + topRelation + ")"));
                         stack.pop();
                     } else if (top.getId() == beforeTopRelation.to()) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "LeftArc(" + beforeTopRelation.toString() + ")"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "LEFTARC(" + beforeTopRelation + ")"));
                         stack.remove(stack.size() - 2);
                     } else {
                         if (wordList.size() > 0) {
-                            instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+                            instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                             stack.add(wordList.remove(0));
                         } else {
                             break;
@@ -65,7 +65,7 @@ public class ArcStandardTransitionParser extends TransitionParser {
                     }
                 } else {
                     if (wordList.size() > 0) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                         stack.add(wordList.remove(0));
                     } else {
                         break;
