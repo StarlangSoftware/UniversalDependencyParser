@@ -1,4 +1,4 @@
-package Parser.TransitionBasedParser;/* Created by oguzkeremyildiz on 17.12.2020 */
+package Parser.TransitionBasedParser;
 
 import Classification.Attribute.Attribute;
 import Classification.Attribute.DiscreteAttribute;
@@ -7,10 +7,7 @@ import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
 import java.util.ArrayList;
 
-public class SimpleInstanceGenerator extends InstanceGenerator {
-
-    public SimpleInstanceGenerator() {
-    }
+public class ArcEagerInstanceGenerator extends InstanceGenerator {
 
     @Override
     public Instance generate(State state, int windowSize, String command) {
@@ -19,13 +16,13 @@ public class SimpleInstanceGenerator extends InstanceGenerator {
         for (int i = 0; i < windowSize; i++) {
             UniversalDependencyTreeBankWord word = state.getStackWord(i);
             if (word == null) {
-                for (int j = 0; j < 14; j++) {
+                for (int j = 0; j < 15; j++) {
                     attributes.add(new DiscreteAttribute("null"));
                 }
             } else {
                 if (word.getName().equals("root")) {
                     attributes.add(new DiscreteAttribute("root"));
-                    for (int j = 0; j < 13; j++) {
+                    for (int j = 0; j < 14; j++) {
                         attributes.add(new DiscreteAttribute("null"));
                     }
                 } else {
@@ -33,6 +30,11 @@ public class SimpleInstanceGenerator extends InstanceGenerator {
                     attributes.add(new DiscreteAttribute(word.getXpos()));
                     attributes.add(new DiscreteAttribute(word.getMisc()));
                     addFeatureAttributes(word, attributes);
+                    if (word.getRelation() != null) {
+                        attributes.add(new DiscreteAttribute(word.getRelation().toString()));
+                    } else {
+                        attributes.add(new DiscreteAttribute("null"));
+                    }
                 }
             }
         }

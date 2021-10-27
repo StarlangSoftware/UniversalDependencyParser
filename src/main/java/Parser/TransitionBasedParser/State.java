@@ -132,6 +132,13 @@ public class State {
         return stack.get(size - index).getKey();
     }
 
+    public UniversalDependencyTreeBankWord getPeek() {
+        if (stack.size() > 0) {
+            return stack.peek().getKey();
+        }
+        return null;
+    }
+
     public UniversalDependencyTreeBankWord getWordListWord(int index) {
         if (index > wordList.size() - 1) {
             return null;

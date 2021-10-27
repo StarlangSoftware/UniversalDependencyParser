@@ -30,10 +30,10 @@ public class ArcEagerTransitionParser extends TransitionParser {
         stack.add(new AbstractMap.SimpleEntry<>(new UniversalDependencyTreeBankWord(0, "root", "", null, "", null, new UniversalDependencyRelation(-1, ""), "", ""), 0));
         State state = new State(stack, wordList, new ArrayList<>());
         if (wordList.size() > 0) {
-            instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+            instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
             stack.add(wordList.remove(0));
             if (wordList.size() > 1) {
-                instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+                instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                 stack.add(wordList.remove(0));
             }
             while (wordList.size() > 0 || stack.size() > 1) {
@@ -48,21 +48,21 @@ public class ArcEagerTransitionParser extends TransitionParser {
                 topRelation = top.getRelation();
                 if (stack.size() > 1) {
                     if (firstRelation != null && firstRelation.to() == top.getId()) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "RightArc(" + firstRelation.toString() + ")"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "RIGHTARC(" + firstRelation + ")"));
                         stack.add(wordList.remove(0));
                     } else if (first != null && topRelation.to() == first.getId()) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "LeftArc(" + topRelation.toString() + ")"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "LEFTARC(" + topRelation + ")"));
                         stack.pop();
                     } else if (wordList.size() > 0) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                         stack.add(wordList.remove(0));
                     } else {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "Reduce"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "REDUCE"));
                         stack.pop();
                     }
                 } else {
                     if (wordList.size() > 0) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "Shift"));
+                        instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                         stack.add(wordList.remove(0));
                     } else {
                         break;
