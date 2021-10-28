@@ -4,10 +4,10 @@ import Classification.Instance.Instance;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
-import Dictionary.Word;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class ArcEagerTransitionParser extends TransitionParser {
@@ -19,54 +19,54 @@ public class ArcEagerTransitionParser extends TransitionParser {
     @Override
     public ArrayList<Instance> simulateParse(UniversalDependencyTreeBankSentence sentence, int windowSize) {
         UniversalDependencyTreeBankWord top, first;
-        UniversalDependencyRelation topRelation, firstRelation;
-        InstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
+        UniversalDependencyRelation topRelation = null, firstRelation;
+        InstanceGenerator instanceGenerator = new ArcEagerInstanceGenerator();
         ArrayList<Instance> instanceList = new ArrayList<>();
+        HashMap<Integer, UniversalDependencyTreeBankWord> wordMap = new HashMap<>();
         ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> wordList = new ArrayList<>();
         Stack<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> stack = new Stack<>();
         for (int j = 0; j < sentence.wordCount(); j++) {
-            wordList.add(new AbstractMap.SimpleEntry<>((UniversalDependencyTreeBankWord) sentence.getWord(j), j + 1));
+            UniversalDependencyTreeBankWord word = (UniversalDependencyTreeBankWord) sentence.getWord(j);
+            UniversalDependencyTreeBankWord clone = word.clone();
+            clone.setRelation(null);
+            wordMap.put(j + 1, word);
+            wordList.add(new AbstractMap.SimpleEntry<>(clone, j + 1));
         }
         stack.add(new AbstractMap.SimpleEntry<>(new UniversalDependencyTreeBankWord(0, "root", "", null, "", null, new UniversalDependencyRelation(-1, ""), "", ""), 0));
         State state = new State(stack, wordList, new ArrayList<>());
-        if (wordList.size() > 0) {
-            instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
-            stack.add(wordList.remove(0));
-            if (wordList.size() > 1) {
-                instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
-                stack.add(wordList.remove(0));
+        while (wordList.size() > 0 || stack.size() > 1) {
+            if (!wordList.isEmpty()) {
+                first = wordList.get(0).getKey();
+                firstRelation = wordMap.get(wordList.get(0).getValue()).getRelation();
+            } else {
+                first = null;
+                firstRelation = null;
             }
-            while (wordList.size() > 0 || stack.size() > 1) {
-                if (!wordList.isEmpty()) {
-                    first = wordList.get(0).getKey();
-                    firstRelation = first.getRelation();
+            top = stack.peek().getKey();
+            if (!top.getName().equals("root")) {
+                topRelation = wordMap.get(stack.peek().getValue()).getRelation();
+            }
+            if (stack.size() > 1) {
+                if (firstRelation != null && firstRelation.to() == top.getId()) {
+                    instanceList.add(instanceGenerator.generate(state, windowSize, "RIGHTARC(" + firstRelation + ")"));
+                    AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer> word = wordList.remove(0);
+                    stack.add(new AbstractMap.SimpleEntry<>(wordMap.get(word.getValue()), word.getValue()));
+                } else if (first != null && topRelation != null && topRelation.to() == first.getId()) {
+                    instanceList.add(instanceGenerator.generate(state, windowSize, "LEFTARC(" + topRelation + ")"));
+                    stack.pop();
+                } else if (wordList.size() > 0) {
+                    instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
+                    stack.add(wordList.remove(0));
                 } else {
-                    first = null;
-                    firstRelation = null;
+                    instanceList.add(instanceGenerator.generate(state, windowSize, "REDUCE"));
+                    stack.pop();
                 }
-                top = stack.peek().getKey();
-                topRelation = top.getRelation();
-                if (stack.size() > 1) {
-                    if (firstRelation != null && firstRelation.to() == top.getId()) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "RIGHTARC(" + firstRelation + ")"));
-                        stack.add(wordList.remove(0));
-                    } else if (first != null && topRelation.to() == first.getId()) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "LEFTARC(" + topRelation + ")"));
-                        stack.pop();
-                    } else if (wordList.size() > 0) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
-                        stack.add(wordList.remove(0));
-                    } else {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "REDUCE"));
-                        stack.pop();
-                    }
+            } else {
+                if (wordList.size() > 0) {
+                    instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
+                    stack.add(wordList.remove(0));
                 } else {
-                    if (wordList.size() > 0) {
-                        instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
-                        stack.add(wordList.remove(0));
-                    } else {
-                        break;
-                    }
+                    break;
                 }
             }
         }
