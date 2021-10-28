@@ -1,3 +1,5 @@
+package Parser.GraphBasedParser;
+
 import DependencyParser.Universal.UniversalDependencyPosType;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;

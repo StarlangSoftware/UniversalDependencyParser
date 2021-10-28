@@ -1,3 +1,5 @@
+package Parser.TransitionBasedParser;
+
 import Classification.Model.Model;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
