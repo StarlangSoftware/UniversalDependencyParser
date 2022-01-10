@@ -2,14 +2,13 @@ package Annotation;
 
 import AnnotatedSentence.AnnotatedSentence;
 import AnnotatedSentence.AnnotatedWord;
-import AnnotatedSentence.AnnotatedCorpus;
+import AnnotatedSentence.Language;
 import AnnotatedSentence.ViewLayerType;
 import AutoProcessor.TurkishSentenceAutoDependency;
 import DataCollector.Sentence.SentenceAnnotatorPanel;
 import DataStructure.CounterHashMap;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyType;
-import Dictionary.Word;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,6 +34,131 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
         this.mappedSentences = mappedSentences;
         turkishSentenceAutoDependency = new TurkishSentenceAutoDependency();
         list.setCellRenderer(new ListRenderer());
+    }
+
+    @Override
+    protected void setWordLayer() {
+        String relation = ((String) list.getSelectedValue()).toLowerCase().replace('_', ':');
+        if (relation.equals("root")){
+            clickedWord.setUniversalDependency(0, relation);
+        } else {
+            clickedWord.setUniversalDependency(draggedWordIndex + 1, relation);
+        }
+        draggedWordIndex = -1;
+        selectionMode = false;
+    }
+
+    @Override
+    protected void setBounds() {
+        pane.setBounds(((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().x, ((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().y + 20, 240, (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.4));
+    }
+
+    @Override
+    protected void drawLayer(AnnotatedWord word, Graphics g, int currentLeft, int lineIndex, int wordIndex, int maxSize, ArrayList<Integer> wordSize, ArrayList<Integer> wordTotal) {
+        Point2D.Double pointCtrl1, pointCtrl2, pointStart, pointEnd;
+        CubicCurve2D.Double cubicCurve;
+        if (word.getUniversalDependencyPos() != null){
+            g.drawString(word.getUniversalDependencyPos(), currentLeft, (lineIndex + 1) * lineSpace + 30);
+            if (word.getLanguage() != null && word.getLanguage().equals(Language.ENGLISH) && word.getMetamorphicParse() != null){
+                g.setColor(Color.BLUE);
+                g.drawString(word.getMetamorphicParse().getWord().getName(), currentLeft, (lineIndex + 1) * lineSpace + 60);
+            }
+        }
+        if (word.getUniversalDependency() != null){
+            String correct = word.getUniversalDependency().toString().toLowerCase();
+            if (word.getUniversalDependency().to() != 0){
+                Color color = Color.BLACK;
+                switch (correct){
+                    case "acl":
+                        color = new Color(255, 214, 0);
+                        break;
+                    case "advcl":
+                        color = new Color(0, 121, 107);
+                        break;
+                    case "aux":
+                        color = new Color(0, 0, 128);
+                        break;
+                    case "advmod":
+                        color = new Color(30, 136, 229);
+                        break;
+                    case "amod":
+                        color = new Color(183, 28, 28);
+                        break;
+                    case "det":
+                        color = new Color(255, 128, 171);
+                        break;
+                    case "flat":
+                        color = new Color(106, 27, 154);
+                        break;
+                    case "obj":
+                        color = new Color(67, 160, 71);
+                        break;
+                    case "conj":
+                        color = new Color(175, 180, 43);
+                        break;
+                    case "mark":
+                        color = new Color(255, 111, 0);
+                        break;
+                    case "nmod":
+                        color = new Color(255, 138, 101);
+                        break;
+                    case "nsubj":
+                        color = new Color(179, 157, 219);
+                        break;
+                    case "obl":
+                        color = new Color(135, 206, 250);
+                        break;
+                    case "compound":
+                        color = new Color(84, 110, 122);
+                        break;
+                    case "cc":
+                        color = new Color(121, 85, 72);
+                        break;
+                    case "ccomp":
+                        color = new Color(205, 92, 92);
+                        break;
+                    case "case":
+                        color = new Color(188, 143, 143);
+                        break;
+                    case "nummod":
+                        color = new Color(143, 188, 143);
+                        break;
+                    case "xcomp":
+                        color = new Color(210, 105, 30);
+                        break;
+                    case "parataxis":
+                        color = new Color(92, 107, 192);
+                        break;
+                }
+                g.setColor(color);
+                int startX = currentLeft + maxSize / 2;
+                int startY = lineIndex * lineSpace + 50;
+                double height = Math.pow(Math.abs(word.getUniversalDependency().to() - 1 - wordIndex), 0.7);
+                int toX = wordTotal.get(word.getUniversalDependency().to() - 1) + wordSize.get(word.getUniversalDependency().to() - 1) / 2 /*+ added*/;
+                pointEnd = new Point2D.Double(startX + 5 * Math.signum(word.getUniversalDependency().to() - 1 - wordIndex), startY);
+                pointStart = new Point2D.Double(toX, startY);
+                int controlY = (int) (pointStart.y - 20 - 20 * height);
+                g.drawString(correct, ((int) (pointStart.x + pointEnd.x) / 2) - g.getFontMetrics().stringWidth(correct) / 2, (int) (controlY + 30 + 4 * height));
+                pointCtrl1 = new Point2D.Double(pointStart.x, controlY);
+                pointCtrl2 = new Point2D.Double(pointEnd.x, controlY);
+                cubicCurve = new CubicCurve2D.Double(pointStart.x, pointStart.y, pointCtrl1.x, pointCtrl1.y, pointCtrl2.x, pointCtrl2.y, pointEnd.x, pointEnd.y);
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setColor(color);
+                g2.draw(cubicCurve);
+                g.drawOval((int) pointStart.x - 2, (int) pointStart.y - 2, 4, 4);
+                g.drawLine((int) pointEnd.x, (int) pointEnd.y, (int) pointEnd.x - 5, (int) pointEnd.y - 5);
+                g.drawLine((int) pointEnd.x, (int) pointEnd.y, (int) pointEnd.x + 5, (int) pointEnd.y - 5);
+            } else {
+                g.drawString("root", currentLeft + maxSize / 2 - g.getFontMetrics().stringWidth("root") / 2, lineIndex * lineSpace);
+                g.setColor(Color.BLACK);
+                g.drawLine(currentLeft + maxSize / 2, lineIndex * lineSpace + 50, currentLeft + maxSize / 2, lineIndex * lineSpace + 15);
+            }
+        }
+    }
+
+    @Override
+    protected int getMaxLayerLength(AnnotatedWord word, Graphics g) {
+        return g.getFontMetrics().stringWidth(word.getName());
     }
 
     private class ListRenderer extends DefaultListCellRenderer {
