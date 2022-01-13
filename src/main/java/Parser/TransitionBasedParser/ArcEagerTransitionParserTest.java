@@ -4,8 +4,6 @@ import Classification.Model.Model;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
-import Parser.TransitionBasedParser.*;
-import Parser.TransitionBasedParser.TransitionParser;
 import Util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,7 +34,7 @@ public class ArcEagerTransitionParserTest {
         Model model2 = loadModel("decision-tree-boun-relation-eager-1");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new C3Oracle(model1, model2));
+            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcEagerStepWiseOracle(model1, model2));
             scores.add(actual.compareParses(expected));
         }
         Assert.assertEquals(68.04464654816037, 100 * scores.getLS(), 0.01);

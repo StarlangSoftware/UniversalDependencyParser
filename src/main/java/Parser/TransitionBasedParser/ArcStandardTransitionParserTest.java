@@ -4,9 +4,6 @@ import Classification.Model.Model;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
-import Parser.TransitionBasedParser.ArcStandardTransitionParser;
-import Parser.TransitionBasedParser.*;
-import Parser.TransitionBasedParser.TransitionParser;
 import Util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,7 +33,7 @@ public class ArcStandardTransitionParserTest {
         Model model = loadModel("decision-tree-boun-1");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new C1Oracle(model));
+            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardCombinedOracle(model));
             scores.add(actual.compareParses(expected));
         }
         Assert.assertEquals(64.89458453906572, 100 * scores.getLS(), 0.01);
@@ -53,7 +50,7 @@ public class ArcStandardTransitionParserTest {
         Model model2 = loadModel("decision-tree-boun-relation-2");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new C2Oracle(model1, model2));
+            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardStepWiseOracle(model1, model2));
             scores.add(actual.compareParses(expected));
         }
         Assert.assertEquals(68.04464654816037, 100 * scores.getLS(), 0.01);
