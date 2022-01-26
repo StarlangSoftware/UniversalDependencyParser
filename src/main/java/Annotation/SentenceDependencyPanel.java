@@ -54,6 +54,11 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
     }
 
     @Override
+    protected void setLineSpace() {
+        lineSpace = 80;
+    }
+
+    @Override
     protected void drawLayer(AnnotatedWord word, Graphics g, int currentLeft, int lineIndex, int wordIndex, int maxSize, ArrayList<Integer> wordSize, ArrayList<Integer> wordTotal) {
         Point2D.Double pointCtrl1, pointCtrl2, pointStart, pointEnd;
         CubicCurve2D.Double cubicCurve;
