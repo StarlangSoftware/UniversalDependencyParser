@@ -29,9 +29,7 @@ import DependencyParser.Universal.UniversalDependencyType;
 public class ArcStandardOracle implements Oracle {
 	protected Model arcStandardModel;
 	protected InstanceList instances = new InstanceList();
-	
-//	public ArrayList<UniversalDependencyTreeBankSentence> sentences = new ArrayList<UniversalDependencyTreeBankSentence>();
-	
+		
 	public ArcStandardOracle() {
         
     }
@@ -44,30 +42,37 @@ public class ArcStandardOracle implements Oracle {
 		return arcStandardModel;
 	}
 	
-	private String[] findClassInfo(HashMap<String, Double> probabilities, State state) {
-		String decision[] = new String[2];
-		
-		return decision;
-	}
+	protected String findClassInfo(HashMap<String, Double> probabilities, State state) {
+        double bestValue = 0.0;
+        String best = "";
+        for (String key : probabilities.keySet()) {
+            if (probabilities.get(key) > bestValue) {
+                if (key.equals("SHIFT")) {
+                    if (state.wordListSize() > 0) {
+                        best = key;
+                        bestValue = probabilities.get(key);
+                    }
+                } else if (state.stackSize() > 1) {
+                    best = key;
+                    bestValue = probabilities.get(key);
+                }
+            }
+        }
+        return best;
+    }
 	
 	@Override
 	public Decision makeDecision(State state, TransitionSystem transitionSystem) {
-		Attribute stack0POS = new DiscreteAttribute(state.getStackWord(0).getUpos().toString());
-		Attribute stack1POS = new DiscreteAttribute(state.getStackWord(1).getUpos().toString());
-		Instance instance = new Instance(null);
-		instance.addAttribute(stack0POS);
-		instance.addAttribute(stack1POS);
+		SimpleInstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
 		
-		
-		String[] classInfo = findClassInfo(arcStandardModel.predictProbability(instance), state);
-        if(classInfo[0].equals("LEFTARC")) {
+		String classInfo = findClassInfo(arcStandardModel.predictProbability(instanceGenerator.generate(state, 2, null)), state);
+        if(classInfo.equals("LEFTARC")) {
         	return new Decision(Command.LEFTARC, null, 0.0);
-        }else if (classInfo[0].equals("RIGHTARC")) {
+        }else if (classInfo.equals("RIGHTARC")) {
             return new Decision(Command.RIGHTARC, null, 0.0);
         }else {
         	return new Decision(Command.SHIFT, null, 0.0);
         }
-        
 	}
 
 	@Override
@@ -83,7 +88,6 @@ public class ArcStandardOracle implements Oracle {
 	}
 	
 	public UniversalDependencyTreeBankSentence readSentence(String fileName) throws IOException {
-//		System.out.println(fileName);
 		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName), StandardCharsets.UTF_16));
 		Sentence sentence = new UniversalDependencyTreeBankSentence();
 		
@@ -108,11 +112,9 @@ public class ArcStandardOracle implements Oracle {
 						fields[8], fields[9]);
 				
 				sentence.addWord(word);
-//				System.out.println(word);
 			}
 		}
-//		sentences.add((UniversalDependencyTreeBankSentence) sentence);
-//		System.out.println(sentence);
+
 		reader.close();
 		return (UniversalDependencyTreeBankSentence) sentence;
 	}
@@ -121,7 +123,6 @@ public class ArcStandardOracle implements Oracle {
 		for(File file : (new File(path)).listFiles()) {
 			if(file.getName().endsWith("train")) {
 				extractConfigurations(readSentence(file.getAbsolutePath()));
-//				readSentence(file.getAbsolutePath());
 			}
 		}
 	}
@@ -140,12 +141,10 @@ public class ArcStandardOracle implements Oracle {
 		
 		while(!complete) {
 			printConfiguration(state, sentence);
-			
 
 			if(state.stackSize() >= 2) {
 				UniversalDependencyTreeBankWord top =  state.getStackWord(0);
 				UniversalDependencyTreeBankWord belowTop = state.getStackWord(1);
-				
 				
 				if(belowTop.getRelation().to() == top.getId()) {
 					// LEFT ARC
@@ -154,7 +153,6 @@ public class ArcStandardOracle implements Oracle {
 					state.applyLeftArc(UniversalDependencyType.valueOf(belowTop.getRelation().toString().replace(':', '_')));
 				}else if(top.getRelation().to() == belowTop.getId()) {
 					// RIGHT ARC
-					
 
 					boolean childrenRemaining = false;
 					for(int i = 0; i < state.wordListSize(); i++) {
