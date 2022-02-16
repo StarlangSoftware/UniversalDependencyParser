@@ -11,7 +11,7 @@ public class OracleDriver {
 		
 		oracle.train("C:\\test");
 		oracle.createModel();
-		oracle.getModel().save("C:\\test\\model");
+//		oracle.getModel().save("C:\\test\\model");
 		
 		ArcStandardTransitionParser parser = new ArcStandardTransitionParser();
 		UniversalDependencyTreeBankSentence sentence = oracle.readSentence("C:\\test\\0000.dev");

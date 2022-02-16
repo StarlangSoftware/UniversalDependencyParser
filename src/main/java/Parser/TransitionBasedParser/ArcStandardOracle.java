@@ -27,20 +27,23 @@ import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 import DependencyParser.Universal.UniversalDependencyType;
 
 public class ArcStandardOracle implements Oracle {
-	protected Model arcStandardModel;
-	protected InstanceList instances = new InstanceList();
+	protected KnnModel commandModel;
+	protected KnnModel relationModel;
+	protected InstanceList commandInstances = new InstanceList();
+	protected InstanceList relationInstances = new InstanceList();
 		
 	public ArcStandardOracle() {
         
     }
 	
-	public ArcStandardOracle(Model model) {
-		arcStandardModel = model;
+	public ArcStandardOracle(KnnModel commandModel, KnnModel relationModel) {
+		this.commandModel = commandModel;
+		this.relationModel = relationModel;
     }
 	
-	public Model getModel() {
-		return arcStandardModel;
-	}
+//	public Model getModel() {
+//		return arcStandardModel;
+//	}
 	
 	protected String findClassInfo(HashMap<String, Double> probabilities, State state) {
         double bestValue = 0.0;
@@ -64,14 +67,17 @@ public class ArcStandardOracle implements Oracle {
 	@Override
 	public Decision makeDecision(State state, TransitionSystem transitionSystem) {
 		SimpleInstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
-		
-		String classInfo = findClassInfo(arcStandardModel.predictProbability(instanceGenerator.generate(state, 2, null)), state);
-        if(classInfo.equals("LEFTARC")) {
-        	return new Decision(Command.LEFTARC, null, 0.0);
-        }else if (classInfo.equals("RIGHTARC")) {
-            return new Decision(Command.RIGHTARC, null, 0.0);
+		 
+		String commandClass = findClassInfo(commandModel.predictProbability(instanceGenerator.generate(state, 2, null)), state);
+        
+		if(commandClass.equals("SHIFT")) {
+			return new Decision(Command.SHIFT, null, 0.0);
+        }else if (commandClass.equals("LEFTARC")) {
+        	String relationClass = findClassInfo(relationModel.predictProbability(instanceGenerator.generate(state, 2, null)), state);
+        	return new Decision(Command.LEFTARC, UniversalDependencyType.valueOf(relationClass), 0.0);
         }else {
-        	return new Decision(Command.SHIFT, null, 0.0);
+        	String relationClass = findClassInfo(relationModel.predictProbability(instanceGenerator.generate(state, 2, null)), state);
+        	return new Decision(Command.RIGHTARC, UniversalDependencyType.valueOf(relationClass), 0.0);
         }
 	}
 
@@ -84,7 +90,8 @@ public class ArcStandardOracle implements Oracle {
 	
 	// Learn
 	public void createModel() {
-		arcStandardModel = new KnnModel(instances, 1, new EuclidianDistance());
+		commandModel = new KnnModel(commandInstances, 1, new EuclidianDistance());
+		relationModel = new KnnModel(relationInstances, 1, new EuclidianDistance());
 	}
 	
 	public UniversalDependencyTreeBankSentence readSentence(String fileName) throws IOException {
@@ -140,7 +147,7 @@ public class ArcStandardOracle implements Oracle {
 		boolean complete = false;
 		
 		while(!complete) {
-			printConfiguration(state, sentence);
+//			printConfiguration(state, sentence);
 
 			if(state.stackSize() >= 2) {
 				UniversalDependencyTreeBankWord top =  state.getStackWord(0);
@@ -149,7 +156,8 @@ public class ArcStandardOracle implements Oracle {
 				if(belowTop.getRelation().to() == top.getId()) {
 					// LEFT ARC
 										
-					instances.add(instanceGenerator.generate(state, 2, "LEFTARC"));
+					commandInstances.add(instanceGenerator.generate(state, 2, "LEFTARC"));
+					relationInstances.add(instanceGenerator.generate(state, 2, belowTop.getRelation().toString()));
 					state.applyLeftArc(UniversalDependencyType.valueOf(belowTop.getRelation().toString().replace(':', '_')));
 				}else if(top.getRelation().to() == belowTop.getId()) {
 					// RIGHT ARC
@@ -162,22 +170,23 @@ public class ArcStandardOracle implements Oracle {
 					}
 					
 					if(childrenRemaining) {
-						instances.add(instanceGenerator.generate(state, 2, "SHIFT"));
+						commandInstances.add(instanceGenerator.generate(state, 2, "SHIFT"));
 						state.applyShift();
 					}else {
-						instances.add(instanceGenerator.generate(state, 2, "RIGHTARC"));
+						commandInstances.add(instanceGenerator.generate(state, 2, "RIGHTARC"));
+						relationInstances.add(instanceGenerator.generate(state, 2, top.getRelation().toString()));
 						state.applyRightArc(UniversalDependencyType.valueOf(top.getRelation().toString().replace(':', '_')));
 					}
 				}else {
 					// SHIFT
 					
-					instances.add(instanceGenerator.generate(state, 2, "SHIFT"));
+					commandInstances.add(instanceGenerator.generate(state, 2, "SHIFT"));
 					state.applyShift();
 				}
 			}else {
 				// SHIFT
 				
-				instances.add(instanceGenerator.generate(state, 2, "SHIFT"));
+				commandInstances.add(instanceGenerator.generate(state, 2, "SHIFT"));
 				state.applyShift();
 			}
 			
@@ -186,7 +195,7 @@ public class ArcStandardOracle implements Oracle {
 					state.wordListSize() == 0){
 				complete = true;
 				
-				printConfiguration(state, sentence);
+//				printConfiguration(state, sentence);
 			}
 		} // End while	
 	}
@@ -232,13 +241,13 @@ public class ArcStandardOracle implements Oracle {
 		System.out.println("----- End of phase ------\n");
 	}
 	
-	public void printInstances() {
-		for(int i = 0; i < instances.size(); i++) {
-			System.out.println("Instance class label: " + instances.get(i).getClassLabel());
-			for(int j = 0; j < instances.get(i).attributeSize(); j++) {
-				System.out.println(instances.get(i).getAttribute(j));
-			}
-			System.out.println();
-		}
-	}
+//	public void printInstances() {
+//		for(int i = 0; i < instances.size(); i++) {
+//			System.out.println("Instance class label: " + instances.get(i).getClassLabel());
+//			for(int j = 0; j < instances.get(i).attributeSize(); j++) {
+//				System.out.println(instances.get(i).getAttribute(j));
+//			}
+//			System.out.println();
+//		}
+//	}
 }
