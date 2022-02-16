@@ -30,7 +30,7 @@ public class ArcStandardOracle implements Oracle {
 	protected Model arcStandardModel;
 	protected InstanceList instances = new InstanceList();
 	
-	public ArrayList<UniversalDependencyTreeBankSentence> sentences = new ArrayList<UniversalDependencyTreeBankSentence>();
+//	public ArrayList<UniversalDependencyTreeBankSentence> sentences = new ArrayList<UniversalDependencyTreeBankSentence>();
 	
 	public ArcStandardOracle() {
         
@@ -111,7 +111,7 @@ public class ArcStandardOracle implements Oracle {
 //				System.out.println(word);
 			}
 		}
-		sentences.add((UniversalDependencyTreeBankSentence) sentence);
+//		sentences.add((UniversalDependencyTreeBankSentence) sentence);
 //		System.out.println(sentence);
 		reader.close();
 		return (UniversalDependencyTreeBankSentence) sentence;
@@ -128,7 +128,9 @@ public class ArcStandardOracle implements Oracle {
 	
 	
 	public void extractConfigurations(UniversalDependencyTreeBankSentence sentence) {
+		SimpleInstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
 		ArrayList<UniversalDependencyTreeBankWord> words = new ArrayList<UniversalDependencyTreeBankWord>();
+		
 		for(int i = 0; i < sentence.wordCount(); i++) {
 			words.add((UniversalDependencyTreeBankWord) sentence.getWord(i));
 		}
@@ -139,10 +141,7 @@ public class ArcStandardOracle implements Oracle {
 		while(!complete) {
 			printConfiguration(state, sentence);
 			
-			ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-			Attribute stack0POS;
-			Attribute stack1POS = null;
-			
+
 			if(state.stackSize() >= 2) {
 				UniversalDependencyTreeBankWord top =  state.getStackWord(0);
 				UniversalDependencyTreeBankWord belowTop = state.getStackWord(1);
@@ -150,41 +149,12 @@ public class ArcStandardOracle implements Oracle {
 				
 				if(belowTop.getRelation().to() == top.getId()) {
 					// LEFT ARC
-					if(top.getName().equalsIgnoreCase("root")) {
-						stack0POS = new DiscreteAttribute("");
-					}else {
-						stack0POS = new DiscreteAttribute(top.getUpos().toString());
-					}
-					
-					if(belowTop.getName().equalsIgnoreCase("root")) {
-						stack1POS = new DiscreteAttribute("");
-					}else {
-						stack1POS = new DiscreteAttribute(belowTop.getUpos().toString());
-					}
-					
-					attributes.add(stack0POS);
-					attributes.add(stack1POS);
-					
-					instances.add(new Instance("LEFTARC", attributes));
+										
+					instances.add(instanceGenerator.generate(state, 2, "LEFTARC"));
 					state.applyLeftArc(UniversalDependencyType.valueOf(belowTop.getRelation().toString().replace(':', '_')));
 				}else if(top.getRelation().to() == belowTop.getId()) {
 					// RIGHT ARC
 					
-					if(top.getName().equalsIgnoreCase("root")) {
-						stack0POS = new DiscreteAttribute("");
-					}else {
-						stack0POS = new DiscreteAttribute(top.getUpos().toString());
-					}
-					
-					if(belowTop.getName().equalsIgnoreCase("root")) {
-						stack1POS = new DiscreteAttribute("");
-					}else {
-						stack1POS = new DiscreteAttribute(belowTop.getUpos().toString());
-					}
-					
-					
-					attributes.add(stack1POS);
-					attributes.add(stack0POS);
 
 					boolean childrenRemaining = false;
 					for(int i = 0; i < state.wordListSize(); i++) {
@@ -194,46 +164,22 @@ public class ArcStandardOracle implements Oracle {
 					}
 					
 					if(childrenRemaining) {
-						instances.add(new Instance("SHIFT", attributes));
+						instances.add(instanceGenerator.generate(state, 2, "SHIFT"));
 						state.applyShift();
 					}else {
-						instances.add(new Instance("RIGHTARC", attributes));
+						instances.add(instanceGenerator.generate(state, 2, "RIGHTARC"));
 						state.applyRightArc(UniversalDependencyType.valueOf(top.getRelation().toString().replace(':', '_')));
 					}
 				}else {
 					// SHIFT
-					if(top.getName().equalsIgnoreCase("root")) {
-						stack0POS = new DiscreteAttribute("");
-					}else {
-						stack0POS = new DiscreteAttribute(top.getUpos().toString());
-					}
 					
-					if(belowTop != null) {
-						if(belowTop.getName().equalsIgnoreCase("root")) {
-							stack1POS = new DiscreteAttribute("");
-						}else {
-							stack1POS = new DiscreteAttribute(belowTop.getUpos().toString());
-						}
-					}
-					
-					attributes.add(stack0POS);
-					attributes.add(stack1POS);
-					
-					instances.add(new Instance("SHIFT", attributes));
+					instances.add(instanceGenerator.generate(state, 2, "SHIFT"));
 					state.applyShift();
 				}
 			}else {
 				// SHIFT
-				if(state.getStackWord(0).getName().equalsIgnoreCase("root")) {
-					stack0POS = new DiscreteAttribute("");
-					attributes.add(stack0POS);
-				}else {
-					stack0POS = new DiscreteAttribute(state.getStackWord(0).getUpos().toString());
-					attributes.add(stack0POS);
-				}
-				attributes.add(stack0POS);
 				
-				instances.add(new Instance("SHIFT", attributes));
+				instances.add(instanceGenerator.generate(state, 2, "SHIFT"));
 				state.applyShift();
 			}
 			
