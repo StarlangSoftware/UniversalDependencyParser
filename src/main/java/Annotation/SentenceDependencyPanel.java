@@ -50,7 +50,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
 
     @Override
     protected void setBounds() {
-        pane.setBounds(((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().x, ((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().y + 20, 240, (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.4));
+        pane.setBounds(((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().getX(), ((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().getY() + 20, 240, (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.4));
     }
 
     @Override
@@ -230,7 +230,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                 list.setVisible(true);
                 pane.setVisible(true);
                 pane.getVerticalScrollBar().setValue(0);
-                pane.setBounds((((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().x + ((AnnotatedWord) sentence.getWord(draggedWordIndex)).getArea().x) / 2, ((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().y + 20, 120, 440);
+                pane.setBounds((((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().getX() + ((AnnotatedWord) sentence.getWord(draggedWordIndex)).getArea().getX()) / 2, ((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().getY() + 20, 120, 440);
             }
         }
         ((AnnotatedWord)sentence.getWord(selectedWordIndex)).setSelected(false);
@@ -273,7 +273,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
             clickedWord = ((AnnotatedWord) sentence.getWord(selectedWordIndex));
             lastClickedWord = clickedWord;
             editText.setText(clickedWord.getName());
-            editText.setBounds(clickedWord.getArea().x - 5, clickedWord.getArea().y + 20, 100, 30);
+            editText.setBounds(clickedWord.getArea().getX() - 5, clickedWord.getArea().getY() + 20, 100, 30);
             editText.setVisible(true);
             pane.setVisible(false);
             editText.requestFocus();
@@ -316,8 +316,8 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
         super.paintComponent(g);
         if (dragged && selectedWordIndex != -1){
             AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
-            startX = selectedWord.getArea().x + selectedWord.getArea().width / 2;
-            startY = selectedWord.getArea().y + 20;
+            startX = selectedWord.getArea().getX() + selectedWord.getArea().getWidth() / 2;
+            startY = selectedWord.getArea().getY() + 20;
             pointStart = new Point2D.Double(startX, startY);
             pointEnd = new Point2D.Double(dragX, dragY);
             if (dragY > startY){
