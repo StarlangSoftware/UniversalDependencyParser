@@ -30,7 +30,7 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
 
     @Override
     protected SentenceAnnotatorPanel generatePanel(String currentPath, String rawFileName) {
-        return new SentenceDependencyPanel(currentPath, rawFileName, mappedWords, mappedSentences);
+        return new SentenceDependencyPanel(currentPath, rawFileName, mappedWords, mappedSentences, scrollPane);
     }
 
     public SentenceDependencyFrame(){

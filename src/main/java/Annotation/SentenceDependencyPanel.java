@@ -7,6 +7,7 @@ import AnnotatedSentence.ViewLayerType;
 import AutoProcessor.TurkishSentenceAutoDependency;
 import DataCollector.Sentence.SentenceAnnotatorPanel;
 import DataStructure.CounterHashMap;
+import DependencyParser.DependencyRelation;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyType;
 
@@ -15,21 +16,22 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
 
     private boolean dragged = false;
     private int dragX = -1, dragY = -1;
+
+    private JScrollPane scrollPane;
     private TurkishSentenceAutoDependency turkishSentenceAutoDependency;
     private HashMap<String, ArrayList<AnnotatedWord>> mappedWords;
     private HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences;
 
-    public SentenceDependencyPanel(String currentPath, String rawFileName, HashMap<String, ArrayList<AnnotatedWord>> mappedWords, HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences) {
+    public SentenceDependencyPanel(String currentPath, String rawFileName, HashMap<String, ArrayList<AnnotatedWord>> mappedWords, HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences, JScrollPane scrollPane) {
         super(currentPath, rawFileName, ViewLayerType.DEPENDENCY);
+        this.scrollPane = scrollPane;
         this.mappedWords = mappedWords;
         this.mappedSentences = mappedSentences;
         turkishSentenceAutoDependency = new TurkishSentenceAutoDependency();
@@ -42,15 +44,20 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
         if (relation.equals("root")){
             clickedWord.setUniversalDependency(0, relation);
         } else {
-            clickedWord.setUniversalDependency(draggedWordIndex + 1, relation);
+            if (relation.equals("none")){
+                clickedWord.setUniversalDependency(-1, relation);
+            } else {
+                clickedWord.setUniversalDependency(draggedWordIndex + 1, relation);
+            }
         }
         draggedWordIndex = -1;
         selectionMode = false;
+        scrollPane.setVisible(true);
     }
 
     @Override
     protected void setBounds() {
-        pane.setBounds(((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().getX(), ((AnnotatedWord)sentence.getWord(selectedWordIndex)).getArea().getY() + 20, 240, (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.4));
+        pane.setBounds((((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().getX() + ((AnnotatedWord) sentence.getWord(draggedWordIndex)).getArea().getX()) / 2, ((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().getY() + 20, 120, (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.4));
     }
 
     @Override
@@ -230,7 +237,8 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                 list.setVisible(true);
                 pane.setVisible(true);
                 pane.getVerticalScrollBar().setValue(0);
-                pane.setBounds((((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().getX() + ((AnnotatedWord) sentence.getWord(draggedWordIndex)).getArea().getX()) / 2, ((AnnotatedWord) sentence.getWord(selectedWordIndex)).getArea().getY() + 20, 120, 440);
+                setBounds();
+                scrollPane.setVisible(false);
             }
         }
         ((AnnotatedWord)sentence.getWord(selectedWordIndex)).setSelected(false);
@@ -347,6 +355,13 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
             counts.put(UniversalDependencyRelation.getDependencyTag(annotatedWord.getUniversalDependency().toString()));
         }
         List<Map.Entry<UniversalDependencyType, Integer>> sortedCounts = counts.topN(counts.size());
+        sortedCounts.sort((o1, o2) -> {
+            if (o1.getValue() == 1 && o2.getValue() == 1){
+                return String.CASE_INSENSITIVE_ORDER.compare(o1.getKey().toString(), o2.getKey().toString());
+            } else {
+                return o2.getValue() - o1.getValue();
+            }
+        });
         UniversalDependencyType[] result = new UniversalDependencyType[sortedCounts.size()];
         int i = 0;
         for (Map.Entry<UniversalDependencyType, Integer> entry : sortedCounts){
@@ -357,9 +372,10 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
     }
 
     public int populateLeaf(AnnotatedSentence sentence, int wordIndex){
-        int numberOfValidItemsUntilNow = -1;
+        int numberOfValidItemsUntilNow = 0;
         int selectedIndex = -1;
         listModel.clear();
+        listModel.addElement("NONE");
         AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
         UniversalDependencyType[] typeList = possibleValues(selectedWord.getName());
         for (int i = 0; i < typeList.length; i++){
