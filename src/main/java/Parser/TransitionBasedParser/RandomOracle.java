@@ -1,15 +1,22 @@
 package Parser.TransitionBasedParser;/* Created by oguzkeremyildiz on 5.12.2020 */
 
+import Classification.Model.Model;
 import DependencyParser.Universal.UniversalDependencyType;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RandomOracle implements Oracle {
+public class RandomOracle extends Oracle {
+
+    public RandomOracle(Model model, int windowSize) {
+        super(model, windowSize);
+    }
+
     @Override
-    public Decision makeDecision(State state, TransitionSystem transitionSystem) {
+    public Decision makeDecision(State state) {
         Random random = new Random();
         int command = 4;
+        TransitionSystem transitionSystem = TransitionSystem.ARC_EAGER;
         switch (transitionSystem){
             case ARC_EAGER:
                 command = random.nextInt(4);

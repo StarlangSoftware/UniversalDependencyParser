@@ -9,6 +9,15 @@ import java.util.ArrayList;
 
 public class ArcEagerInstanceGenerator extends InstanceGenerator {
 
+    private boolean suitable(UniversalDependencyTreeBankWord word) {
+        try {
+            word.getRelation().toString();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public Instance generate(State state, int windowSize, String command) {
         Instance instance = new Instance(command);
@@ -30,7 +39,7 @@ public class ArcEagerInstanceGenerator extends InstanceGenerator {
                     attributes.add(new DiscreteAttribute(word.getXpos()));
                     attributes.add(new DiscreteAttribute(word.getMisc()));
                     addFeatureAttributes(word, attributes);
-                    if (word.getRelation() != null) {
+                    if (suitable(word)) {
                         attributes.add(new DiscreteAttribute(word.getRelation().toString()));
                     } else {
                         attributes.add(new DiscreteAttribute("null"));

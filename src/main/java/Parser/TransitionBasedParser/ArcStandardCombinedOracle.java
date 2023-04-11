@@ -8,12 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class ArcStandardCombinedOracle implements Oracle {
+public class ArcStandardCombinedOracle extends Oracle {
 
-    protected final Model commandModel;
-
-    public ArcStandardCombinedOracle(Model model) {
-        this.commandModel = model;
+    public ArcStandardCombinedOracle(Model model, int windowSize) {
+        super(model, windowSize);
     }
 
     private String[] findClassInfo(HashMap<String, Double> probabilities, State state) {
@@ -49,9 +47,9 @@ public class ArcStandardCombinedOracle implements Oracle {
     }
 
     @Override
-    public Decision makeDecision(State state, TransitionSystem transitionSystem) {
+    public Decision makeDecision(State state) {
         InstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
-        Instance instance = instanceGenerator.generate(state, 2, "");
+        Instance instance = instanceGenerator.generate(state, this.windowSize, "");
         String[] classInfo = findClassInfo(commandModel.predictProbability(instance), state);
         if (classInfo[0].equals("SHIFT")) {
             return new Decision(Command.SHIFT, null, 0.0);

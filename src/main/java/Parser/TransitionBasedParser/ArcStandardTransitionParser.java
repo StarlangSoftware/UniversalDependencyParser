@@ -80,7 +80,7 @@ public class ArcStandardTransitionParser extends TransitionParser {
         UniversalDependencyTreeBankSentence sentence = createResultSentence(universalDependencyTreeBankSentence);
         State state = initialState(sentence);
         while (state.wordListSize() > 0 || state.stackSize() > 1) {
-            Decision decision = oracle.makeDecision(state, TransitionSystem.ARC_STANDARD);
+            Decision decision = oracle.makeDecision(state);
             switch (decision.getCommand()) {
                 case SHIFT:
                     state.applyShift();

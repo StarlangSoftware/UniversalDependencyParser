@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class ArcEagerStepWiseOracle extends ArcStandardStepWiseOracle {
 
-    public ArcEagerStepWiseOracle(Model model1, Model model2) {
-        super(model1, model2);
+    public ArcEagerStepWiseOracle(Model model1, Model model2, int windowSize) {
+        super(model1, model2, windowSize);
     }
 
     protected String findClassInfo(HashMap<String, Double> probabilities, State state) {
@@ -33,9 +33,9 @@ public class ArcEagerStepWiseOracle extends ArcStandardStepWiseOracle {
     }
 
     @Override
-    public Decision makeDecision(State state, TransitionSystem transitionSystem) {
+    public Decision makeDecision(State state) {
         InstanceGenerator instanceGenerator = new ArcEagerInstanceGenerator();
-        Instance instance = instanceGenerator.generate(state, 2, "");
+        Instance instance = instanceGenerator.generate(state, this.windowSize, "");
         String classInfo = findClassInfo(commandModel.predictProbability(instance), state);
         if (classInfo.equals("SHIFT")) {
             return new Decision(Command.SHIFT, null, 0.0);

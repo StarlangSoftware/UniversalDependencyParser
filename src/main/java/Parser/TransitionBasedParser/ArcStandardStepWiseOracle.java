@@ -11,8 +11,8 @@ public class ArcStandardStepWiseOracle extends ArcStandardCombinedOracle {
 
     protected final Model relationModel;
 
-    public ArcStandardStepWiseOracle(Model commandModel, Model relationModel) {
-        super(commandModel);
+    public ArcStandardStepWiseOracle(Model commandModel, Model relationModel, int windowSize) {
+        super(commandModel, windowSize);
         this.relationModel = relationModel;
     }
 
@@ -36,9 +36,9 @@ public class ArcStandardStepWiseOracle extends ArcStandardCombinedOracle {
     }
 
     @Override
-    public Decision makeDecision(State state, TransitionSystem transitionSystem) {
+    public Decision makeDecision(State state) {
         InstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
-        Instance instance = instanceGenerator.generate(state, 2, "");
+        Instance instance = instanceGenerator.generate(state, this.windowSize, "");
         String classInfo = findClassInfo(commandModel.predictProbability(instance), state);
         if (classInfo.equals("SHIFT")) {
             return new Decision(Command.SHIFT, null, 0.0);
