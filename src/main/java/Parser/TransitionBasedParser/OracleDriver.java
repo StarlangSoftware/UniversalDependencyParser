@@ -2,6 +2,7 @@ package Parser.TransitionBasedParser;
 import java.io.IOException;
 
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
+import tools.FileIO;
 
 
 
@@ -14,12 +15,9 @@ public class OracleDriver {
 //		oracle.getModel().save("C:\\test\\model");
 		
 		ArcStandardTransitionParser parser = new ArcStandardTransitionParser();
-		UniversalDependencyTreeBankSentence sentence = oracle.readSentence("C:\\test\\0000.dev");
+		UniversalDependencyTreeBankSentence sentence = FileIO.readSentence("C:\\test\\0000.dev");
 		UniversalDependencyTreeBankSentence parsedSentence = parser.dependencyParse(sentence, oracle);
 		
-		System.out.println(parsedSentence);
-		
-		
-		
+		System.out.println(parsedSentence);	
 	}
 }

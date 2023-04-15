@@ -1,30 +1,22 @@
 package Parser.TransitionBasedParser;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
-import java.util.StringTokenizer;
 
-import Classification.Attribute.Attribute;
-import Classification.Attribute.DiscreteAttribute;
+
 import Classification.DistanceMetric.EuclidianDistance;
-import Classification.Instance.Instance;
 import Classification.InstanceList.InstanceList;
 import Classification.Model.KnnModel;
-import Classification.Model.Model;
-import Corpus.Sentence;
-import DependencyParser.Universal.UniversalDependencyPosType;
+
 import DependencyParser.Universal.UniversalDependencyRelation;
-import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 import DependencyParser.Universal.UniversalDependencyType;
+import tools.FileIO;
 
 public class ArcStandardOracle implements Oracle {
 	protected KnnModel commandModel;
@@ -94,42 +86,12 @@ public class ArcStandardOracle implements Oracle {
 		relationModel = new KnnModel(relationInstances, 1, new EuclidianDistance());
 	}
 	
-	public UniversalDependencyTreeBankSentence readSentence(String fileName) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(new File(fileName), StandardCharsets.UTF_16));
-		Sentence sentence = new UniversalDependencyTreeBankSentence();
-		
-		String line = "";
-		
-		while((line = reader.readLine()) != null) {
-			StringTokenizer tokenizer = new StringTokenizer(line);
-			String[] fields = new String[10];
-			int i = 0;
-
-			// Read input file into fields[]
-			while(tokenizer.hasMoreTokens()) {
-				fields[i++] = tokenizer.nextToken();
-			}
-			
-			if(fields[0] != null) {
-				UniversalDependencyTreeBankWord word = new UniversalDependencyTreeBankWord(
-						Integer.parseInt(fields[0]),
-						fields[1], fields[2], UniversalDependencyPosType.valueOf(fields[3]),
-						fields[4], new UniversalDependencyTreeBankFeatures(fields[5]), 
-						new UniversalDependencyRelation(Integer.parseInt(fields[6]), fields[7]),
-						fields[8], fields[9]);
-				
-				sentence.addWord(word);
-			}
-		}
-
-		reader.close();
-		return (UniversalDependencyTreeBankSentence) sentence;
-	}
+	
 	
 	public void train(String path) throws IOException{
 		for(File file : (new File(path)).listFiles()) {
 			if(file.getName().endsWith("train")) {
-				extractConfigurations(readSentence(file.getAbsolutePath()));
+				extractConfigurations(FileIO.readSentence(file.getAbsolutePath()));
 			}
 		}
 	}
@@ -147,7 +109,7 @@ public class ArcStandardOracle implements Oracle {
 		boolean complete = false;
 		
 		while(!complete) {
-//			printConfiguration(state, sentence);
+			printConfiguration(state, sentence);
 
 			if(state.stackSize() >= 2) {
 				UniversalDependencyTreeBankWord top =  state.getStackWord(0);
@@ -195,7 +157,7 @@ public class ArcStandardOracle implements Oracle {
 					state.wordListSize() == 0){
 				complete = true;
 				
-//				printConfiguration(state, sentence);
+				printConfiguration(state, sentence);
 			}
 		} // End while	
 	}

@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class RandomGraphOracle implements GraphOracle {
     @Override
-    public double findLength(UniversalDependencyTreeBankSentence sentence, int fromIndex, int toIndex) {
+    public double computeScore(UniversalDependencyTreeBankSentence sentence, int fromIndex, int toIndex) {
         Random random = new Random();
         return random.nextDouble();
     }
