@@ -148,7 +148,7 @@ public class GraphParser {
             name += "-" + word.getName();
         }
         name += "-";
-        UniversalDependencyTreeBankWord node = new UniversalDependencyTreeBankWord(Integer.MIN_VALUE, name, "_", UniversalDependencyPosType.DET,"_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(Integer.MAX_VALUE, "root"),"_","_");
+        UniversalDependencyTreeBankWord node = new UniversalDependencyTreeBankWord(Integer.MIN_VALUE, name, "_", UniversalDependencyPosType.DET,"_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(Integer.MAX_VALUE, "root"),"_","_");
         for (UniversalDependencyTreeBankWord word : map.keySet()) {
             for (int i = 0; i < graph.get(word).size(); i++) {
                 if (!cycleContains(graph.get(word, i).getKey(), cycle)) {
@@ -204,7 +204,7 @@ public class GraphParser {
             oracle = new BasicGraphOracle();
         }
         ArrayList<Connection> list = new ArrayList<>();
-        UniversalDependencyTreeBankWord root = new UniversalDependencyTreeBankWord(0, "root", "", UniversalDependencyPosType.DET, "", new UniversalDependencyTreeBankFeatures("_"), null, "", "");
+        UniversalDependencyTreeBankWord root = new UniversalDependencyTreeBankWord(0, "root", "", UniversalDependencyPosType.DET, "", new UniversalDependencyTreeBankFeatures("tr", "_"), null, "", "");
         WeightedGraph graph = generateGraph(sentence, oracle, root);
         ArrayList<Integer> bestInEdge = new ArrayList<>();
         HashMap<Integer, ArrayList<Integer>> kicksOut = new HashMap<>();

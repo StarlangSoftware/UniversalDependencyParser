@@ -1,8 +1,9 @@
 package Parser.TransitionBasedParser;
 
 import Classification.Attribute.Attribute;
-import Classification.Attribute.DiscreteAttribute;
+import Classification.Attribute.DiscreteIndexedAttribute;
 import Classification.Instance.Instance;
+import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
 import java.util.ArrayList;
@@ -25,24 +26,21 @@ public class ArcEagerInstanceGenerator extends InstanceGenerator {
         for (int i = 0; i < windowSize; i++) {
             UniversalDependencyTreeBankWord word = state.getStackWord(i);
             if (word == null) {
-                for (int j = 0; j < 15; j++) {
-                    attributes.add(new DiscreteAttribute("null"));
-                }
+                attributes.add(new DiscreteIndexedAttribute("null", 0, 18));
+                addEmptyAttributes(attributes);
+                attributes.add(new DiscreteIndexedAttribute("null", 0, 59));
             } else {
                 if (word.getName().equals("root")) {
-                    attributes.add(new DiscreteAttribute("root"));
-                    for (int j = 0; j < 14; j++) {
-                        attributes.add(new DiscreteAttribute("null"));
-                    }
+                    attributes.add(new DiscreteIndexedAttribute("root", 0, 18));
+                    addEmptyAttributes(attributes);
+                    attributes.add(new DiscreteIndexedAttribute("null", 0, 59));
                 } else {
-                    attributes.add(new DiscreteAttribute(word.getUpos().toString()));
-                    attributes.add(new DiscreteAttribute(word.getXpos()));
-                    attributes.add(new DiscreteAttribute(word.getMisc()));
+                    attributes.add(new DiscreteIndexedAttribute(word.getUpos().toString(), UniversalDependencyTreeBankFeatures.posIndex(word.getUpos().toString()) + 1, 18));
                     addFeatureAttributes(word, attributes);
                     if (suitable(word)) {
-                        attributes.add(new DiscreteAttribute(word.getRelation().toString()));
+                        attributes.add(new DiscreteIndexedAttribute(word.getRelation().toString(), UniversalDependencyTreeBankFeatures.dependencyIndex(word.getRelation().toString()) + 1, 59));
                     } else {
-                        attributes.add(new DiscreteAttribute("null"));
+                        attributes.add(new DiscreteIndexedAttribute("null", 0, 59));
                     }
                 }
             }
@@ -50,14 +48,11 @@ public class ArcEagerInstanceGenerator extends InstanceGenerator {
         for (int i = 0; i < windowSize; i++) {
             UniversalDependencyTreeBankWord word = state.getWordListWord(i);
             if (word != null) {
-                attributes.add(new DiscreteAttribute(word.getUpos().toString()));
-                attributes.add(new DiscreteAttribute(word.getXpos()));
-                attributes.add(new DiscreteAttribute(word.getMisc()));
+                attributes.add(new DiscreteIndexedAttribute(word.getUpos().toString(), UniversalDependencyTreeBankFeatures.posIndex(word.getUpos().toString()) + 1, 18));
                 addFeatureAttributes(word, attributes);
             } else {
-                for (int j = 0; j < 14; j++) {
-                    attributes.add(new DiscreteAttribute("null"));
-                }
+                attributes.add(new DiscreteIndexedAttribute("root", 0, 18));
+                addEmptyAttributes(attributes);
             }
         }
         for (Attribute attribute : attributes) {

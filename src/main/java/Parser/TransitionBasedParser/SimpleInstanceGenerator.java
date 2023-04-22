@@ -1,8 +1,9 @@
 package Parser.TransitionBasedParser;/* Created by oguzkeremyildiz on 17.12.2020 */
 
 import Classification.Attribute.Attribute;
-import Classification.Attribute.DiscreteAttribute;
+import Classification.Attribute.DiscreteIndexedAttribute;
 import Classification.Instance.Instance;
+import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
 import java.util.ArrayList;
@@ -19,19 +20,14 @@ public class SimpleInstanceGenerator extends InstanceGenerator {
         for (int i = 0; i < windowSize; i++) {
             UniversalDependencyTreeBankWord word = state.getStackWord(i);
             if (word == null) {
-                for (int j = 0; j < 14; j++) {
-                    attributes.add(new DiscreteAttribute("null"));
-                }
+                attributes.add(new DiscreteIndexedAttribute("null", 0, 18));
+                addEmptyAttributes(attributes);
             } else {
                 if (word.getName().equals("root")) {
-                    attributes.add(new DiscreteAttribute("root"));
-                    for (int j = 0; j < 13; j++) {
-                        attributes.add(new DiscreteAttribute("null"));
-                    }
+                    attributes.add(new DiscreteIndexedAttribute("root", 0, 18));
+                    addEmptyAttributes(attributes);
                 } else {
-                    attributes.add(new DiscreteAttribute(word.getUpos().toString()));
-                    attributes.add(new DiscreteAttribute(word.getXpos()));
-                    attributes.add(new DiscreteAttribute(word.getMisc()));
+                    attributes.add(new DiscreteIndexedAttribute(word.getUpos().toString(), UniversalDependencyTreeBankFeatures.posIndex(word.getUpos().toString()) + 1, 18));
                     addFeatureAttributes(word, attributes);
                 }
             }
@@ -39,14 +35,11 @@ public class SimpleInstanceGenerator extends InstanceGenerator {
         for (int i = 0; i < windowSize; i++) {
             UniversalDependencyTreeBankWord word = state.getWordListWord(i);
             if (word != null) {
-                attributes.add(new DiscreteAttribute(word.getUpos().toString()));
-                attributes.add(new DiscreteAttribute(word.getXpos()));
-                attributes.add(new DiscreteAttribute(word.getMisc()));
+                attributes.add(new DiscreteIndexedAttribute(word.getUpos().toString(), UniversalDependencyTreeBankFeatures.posIndex(word.getUpos().toString()) + 1, 18));
                 addFeatureAttributes(word, attributes);
             } else {
-                for (int j = 0; j < 14; j++) {
-                    attributes.add(new DiscreteAttribute("null"));
-                }
+                attributes.add(new DiscreteIndexedAttribute("root", 0, 18));
+                addEmptyAttributes(attributes);
             }
         }
         for (Attribute attribute : attributes) {
