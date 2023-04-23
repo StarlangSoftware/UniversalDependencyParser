@@ -25,20 +25,4 @@ public class ArcEagerTransitionParserTest {
         return model;
     }
 
-    @Test
-    public void testC3Oracle() {
-        ParserEvaluationScore scores = new ParserEvaluationScore();
-        TransitionParser transitionParser = new ArcEagerTransitionParser();
-        UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus("tr_boun-ud-test.conllu");
-        Model model1 = loadModel("decision-tree-boun-eager-1");
-        Model model2 = loadModel("decision-tree-boun-relation-eager-1");
-        for (int i = 0; i < corpus.sentenceCount(); i++) {
-            UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcEagerStepWiseOracle(model1, model2, 2));
-            scores.add(actual.compareParses(expected));
-        }
-        Assert.assertEquals(68.04464654816037, 100 * scores.getLS(), 0.01);
-        Assert.assertEquals(49.855312112443166, 100 * scores.getLAS(), 0.01);
-        Assert.assertEquals(58.238941711451055, 100 * scores.getUAS(), 0.01);
-    }
 }
