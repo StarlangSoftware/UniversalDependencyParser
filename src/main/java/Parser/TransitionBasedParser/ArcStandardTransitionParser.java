@@ -5,7 +5,6 @@ import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -15,9 +14,9 @@ public class ArcStandardTransitionParser extends TransitionParser {
         super();
     }
 
-    private boolean checkForMoreRelation(ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> wordList, int id) {
-        for (AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer> word : wordList) {
-            if (word.getKey().getRelation().to() == id) {
+    private boolean checkForMoreRelation(ArrayList<StackWord> wordList, int id) {
+        for (StackWord word : wordList) {
+            if (word.getWord().getRelation().to() == id) {
                 return false;
             }
         }
@@ -29,12 +28,12 @@ public class ArcStandardTransitionParser extends TransitionParser {
         UniversalDependencyRelation topRelation, beforeTopRelation;
         InstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
         ArrayList<Instance> instanceList = new ArrayList<>();
-        ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> wordList = new ArrayList<>();
-        Stack<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> stack = new Stack<>();
+        ArrayList<StackWord> wordList = new ArrayList<>();
+        Stack<StackWord> stack = new Stack<>();
         for (int j = 0; j < sentence.wordCount(); j++) {
-            wordList.add(new AbstractMap.SimpleEntry<>((UniversalDependencyTreeBankWord) sentence.getWord(j), j + 1));
+            wordList.add(new StackWord((UniversalDependencyTreeBankWord) sentence.getWord(j), j + 1));
         }
-        stack.add(new AbstractMap.SimpleEntry<>(new UniversalDependencyTreeBankWord(0, "root", "", null, "", null, new UniversalDependencyRelation(-1, ""), "", ""), 0));
+        stack.add(new StackWord());
         State state = new State(stack, wordList, new ArrayList<>());
         if (wordList.size() > 0) {
             instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
@@ -44,10 +43,10 @@ public class ArcStandardTransitionParser extends TransitionParser {
                 stack.add(wordList.remove(0));
             }
             while (wordList.size() > 0 || stack.size() > 1) {
-                top = stack.peek().getKey();
+                top = stack.peek().getWord();
                 topRelation = top.getRelation();
                 if (stack.size() > 1) {
-                    beforeTop = stack.get(stack.size() - 2).getKey();
+                    beforeTop = stack.get(stack.size() - 2).getWord();
                     beforeTopRelation = beforeTop.getRelation();
                     if (beforeTop.getId() == topRelation.to() && checkForMoreRelation(wordList, top.getId())) {
                         instanceList.add(instanceGenerator.generate(state, windowSize, "RIGHTARC(" + topRelation + ")"));

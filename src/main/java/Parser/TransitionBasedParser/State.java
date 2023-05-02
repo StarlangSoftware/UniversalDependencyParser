@@ -4,17 +4,16 @@ import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 import DependencyParser.Universal.UniversalDependencyType;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class State {
 
-    private Stack<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> stack;
-    private ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> wordList;
-    private ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, UniversalDependencyRelation>> relations;
+    private Stack<StackWord> stack;
+    private ArrayList<StackWord> wordList;
+    private ArrayList<StackRelation> relations;
 
-    public State(Stack<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> stack, ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer>> wordList, ArrayList<AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, UniversalDependencyRelation>> relations) {
+    public State(Stack<StackWord> stack, ArrayList<StackWord> wordList, ArrayList<StackRelation> relations) {
         this.stack = stack;
         this.wordList = wordList;
         this.relations = relations;
@@ -28,41 +27,41 @@ public class State {
 
     public void applyLeftArc(UniversalDependencyType type) {
         if (stack.size() > 1) {
-            UniversalDependencyTreeBankWord beforeLast = stack.get(stack.size() - 2).getKey();
-            int index = stack.get(stack.size() - 1).getValue();
+            UniversalDependencyTreeBankWord beforeLast = stack.get(stack.size() - 2).getWord();
+            int index = stack.get(stack.size() - 1).getToWord();
             beforeLast.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.remove(stack.size() - 2);
-            relations.add(new AbstractMap.SimpleEntry<>(beforeLast, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(beforeLast, new UniversalDependencyRelation(index, type.toString())));
         }
     }
 
     public void applyRightArc(UniversalDependencyType type) {
         if (stack.size() > 1) {
-            UniversalDependencyTreeBankWord last = stack.get(stack.size() - 1).getKey();
-            int index = stack.get(stack.size() - 2).getValue();
+            UniversalDependencyTreeBankWord last = stack.get(stack.size() - 1).getWord();
+            int index = stack.get(stack.size() - 2).getToWord();
             last.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.pop();
-            relations.add(new AbstractMap.SimpleEntry<>(last, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(last, new UniversalDependencyRelation(index, type.toString())));
         }
     }
 
     public void applyArcEagerLeftArc(UniversalDependencyType type) {
         if (stack.size() > 0 && wordList.size() > 0) {
-            UniversalDependencyTreeBankWord lastElementOfStack = stack.peek().getKey();
-            int index = wordList.get(0).getValue();
+            UniversalDependencyTreeBankWord lastElementOfStack = stack.peek().getWord();
+            int index = wordList.get(0).getToWord();
             lastElementOfStack.setRelation(new UniversalDependencyRelation(index, type.toString()));
             stack.pop();
-            relations.add(new AbstractMap.SimpleEntry<>(lastElementOfStack, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(lastElementOfStack, new UniversalDependencyRelation(index, type.toString())));
         }
     }
 
     public void applyArcEagerRightArc(UniversalDependencyType type) {
         if (stack.size() > 0 && wordList.size() > 0) {
-            UniversalDependencyTreeBankWord firstElementOfWordList = wordList.get(0).getKey();
-            int index = stack.peek().getValue();
+            UniversalDependencyTreeBankWord firstElementOfWordList = wordList.get(0).getWord();
+            int index = stack.peek().getToWord();
             firstElementOfWordList.setRelation(new UniversalDependencyRelation(index, type.toString()));
             applyShift();
-            relations.add(new AbstractMap.SimpleEntry<>(firstElementOfWordList, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(firstElementOfWordList, new UniversalDependencyRelation(index, type.toString())));
         }
     }
 
@@ -129,12 +128,12 @@ public class State {
         if (size - index < 0) {
             return null;
         }
-        return stack.get(size - index).getKey();
+        return stack.get(size - index).getWord();
     }
 
     public UniversalDependencyTreeBankWord getPeek() {
         if (stack.size() > 0) {
-            return stack.peek().getKey();
+            return stack.peek().getWord();
         }
         return null;
     }
@@ -143,10 +142,10 @@ public class State {
         if (index > wordList.size() - 1) {
             return null;
         }
-        return wordList.get(index).getKey();
+        return wordList.get(index).getWord();
     }
 
-    public AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, UniversalDependencyRelation> getRelation(int index) {
+    public StackRelation getRelation(int index) {
         if (index < relations.size()) {
             return relations.get(index);
         }
@@ -170,21 +169,21 @@ public class State {
     @Override
     public Object clone() throws CloneNotSupportedException {
         State o = new State(new Stack<>(), new ArrayList<>(), new ArrayList<>());
-        for (AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer> element : stack) {
-            if (!element.getKey().getName().equals("root")) {
-                o.stack.add(new AbstractMap.SimpleEntry<>(element.getKey().clone(), element.getValue()));
+        for (StackWord element : stack) {
+            if (!element.getWord().getName().equals("root")) {
+                o.stack.add(element.clone());
             } else {
-                o.stack.add(new AbstractMap.SimpleEntry<>(new UniversalDependencyTreeBankWord(0, "root", "", null, "", null, new UniversalDependencyRelation(-1, ""), "", ""), element.getValue()));
+                o.stack.add(new StackWord(new UniversalDependencyTreeBankWord(), element.getToWord()));
             }
         }
-        for (AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, Integer> word : wordList) {
-            o.wordList.add(new AbstractMap.SimpleEntry<>(word.getKey().clone(), word.getValue()));
+        for (StackWord word : wordList) {
+            o.wordList.add(word.clone());
         }
-        for (AbstractMap.SimpleEntry<UniversalDependencyTreeBankWord, UniversalDependencyRelation> relation : relations) {
-            if (!relation.getKey().getName().equals("root")) {
-                o.relations.add(new AbstractMap.SimpleEntry<>(relation.getKey().clone(), relation.getValue()));
+        for (StackRelation relation : relations) {
+            if (!relation.getWord().getName().equals("root")) {
+                o.relations.add(relation.clone());
             } else {
-                o.relations.add(new AbstractMap.SimpleEntry<>(new UniversalDependencyTreeBankWord(0, "root", "", null, "", null, new UniversalDependencyRelation(-1, ""), "", ""), relation.getValue()));
+                o.relations.add(new StackRelation(new UniversalDependencyTreeBankWord(), relation.getRelation()));
             }
         }
         return o;
