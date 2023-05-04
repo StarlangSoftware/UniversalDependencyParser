@@ -18,7 +18,7 @@ public abstract class Oracle {
     protected abstract Decision makeDecision(State state);
     protected abstract ArrayList<Decision> scoreDecisions(State state, TransitionSystem transitionSystem);
 
-    protected String findEagerClassInfo(HashMap<String, Double> probabilities, State state) {
+    protected String findBestValidEagerClassInfo(HashMap<String, Double> probabilities, State state) {
         double bestValue = 0.0;
         String best = "";
         for (String key : probabilities.keySet()) {
@@ -39,7 +39,7 @@ public abstract class Oracle {
         return best;
     }
 
-    protected String findStandardClassInfo(HashMap<String, Double> probabilities, State state) {
+    protected String findBestValidStandardClassInfo(HashMap<String, Double> probabilities, State state) {
         double bestValue = 0.0;
         String best = "";
         for (String key : probabilities.keySet()) {
@@ -58,5 +58,15 @@ public abstract class Oracle {
         return best;
     }
 
+    protected String[] divideClassInfo(String best) {
+        String[] decision = new String[2];
+        if (best.contains("(")){
+            decision[0] = best.substring(0, best.indexOf('('));
+            decision[1] = best.substring(best.indexOf('(') + 1, best.indexOf(')'));
+        } else {
+            decision[0] = best;
+        }
+        return decision;
+    }
 
 }

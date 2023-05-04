@@ -1,0 +1,1613 @@
+-1 = -1
+2
+32 : 0 18
+0
+REDUCE
+32 : -1 18
+2
+3 : 0 3
+2
+0 : 10 18
+0
+LEFTARC(DET)
+0 : -1 18
+2
+0 : 15 18
+2
+47 : 15 18
+2
+15 : 0 59
+0
+LEFTARC(PUNCT)
+15 : -1 59
+0
+SHIFT
+47 : -1 18
+0
+SHIFT
+0 : -1 18
+2
+0 : 1 18
+2
+46 : 3 4
+2
+15 : 0 59
+0
+LEFTARC(AMOD)
+15 : -1 59
+0
+SHIFT
+46 : -1 4
+2
+32 : 15 18
+2
+47 : 0 18
+2
+15 : 0 59
+0
+RIGHTARC(PUNCT)
+15 : -1 59
+2
+15 : 12 59
+0
+RIGHTARC(PUNCT)
+15 : -1 59
+0
+SHIFT
+47 : -1 18
+2
+59 : 0 3
+2
+47 : 15 18
+0
+RIGHTARC(PUNCT)
+47 : -1 18
+0
+SHIFT
+59 : -1 3
+0
+RIGHTARC(PUNCT)
+32 : -1 18
+2
+32 : 10 18
+0
+SHIFT
+32 : -1 18
+2
+32 : 7 18
+0
+RIGHTARC(CASE)
+32 : -1 18
+2
+32 : 1 18
+0
+SHIFT
+32 : -1 18
+2
+32 : 9 18
+0
+SHIFT
+32 : -1 18
+2
+15 : 0 59
+0
+LEFTARC(AMOD)
+15 : -1 59
+0
+SHIFT
+0 : -1 18
+2
+0 : 2 18
+2
+32 : 9 18
+0
+RIGHTARC(ADVMOD:EMPH)
+32 : -1 18
+2
+32 : 6 18
+2
+15 : 0 59
+0
+LEFTARC(ADVMOD)
+15 : -1 59
+0
+SHIFT
+32 : -1 18
+2
+32 : 1 18
+2
+2 : 0 4
+2
+15 : 0 59
+0
+LEFTARC(ADVMOD)
+15 : -1 59
+0
+SHIFT
+2 : -1 4
+0
+RIGHTARC(COMPOUND)
+32 : -1 18
+2
+32 : 8 18
+2
+42 : 1 7
+0
+RIGHTARC(AUX:Q)
+42 : -1 7
+0
+RIGHTARC(COP)
+32 : -1 18
+2
+32 : 7 18
+0
+RIGHTARC(CASE)
+32 : -1 18
+2
+32 : 15 18
+2
+15 : 0 59
+2
+47 : 0 18
+0
+RIGHTARC(PUNCT)
+47 : -1 18
+0
+SHIFT
+15 : -1 59
+0
+SHIFT
+32 : -1 18
+2
+32 : 2 18
+0
+LEFTARC(ADVMOD)
+32 : -1 18
+2
+32 : 4 18
+2
+15 : 0 59
+2
+16 : 0 18
+0
+SHIFT
+16 : -1 18
+2
+36 : 2 9
+2
+47 : 4 18
+2
+16 : 6 18
+0
+LEFTARC(ADVMOD)
+16 : -1 18
+0
+SHIFT
+47 : -1 18
+2
+47 : 6 18
+2
+13 : 0 3
+2
+35 : 1 3
+0
+SHIFT
+35 : -1 3
+2
+30 : 1 4
+0
+LEFTARC(ADVMOD)
+30 : -1 4
+2
+29 : 0 3
+2
+16 : 15 18
+2
+59 : 2 3
+0
+SHIFT
+59 : -1 3
+2
+51 : 5 9
+0
+RIGHTARC(COMPOUND:REDUP)
+51 : -1 9
+2
+51 : 0 9
+2
+54 : 3 5
+0
+LEFTARC(ADVMOD)
+54 : -1 5
+2
+50 : 0 3
+0
+SHIFT
+50 : -1 3
+2
+61 : 3 4
+0
+SHIFT
+61 : -1 4
+0
+LEFTARC(ADVMOD)
+51 : -1 9
+0
+SHIFT
+16 : -1 18
+2
+56 : 2 6
+2
+16 : 7 18
+0
+SHIFT
+16 : -1 18
+2
+60 : 1 3
+0
+LEFTARC(ADVMOD)
+60 : -1 3
+2
+31 : 52 59
+0
+LEFTARC(AMOD)
+31 : -1 59
+2
+16 : 9 18
+0
+LEFTARC(ADVMOD)
+16 : -1 18
+2
+51 : 1 9
+0
+LEFTARC(ADVMOD)
+51 : -1 9
+0
+SHIFT
+56 : -1 6
+2
+51 : 3 9
+0
+RIGHTARC(COMPOUND:REDUP)
+51 : -1 9
+2
+56 : 4 6
+0
+LEFTARC(ADVMOD)
+56 : -1 6
+2
+20 : 2 9
+2
+16 : 4 18
+0
+LEFTARC(ADVMOD)
+16 : -1 18
+0
+SHIFT
+20 : -1 9
+0
+LEFTARC(ADVMOD)
+29 : -1 3
+2
+58 : 0 13
+2
+16 : 6 18
+0
+SHIFT
+16 : -1 18
+0
+LEFTARC(ADVMOD)
+58 : -1 13
+0
+SHIFT
+13 : -1 3
+0
+LEFTARC(ACL)
+47 : -1 18
+0
+LEFTARC(ADVMOD)
+36 : -1 9
+2
+45 : 0 3
+2
+36 : 5 9
+0
+SHIFT
+36 : -1 9
+2
+19 : 2 3
+0
+SHIFT
+19 : -1 3
+2
+60 : 2 3
+2
+16 : 9 18
+2
+57 : 0 7
+0
+SHIFT
+57 : -1 7
+0
+LEFTARC(ADVMOD)
+16 : -1 18
+0
+SHIFT
+60 : -1 3
+2
+57 : 2 7
+0
+LEFTARC(ADVMOD)
+57 : -1 7
+2
+47 : 13 18
+0
+LEFTARC(AMOD)
+47 : -1 18
+2
+47 : 15 18
+0
+LEFTARC(ADVMOD)
+47 : -1 18
+0
+SHIFT
+45 : -1 3
+0
+LEFTARC(ADVMOD)
+15 : -1 59
+0
+SHIFT
+32 : -1 18
+0
+SHIFT
+0 : -1 18
+2
+13 : 0 3
+2
+2 : 0 4
+2
+0 : 9 18
+2
+15 : 0 59
+2
+20 : 0 9
+2
+47 : 15 18
+0
+LEFTARC(CC)
+47 : -1 18
+2
+16 : 1 18
+2
+32 : 1 18
+0
+LEFTARC(CC)
+32 : -1 18
+0
+SHIFT
+16 : -1 18
+0
+SHIFT
+20 : -1 9
+2
+36 : 0 9
+0
+SHIFT
+36 : -1 9
+2
+29 : 0 3
+2
+51 : 0 9
+0
+LEFTARC(CC)
+51 : -1 9
+2
+32 : 13 18
+0
+SHIFT
+32 : -1 18
+2
+35 : 1 3
+0
+LEFTARC(CC)
+35 : -1 3
+2
+19 : 1 3
+0
+SHIFT
+19 : -1 3
+2
+31 : 21 59
+2
+47 : 5 18
+0
+LEFTARC(CC)
+47 : -1 18
+0
+SHIFT
+31 : -1 59
+2
+32 : 3 18
+0
+LEFTARC(CC:PRECONJ)
+32 : -1 18
+2
+47 : 1 18
+0
+LEFTARC(CC)
+47 : -1 18
+2
+50 : 2 3
+2
+31 : 5 59
+0
+SHIFT
+31 : -1 59
+2
+20 : 3 9
+0
+LEFTARC(CC)
+20 : -1 9
+2
+58 : 1 13
+0
+SHIFT
+58 : -1 13
+2
+16 : 5 18
+0
+LEFTARC(CC)
+16 : -1 18
+2
+32 : 5 18
+0
+SHIFT
+32 : -1 18
+2
+32 : 6 18
+0
+SHIFT
+32 : -1 18
+2
+56 : 0 6
+2
+16 : 8 18
+0
+SHIFT
+16 : -1 18
+2
+47 : 13 18
+0
+LEFTARC(CC)
+47 : -1 18
+2
+36 : 2 9
+2
+20 : 2 9
+0
+LEFTARC(CC)
+20 : -1 9
+0
+SHIFT
+36 : -1 9
+2
+60 : 0 3
+2
+47 : 6 18
+0
+SHIFT
+47 : -1 18
+2
+36 : 3 9
+0
+LEFTARC(CC)
+36 : -1 9
+2
+51 : 8 9
+0
+SHIFT
+51 : -1 9
+2
+20 : 2 9
+2
+32 : 4 18
+2
+36 : 7 9
+0
+SHIFT
+36 : -1 9
+2
+16 : 2 18
+0
+SHIFT
+16 : -1 18
+2
+51 : 2 9
+2
+36 : 5 9
+2
+31 : 0 59
+0
+SHIFT
+31 : -1 59
+0
+LEFTARC(CC)
+36 : -1 9
+0
+LEFTARC(CC)
+51 : -1 9
+0
+LEFTARC(CC)
+32 : -1 18
+0
+SHIFT
+20 : -1 9
+0
+LEFTARC(CC)
+60 : -1 3
+0
+LEFTARC(CC)
+56 : -1 6
+0
+LEFTARC(CC)
+50 : -1 3
+0
+LEFTARC(CC)
+29 : -1 3
+2
+32 : 6 18
+2
+20 : 3 9
+0
+LEFTARC(CC)
+20 : -1 9
+2
+42 : 0 7
+2
+25 : 2 6
+0
+SHIFT
+25 : -1 6
+0
+LEFTARC(CC)
+42 : -1 7
+0
+LEFTARC(CC)
+32 : -1 18
+0
+SHIFT
+15 : -1 59
+0
+SHIFT
+0 : -1 18
+0
+SHIFT
+2 : -1 4
+2
+15 : 0 59
+2
+35 : 0 3
+2
+32 : 11 18
+0
+RIGHTARC(FLAT)
+32 : -1 18
+2
+32 : 15 18
+0
+RIGHTARC(PUNCT)
+32 : -1 18
+0
+SHIFT
+35 : -1 3
+2
+31 : 33 59
+0
+SHIFT
+31 : -1 59
+2
+16 : 11 18
+0
+SHIFT
+16 : -1 18
+0
+LEFTARC(NUMMOD)
+15 : -1 59
+0
+SHIFT
+13 : -1 3
+2
+7 : 3 5
+2
+36 : 0 9
+2
+32 : 7 18
+2
+15 : 11 59
+0
+SHIFT
+15 : -1 59
+0
+RIGHTARC(CASE)
+32 : -1 18
+0
+SHIFT
+36 : -1 9
+2
+15 : 0 59
+0
+LEFTARC(ACL)
+15 : -1 59
+0
+SHIFT
+7 : -1 5
+2
+4 : 0 9
+2
+45 : 0 3
+0
+SHIFT
+45 : -1 3
+2
+15 : 0 59
+0
+LEFTARC(ADVCL)
+15 : -1 59
+0
+SHIFT
+4 : -1 9
+2
+32 : 7 18
+0
+RIGHTARC(CASE)
+32 : -1 18
+2
+15 : 0 59
+2
+45 : 0 3
+2
+32 : 15 18
+2
+47 : 0 18
+0
+RIGHTARC(PUNCT)
+47 : -1 18
+2
+47 : 7 18
+0
+RIGHTARC(PUNCT)
+47 : -1 18
+2
+56 : 0 6
+0
+SHIFT
+56 : -1 6
+0
+RIGHTARC(PUNCT)
+32 : -1 18
+2
+32 : 8 18
+0
+RIGHTARC(COP)
+32 : -1 18
+0
+SHIFT
+45 : -1 3
+2
+4 : 2 9
+2
+35 : 0 3
+0
+RIGHTARC(CONJ)
+35 : -1 3
+0
+LEFTARC(XCOMP)
+4 : -1 9
+2
+41 : 2 6
+2
+32 : 6 18
+2
+35 : 1 3
+0
+LEFTARC(NMOD)
+35 : -1 3
+0
+LEFTARC(OBL)
+32 : -1 18
+0
+RIGHTARC(AUX)
+41 : -1 6
+0
+LEFTARC(CCOMP)
+15 : -1 59
+0
+SHIFT
+3 : -1 3
+2
+32 : 15 18
+2
+47 : 0 18
+2
+15 : 0 59
+0
+RIGHTARC(PUNCT)
+15 : -1 59
+2
+15 : 12 59
+0
+RIGHTARC(PUNCT)
+15 : -1 59
+0
+SHIFT
+47 : -1 18
+0
+SHIFT
+32 : -1 18
+2
+32 : 6 18
+2
+15 : 0 59
+2
+13 : 0 3
+2
+4 : 2 9
+2
+0 : 2 18
+0
+LEFTARC(ADVMOD)
+0 : -1 18
+2
+0 : 4 18
+2
+46 : 3 4
+2
+36 : 0 9
+0
+LEFTARC(NSUBJ)
+36 : -1 9
+0
+LEFTARC(OBJ)
+46 : -1 4
+0
+LEFTARC(OBJ)
+0 : -1 18
+2
+0 : 1 18
+0
+LEFTARC(AMOD)
+0 : -1 18
+2
+0 : 13 18
+2
+14 : 3 4
+2
+1 : 0 10
+2
+3 : 1 3
+2
+46 : 2 4
+0
+LEFTARC(OBJ)
+46 : -1 4
+2
+16 : 0 18
+0
+LEFTARC(NSUBJ)
+16 : -1 18
+2
+16 : 9 18
+0
+SHIFT
+16 : -1 18
+2
+39 : 1 5
+0
+LEFTARC(OBL)
+39 : -1 5
+2
+29 : 0 3
+2
+42 : 0 7
+0
+LEFTARC(NSUBJ)
+42 : -1 7
+2
+46 : 3 4
+2
+16 : 4 18
+0
+LEFTARC(OBJ)
+16 : -1 18
+2
+31 : 0 59
+0
+LEFTARC(NSUBJ)
+31 : -1 59
+0
+LEFTARC(OBJ)
+46 : -1 4
+0
+LEFTARC(OBJ)
+29 : -1 3
+0
+LEFTARC(NSUBJ)
+3 : -1 3
+0
+LEFTARC(OBJ)
+1 : -1 10
+0
+LEFTARC(NSUBJ)
+14 : -1 4
+2
+47 : 15 18
+0
+LEFTARC(NSUBJ)
+47 : -1 18
+2
+60 : 2 3
+0
+SHIFT
+60 : -1 3
+2
+51 : 5 9
+0
+SHIFT
+51 : -1 9
+2
+46 : 1 4
+0
+LEFTARC(NSUBJ)
+46 : -1 4
+2
+40 : 0 20
+2
+46 : 2 4
+0
+LEFTARC(NSUBJ)
+46 : -1 4
+2
+44 : 1 3
+0
+SHIFT
+44 : -1 3
+2
+47 : 2 18
+0
+LEFTARC(NSUBJ)
+47 : -1 18
+0
+SHIFT
+40 : -1 20
+0
+LEFTARC(NSUBJ)
+0 : -1 18
+2
+36 : 0 9
+2
+46 : 3 4
+0
+LEFTARC(NSUBJ)
+46 : -1 4
+0
+SHIFT
+36 : -1 9
+2
+45 : 0 3
+0
+SHIFT
+45 : -1 3
+2
+16 : 4 18
+2
+47 : 0 18
+0
+LEFTARC(OBJ)
+47 : -1 18
+2
+0 : 5 18
+0
+LEFTARC(OBJ)
+0 : -1 18
+0
+SHIFT
+16 : -1 18
+2
+0 : 5 18
+2
+31 : 0 59
+2
+43 : 0 13
+2
+50 : 0 3
+0
+LEFTARC(NSUBJ)
+50 : -1 3
+2
+16 : 5 18
+0
+RIGHTARC(CONJ)
+16 : -1 18
+2
+16 : 0 18
+2
+35 : 2 3
+0
+SHIFT
+35 : -1 3
+0
+LEFTARC(NSUBJ)
+16 : -1 18
+0
+SHIFT
+43 : -1 13
+0
+SHIFT
+31 : -1 59
+0
+SHIFT
+0 : -1 18
+0
+SHIFT
+4 : -1 9
+2
+4 : 1 9
+0
+LEFTARC(OBJ)
+4 : -1 9
+2
+4 : 5 9
+0
+LEFTARC(NSUBJ)
+4 : -1 9
+0
+LEFTARC(OBL)
+13 : -1 3
+2
+4 : 0 9
+2
+8 : 0 20
+0
+RIGHTARC(CONJ)
+8 : -1 20
+2
+40 : 0 20
+2
+0 : 6 18
+0
+LEFTARC(ADVCL)
+0 : -1 18
+2
+31 : 0 59
+0
+LEFTARC(OBL)
+31 : -1 59
+0
+SHIFT
+40 : -1 20
+0
+RIGHTARC(CONJ)
+4 : -1 9
+2
+4 : 2 9
+2
+0 : 6 18
+2
+10 : 0 7
+2
+42 : 0 7
+2
+35 : 2 3
+2
+36 : 2 9
+0
+RIGHTARC(CONJ)
+36 : -1 9
+0
+LEFTARC(OBJ)
+35 : -1 3
+2
+16 : 0 18
+0
+LEFTARC(CSUBJ)
+16 : -1 18
+2
+31 : 0 59
+2
+35 : 0 3
+2
+13 : 1 3
+0
+LEFTARC(CSUBJ)
+13 : -1 3
+0
+LEFTARC(OBJ)
+35 : -1 3
+0
+SHIFT
+31 : -1 59
+0
+SHIFT
+42 : -1 7
+0
+LEFTARC(CSUBJ)
+10 : -1 7
+0
+LEFTARC(CSUBJ)
+0 : -1 18
+0
+LEFTARC(OBJ)
+4 : -1 9
+2
+4 : 1 9
+0
+LEFTARC(CCOMP)
+4 : -1 9
+2
+4 : 3 9
+0
+LEFTARC(CCOMP)
+4 : -1 9
+2
+4 : 5 9
+0
+LEFTARC(NSUBJ)
+4 : -1 9
+0
+LEFTARC(ADVCL)
+15 : -1 59
+0
+SHIFT
+32 : -1 18
+2
+36 : 0 9
+2
+32 : 7 18
+0
+RIGHTARC(CASE)
+32 : -1 18
+2
+32 : 8 18
+2
+42 : 1 7
+2
+15 : 0 59
+0
+RIGHTARC(AUX:Q)
+15 : -1 59
+2
+15 : 12 59
+0
+RIGHTARC(AUX:Q)
+15 : -1 59
+0
+SHIFT
+42 : -1 7
+2
+45 : 1 3
+0
+RIGHTARC(AUX)
+45 : -1 3
+2
+15 : 0 59
+2
+42 : 2 7
+2
+44 : 1 3
+2
+45 : 0 3
+0
+RIGHTARC(AUX:Q)
+45 : -1 3
+2
+43 : 0 13
+0
+RIGHTARC(COP)
+43 : -1 13
+0
+RIGHTARC(AUX)
+44 : -1 3
+0
+RIGHTARC(COP)
+42 : -1 7
+0
+RIGHTARC(COP)
+15 : -1 59
+2
+45 : 0 3
+2
+41 : 0 6
+0
+RIGHTARC(AUX:Q)
+41 : -1 6
+2
+11 : 2 13
+0
+SHIFT
+11 : -1 13
+2
+19 : 0 3
+0
+SHIFT
+19 : -1 3
+0
+RIGHTARC(COP)
+45 : -1 3
+2
+15 : 12 59
+2
+13 : 0 3
+0
+RIGHTARC(COP)
+13 : -1 3
+0
+SHIFT
+15 : -1 59
+0
+SHIFT
+32 : -1 18
+2
+32 : 9 18
+2
+15 : 0 59
+2
+4 : 0 9
+0
+SHIFT
+4 : -1 9
+2
+0 : 13 18
+0
+RIGHTARC(ADVMOD:EMPH)
+0 : -1 18
+2
+4 : 2 9
+0
+SHIFT
+4 : -1 9
+2
+60 : 0 3
+2
+47 : 9 18
+0
+SHIFT
+47 : -1 18
+2
+51 : 5 9
+0
+SHIFT
+51 : -1 9
+0
+RIGHTARC(ADVMOD:EMPH)
+60 : -1 3
+0
+RIGHTARC(ADVMOD:EMPH)
+15 : -1 59
+0
+SHIFT
+32 : -1 18
+0
+SHIFT
+36 : -1 9
+2
+15 : 0 59
+2
+4 : 2 9
+2
+32 : 5 18
+2
+0 : 5 18
+0
+RIGHTARC(FLAT)
+0 : -1 18
+2
+36 : 2 9
+2
+51 : 0 9
+2
+0 : 4 18
+2
+16 : 0 18
+2
+47 : 0 18
+0
+LEFTARC(AMOD)
+47 : -1 18
+2
+3 : 1 3
+0
+SHIFT
+3 : -1 3
+2
+47 : 8 18
+0
+LEFTARC(NSUBJ)
+47 : -1 18
+2
+47 : 15 18
+0
+LEFTARC(NMOD)
+47 : -1 18
+2
+47 : 9 18
+0
+LEFTARC(NMOD)
+47 : -1 18
+2
+35 : 1 3
+0
+RIGHTARC(FLAT)
+35 : -1 3
+2
+47 : 5 18
+0
+LEFTARC(NMOD)
+47 : -1 18
+0
+SHIFT
+16 : -1 18
+0
+SHIFT
+0 : -1 18
+2
+0 : 6 18
+2
+19 : 2 3
+0
+SHIFT
+19 : -1 3
+2
+31 : 49 59
+0
+LEFTARC(CSUBJ)
+31 : -1 59
+2
+47 : 0 18
+0
+RIGHTARC(CONJ)
+47 : -1 18
+0
+RIGHTARC(FLAT)
+0 : -1 18
+0
+RIGHTARC(FLAT)
+51 : -1 9
+2
+47 : 4 18
+0
+SHIFT
+47 : -1 18
+2
+0 : 4 18
+0
+LEFTARC(NMOD)
+0 : -1 18
+2
+31 : 0 59
+2
+19 : 0 3
+2
+0 : 1 18
+0
+LEFTARC(AMOD)
+0 : -1 18
+2
+51 : 5 9
+0
+RIGHTARC(FLAT)
+51 : -1 9
+0
+SHIFT
+19 : -1 3
+0
+SHIFT
+31 : -1 59
+0
+LEFTARC(ACL)
+36 : -1 9
+0
+SHIFT
+32 : -1 18
+2
+0 : 1 18
+0
+LEFTARC(AMOD)
+0 : -1 18
+2
+0 : 4 18
+2
+32 : 4 18
+0
+LEFTARC(NMOD:POSS)
+32 : -1 18
+2
+32 : 8 18
+0
+RIGHTARC(COP)
+32 : -1 18
+2
+36 : 8 9
+2
+32 : 1 18
+0
+LEFTARC(NMOD:POSS)
+32 : -1 18
+2
+32 : 2 18
+0
+SHIFT
+32 : -1 18
+2
+47 : 15 18
+0
+LEFTARC(NMOD)
+47 : -1 18
+2
+47 : 11 18
+0
+SHIFT
+47 : -1 18
+2
+32 : 11 18
+0
+SHIFT
+32 : -1 18
+2
+16 : 15 18
+0
+SHIFT
+16 : -1 18
+0
+LEFTARC(NSUBJ)
+36 : -1 9
+0
+SHIFT
+0 : -1 18
+2
+0 : 6 18
+2
+7 : 0 5
+2
+13 : 0 3
+2
+47 : 15 18
+2
+36 : 2 9
+2
+16 : 0 18
+0
+RIGHTARC(NSUBJ)
+16 : -1 18
+0
+SHIFT
+36 : -1 9
+0
+LEFTARC(NMOD:POSS)
+47 : -1 18
+2
+32 : 4 18
+0
+LEFTARC(NMOD:POSS)
+32 : -1 18
+0
+SHIFT
+13 : -1 3
+0
+LEFTARC(NMOD:POSS)
+7 : -1 5
+2
+10 : 0 7
+2
+7 : 1 5
+0
+SHIFT
+7 : -1 5
+2
+51 : 0 9
+2
+3 : 1 3
+0
+SHIFT
+3 : -1 3
+0
+LEFTARC(ACL)
+51 : -1 9
+0
+SHIFT
+10 : -1 7
+0
+LEFTARC(ACL)
+0 : -1 18
+2
+0 : 5 18
+2
+36 : 2 9
+2
+16 : 0 18
+2
+51 : 0 9
+2
+47 : 6 18
+0
+LEFTARC(NSUBJ)
+47 : -1 18
+0
+RIGHTARC(FLAT)
+51 : -1 9
+0
+SHIFT
+16 : -1 18
+0
+LEFTARC(NMOD:POSS)
+36 : -1 9
+0
+LEFTARC(NMOD:POSS)
+0 : -1 18
+2
+2 : 0 4
+2
+0 : 2 18
+0
+SHIFT
+0 : -1 18
+2
+0 : 13 18
+2
+14 : 3 4
+2
+36 : 2 9
+0
+SHIFT
+36 : -1 9
+2
+32 : 13 18
+0
+SHIFT
+32 : -1 18
+0
+LEFTARC(NMOD:POSS)
+14 : -1 4
+0
+SHIFT
+0 : -1 18
+0
+SHIFT
+2 : -1 4
+2
+2 : 1 4
+2
+31 : 33 59
+2
+47 : 0 18
+0
+LEFTARC(NUMMOD)
+47 : -1 18
+0
+SHIFT
+31 : -1 59
+2
+32 : 11 18
+0
+RIGHTARC(FLAT)
+32 : -1 18
+2
+47 : 4 18
+0
+LEFTARC(NUMMOD)
+47 : -1 18
+2
+20 : 2 9
+0
+RIGHTARC(FLAT)
+20 : -1 9
+2
+32 : 1 18
+0
+LEFTARC(NSUBJ)
+32 : -1 18
+2
+49 : 0 4
+2
+36 : 1 9
+0
+LEFTARC(NMOD:POSS)
+36 : -1 9
+0
+LEFTARC(NUMMOD)
+49 : -1 4
+0
+RIGHTARC(FLAT)
+2 : -1 4
+0
+LEFTARC(AMOD)
+4 : -1 9
+2
+4 : 5 9
+2
+51 : 0 9
+0
+LEFTARC(NMOD:POSS)
+51 : -1 9
+2
+36 : 2 9
+2
+47 : 4 18
+0
+SHIFT
+47 : -1 18
+2
+60 : 0 3
+2
+32 : 4 18
+0
+LEFTARC(NMOD:POSS)
+32 : -1 18
+0
+SHIFT
+60 : -1 3
+2
+58 : 2 13
+0
+LEFTARC(NSUBJ)
+58 : -1 13
+0
+SHIFT
+36 : -1 9
+2
+36 : 5 9
+0
+LEFTARC(NMOD:POSS)
+36 : -1 9
+2
+45 : 0 3
+2
+36 : 1 9
+0
+LEFTARC(NMOD:POSS)
+36 : -1 9
+2
+60 : 2 3
+0
+SHIFT
+60 : -1 3
+2
+32 : 5 18
+0
+SHIFT
+32 : -1 18
+2
+47 : 5 18
+0
+LEFTARC(NMOD:POSS)
+47 : -1 18
+2
+32 : 1 18
+0
+LEFTARC(NMOD:POSS)
+32 : -1 18
+2
+50 : 2 3
+2
+32 : 4 18
+0
+LEFTARC(NMOD:POSS)
+32 : -1 18
+2
+0 : 13 18
+0
+LEFTARC(NMOD:POSS)
+0 : -1 18
+0
+SHIFT
+50 : -1 3
+0
+LEFTARC(NMOD:POSS)
+45 : -1 3
+0
+LEFTARC(NSUBJ)
+4 : -1 9
+0
+SHIFT
+15 : -1 59
+0
+SHIFT

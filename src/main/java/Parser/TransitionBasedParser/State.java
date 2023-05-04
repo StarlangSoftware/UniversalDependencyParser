@@ -31,7 +31,7 @@ public class State {
             int index = stack.get(stack.size() - 1).getToWord();
             beforeLast.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.remove(stack.size() - 2);
-            relations.add(new StackRelation(beforeLast, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(beforeLast, new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":"))));
         }
     }
 
@@ -41,7 +41,7 @@ public class State {
             int index = stack.get(stack.size() - 2).getToWord();
             last.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.pop();
-            relations.add(new StackRelation(last, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(last, new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":"))));
         }
     }
 
@@ -49,9 +49,9 @@ public class State {
         if (stack.size() > 0 && wordList.size() > 0) {
             UniversalDependencyTreeBankWord lastElementOfStack = stack.peek().getWord();
             int index = wordList.get(0).getToWord();
-            lastElementOfStack.setRelation(new UniversalDependencyRelation(index, type.toString()));
+            lastElementOfStack.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             stack.pop();
-            relations.add(new StackRelation(lastElementOfStack, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(lastElementOfStack, new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":"))));
         }
     }
 
@@ -59,9 +59,9 @@ public class State {
         if (stack.size() > 0 && wordList.size() > 0) {
             UniversalDependencyTreeBankWord firstElementOfWordList = wordList.get(0).getWord();
             int index = stack.peek().getToWord();
-            firstElementOfWordList.setRelation(new UniversalDependencyRelation(index, type.toString()));
+            firstElementOfWordList.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
             applyShift();
-            relations.add(new StackRelation(firstElementOfWordList, new UniversalDependencyRelation(index, type.toString())));
+            relations.add(new StackRelation(firstElementOfWordList, new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":"))));
         }
     }
 

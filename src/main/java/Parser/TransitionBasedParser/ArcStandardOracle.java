@@ -1,31 +1,28 @@
 package Parser.TransitionBasedParser;
 
 import Classification.Instance.Instance;
+import Classification.Model.DecisionTree.DecisionTree;
 import Classification.Model.Model;
 import DependencyParser.Universal.UniversalDependencyType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ArcStandardOracle extends Oracle {
 
     public ArcStandardOracle(Model model, int windowSize) {
         super(model, windowSize);
     }
-
-    private String[] findClassInfo(HashMap<String, Double> probabilities, State state) {
-        String best = findStandardClassInfo(probabilities, state);
-        String[] decision = new String[2];
-        decision[0] = best.substring(0, best.indexOf('('));
-        decision[1] = best.substring(best.indexOf('(') + 1, best.indexOf(')'));
-        return decision;
-    }
-
     @Override
     public Decision makeDecision(State state) {
+        String best;
         InstanceGenerator instanceGenerator = new SimpleInstanceGenerator();
         Instance instance = instanceGenerator.generate(state, this.windowSize, "");
-        String[] classInfo = findClassInfo(commandModel.predictProbability(instance), state);
+        if (commandModel instanceof DecisionTree){
+            best = commandModel.predict(instance);
+        } else {
+            best = findBestValidStandardClassInfo(commandModel.predictProbability(instance), state);
+        }
+        String[] classInfo = divideClassInfo(best);
         if (classInfo[0].equals("SHIFT")) {
             return new Decision(Command.SHIFT, null, 0.0);
         }

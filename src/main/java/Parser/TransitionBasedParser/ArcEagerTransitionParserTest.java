@@ -27,7 +27,7 @@ public class ArcEagerTransitionParserTest {
 
     @Test
     public void test(){
-        generateEagerModelC45("tr", "framenet", 3);
+        generateEagerModelC45("tr", "penn", 2);
     }
 
     @Test
@@ -36,10 +36,11 @@ public class ArcEagerTransitionParserTest {
         TransitionParser transitionParser = new ArcEagerTransitionParser();
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus("tr_boun-ud-test.conllu");
         C45 c45 = new C45();
-        c45.loadModel("models/tr_boun_eager_c45.txt");
+        int windowSize = 3;
+        c45.loadModel("models/tr_boun_eager_c45_" + windowSize + ".txt");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardOracle(c45.getModel(), 2));
+            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcEagerOracle(c45.getModel(), windowSize));
             scores.add(actual.compareParses(expected));
         }
         Assert.assertEquals(64.89458453906572, 100 * scores.getLS(), 0.01);
