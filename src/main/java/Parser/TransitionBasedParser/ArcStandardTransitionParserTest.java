@@ -31,7 +31,7 @@ public class ArcStandardTransitionParserTest {
         TransitionParser transitionParser = new ArcStandardTransitionParser();
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus("tr_boun-ud-test.conllu");
         C45 c45 = new C45();
-        int windowSize = 2;
+        int windowSize = 3;
         c45.loadModel("models/tr_boun_standard_c45_" + windowSize + ".txt");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
