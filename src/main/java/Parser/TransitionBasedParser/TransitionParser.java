@@ -20,7 +20,7 @@ public abstract class TransitionParser {
         return sentence;
     }
 
-    public DataSet simulateParse(UniversalDependencyTreeBankCorpus corpus, int windowSize) {
+    public DataSet simulateParseOnCorpus(UniversalDependencyTreeBankCorpus corpus, int windowSize) {
         DataSet dataSet = new DataSet();
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             dataSet.addInstanceList(simulateParse((UniversalDependencyTreeBankSentence) corpus.getSentence(i), windowSize));
@@ -75,7 +75,7 @@ public abstract class TransitionParser {
         return subsets;
     }
 
-    public State dependencyParse(ScoringOracle oracle, int beamSize, UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, TransitionSystem transitionSystem) throws CloneNotSupportedException {
+    public State dependencyParseWithBeamSearch(ScoringOracle oracle, int beamSize, UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, TransitionSystem transitionSystem) throws CloneNotSupportedException {
         UniversalDependencyTreeBankSentence sentence = createResultSentence(universalDependencyTreeBankSentence);
         State initialState = initialState(sentence);
         Agenda agenda = new Agenda(beamSize);
@@ -95,7 +95,7 @@ public abstract class TransitionParser {
         return agenda.best();
     }
 
-    public UniversalDependencyTreeBankCorpus dependencyParse(UniversalDependencyTreeBankCorpus universalDependencyTreeBankCorpus, Oracle oracle) {
+    public UniversalDependencyTreeBankCorpus dependencyParseCorpus(UniversalDependencyTreeBankCorpus universalDependencyTreeBankCorpus, Oracle oracle) {
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus();
         for (int i = 0; i < universalDependencyTreeBankCorpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence sentence = (UniversalDependencyTreeBankSentence) universalDependencyTreeBankCorpus.getSentence(i);

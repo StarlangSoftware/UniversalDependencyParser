@@ -1,6 +1,8 @@
 package Parser.TransitionBasedParser;/* Created by oguzkeremyildiz on 5.12.2020 */
 
 import Classification.Model.Model;
+import DependencyParser.Universal.UniversalDependencyRelation;
+import DependencyParser.Universal.UniversalDependencyType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,15 +60,28 @@ public abstract class Oracle {
         return best;
     }
 
-    protected String[] divideClassInfo(String best) {
-        String[] decision = new String[2];
+    protected Candidate getDecisionCandidate(String best) {
+        String command, relation;
+        UniversalDependencyType type;
         if (best.contains("(")){
-            decision[0] = best.substring(0, best.indexOf('('));
-            decision[1] = best.substring(best.indexOf('(') + 1, best.indexOf(')'));
+            command = best.substring(0, best.indexOf('('));
+            relation = best.substring(best.indexOf('(') + 1, best.indexOf(')'));
+            type = UniversalDependencyRelation.getDependencyTag(relation);
         } else {
-            decision[0] = best;
+            command = best;
+            type = UniversalDependencyType.DEP;
         }
-        return decision;
+        switch (command){
+            case "SHIFT":
+                return new Candidate(Command.SHIFT, type);
+            case "REDUCE":
+                return new Candidate(Command.REDUCE, type);
+            case "LEFTARC":
+                return new Candidate(Command.LEFTARC, type);
+            case "RIGHTARC":
+                return new Candidate(Command.RIGHTARC, type);
+        }
+        return null;
     }
 
 }

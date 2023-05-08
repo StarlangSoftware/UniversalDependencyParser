@@ -2,24 +2,13 @@ package Parser.TransitionBasedParser;/* Created by oguzkeremyildiz on 5.12.2020 
 
 import DependencyParser.Universal.UniversalDependencyType;
 
-public class Decision {
+public class Decision extends Candidate{
 
-    private Command command;
-    private UniversalDependencyType relation;
     private double point;
 
     public Decision(Command command, UniversalDependencyType relation, double point) {
-        this.command = command;
-        this.relation = relation;
+        super(command, relation);
         this.point = point;
-    }
-
-    public Command getCommand() {
-        return command;
-    }
-
-    public UniversalDependencyType getRelation() {
-        return relation;
     }
 
     public double getPoint() {

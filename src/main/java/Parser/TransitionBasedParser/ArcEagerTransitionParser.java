@@ -83,10 +83,10 @@ public class ArcEagerTransitionParser extends TransitionParser {
                     state.applyShift();
                     break;
                 case LEFTARC:
-                    state.applyArcEagerLeftArc(decision.getRelation());
+                    state.applyArcEagerLeftArc(decision.getUniversalDependencyType());
                     break;
                 case RIGHTARC:
-                    state.applyArcEagerRightArc(decision.getRelation());
+                    state.applyArcEagerRightArc(decision.getUniversalDependencyType());
                     break;
                 case REDUCE:
                     state.applyReduce();

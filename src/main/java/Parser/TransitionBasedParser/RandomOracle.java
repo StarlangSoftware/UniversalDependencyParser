@@ -1,6 +1,7 @@
 package Parser.TransitionBasedParser;/* Created by oguzkeremyildiz on 5.12.2020 */
 
 import Classification.Model.Model;
+import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyType;
 
 import java.util.ArrayList;
@@ -15,26 +16,15 @@ public class RandomOracle extends Oracle {
     @Override
     public Decision makeDecision(State state) {
         Random random = new Random();
-        int command = 4;
-        TransitionSystem transitionSystem = TransitionSystem.ARC_EAGER;
-        switch (transitionSystem){
-            case ARC_EAGER:
-                command = random.nextInt(4);
-                break;
-            case ARC_STANDARD:
-                command = random.nextInt(3);
-                break;
-        }
-        int relation = random.nextInt(UniversalDependencyType.values().length);
+        int command = random.nextInt(3);
+        int relation = random.nextInt(UniversalDependencyRelation.universalDependencyTags.length);
         switch (command) {
             case 0:
-                return new Decision(Command.LEFTARC, UniversalDependencyType.values()[relation], 0);
+                return new Decision(Command.LEFTARC, UniversalDependencyRelation.universalDependencyTags[relation], 0);
             case 1:
-                return new Decision(Command.RIGHTARC, UniversalDependencyType.values()[relation], 0);
+                return new Decision(Command.RIGHTARC, UniversalDependencyRelation.universalDependencyTags[relation], 0);
             case 2:
                 return new Decision(Command.SHIFT, UniversalDependencyType.DEP, 0);
-            case 3:
-                return new Decision(Command.REDUCE, UniversalDependencyType.DEP, 0);
         }
         return null;
     }

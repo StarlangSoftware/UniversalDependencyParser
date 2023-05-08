@@ -14,15 +14,28 @@ public class ArcStandardTransitionParserTest {
     private void generateStandardModelC45(String language, String dataSetName, int windowSize){
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus(language + "_" + dataSetName + "-ud-train.conllu");
         TransitionParser transitionParser = new ArcStandardTransitionParser();
-        DataSet dataSet = transitionParser.simulateParse(corpus, windowSize);
+        DataSet dataSet = transitionParser.simulateParseOnCorpus(corpus, windowSize);
         C45 c45 = new C45();
         c45.train(dataSet.getInstanceList(), new C45Parameter(1, true, 0.2));
         c45.getModel().saveTxt(language + "_" + dataSetName + "_standard_c45_" + windowSize + ".txt");
     }
 
     @Test
-    public void test(){
+    public void testc45(){
+        generateStandardModelC45("en", "atis", 2);
+        generateStandardModelC45("tr", "atis", 2);
+        generateStandardModelC45("tr", "penn", 2);
+        generateStandardModelC45("tr", "framenet", 2);
+        generateStandardModelC45("tr", "kenet", 2);
+        generateStandardModelC45("tr", "tourism", 2);
         generateStandardModelC45("tr", "boun", 2);
+        generateStandardModelC45("en", "atis", 3);
+        generateStandardModelC45("tr", "atis", 3);
+        generateStandardModelC45("tr", "penn", 3);
+        generateStandardModelC45("tr", "framenet", 3);
+        generateStandardModelC45("tr", "kenet", 3);
+        generateStandardModelC45("tr", "tourism", 3);
+        generateStandardModelC45("tr", "boun", 3);
     }
 
     @Test

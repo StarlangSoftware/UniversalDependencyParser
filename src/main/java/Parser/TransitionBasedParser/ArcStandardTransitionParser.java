@@ -85,10 +85,10 @@ public class ArcStandardTransitionParser extends TransitionParser {
                     state.applyShift();
                     break;
                 case LEFTARC:
-                    state.applyLeftArc(decision.getRelation());
+                    state.applyLeftArc(decision.getUniversalDependencyType());
                     break;
                 case RIGHTARC:
-                    state.applyRightArc(decision.getRelation());
+                    state.applyRightArc(decision.getUniversalDependencyType());
                     break;
                 default:
                     break;

@@ -2,24 +2,19 @@ package Parser.TransitionBasedParser;
 
 import Classification.Classifier.C45;
 import Classification.DataSet.DataSet;
-import Classification.Model.Model;
 import Classification.Parameter.C45Parameter;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
-import Util.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 public class ArcEagerTransitionParserTest {
 
     private void generateEagerModelC45(String language, String dataSetName, int windowSize){
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus(language + "_" + dataSetName + "-ud-train.conllu");
         TransitionParser transitionParser = new ArcEagerTransitionParser();
-        DataSet dataSet = transitionParser.simulateParse(corpus, windowSize);
+        DataSet dataSet = transitionParser.simulateParseOnCorpus(corpus, windowSize);
         C45 c45 = new C45();
         c45.train(dataSet.getInstanceList(), new C45Parameter(1, true, 0.2));
         c45.getModel().saveTxt(language + "_" + dataSetName + "_eager_c45_" + windowSize + ".txt");
@@ -27,7 +22,20 @@ public class ArcEagerTransitionParserTest {
 
     @Test
     public void test(){
+        generateEagerModelC45("en", "atis", 2);
+        generateEagerModelC45("tr", "atis", 2);
         generateEagerModelC45("tr", "penn", 2);
+        generateEagerModelC45("tr", "framenet", 2);
+        generateEagerModelC45("tr", "kenet", 2);
+        generateEagerModelC45("tr", "tourism", 2);
+        generateEagerModelC45("tr", "boun", 2);
+        generateEagerModelC45("en", "atis", 3);
+        generateEagerModelC45("tr", "atis", 3);
+        generateEagerModelC45("tr", "penn", 3);
+        generateEagerModelC45("tr", "framenet", 3);
+        generateEagerModelC45("tr", "kenet", 3);
+        generateEagerModelC45("tr", "tourism", 3);
+        generateEagerModelC45("tr", "boun", 3);
     }
 
     @Test
