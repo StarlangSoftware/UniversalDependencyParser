@@ -1,11 +1,12 @@
-package Parser.TransitionBasedParser;
-
 import Classification.Classifier.C45;
 import Classification.DataSet.DataSet;
 import Classification.Parameter.C45Parameter;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
+import Parser.TransitionBasedParser.ArcEagerOracle;
+import Parser.TransitionBasedParser.ArcEagerTransitionParser;
+import Parser.TransitionBasedParser.TransitionParser;
 import org.junit.Assert;
 import org.junit.Test;
 

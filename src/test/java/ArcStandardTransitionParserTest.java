@@ -1,11 +1,12 @@
-package Parser.TransitionBasedParser;
-
 import Classification.Classifier.C45;
 import Classification.DataSet.DataSet;
 import Classification.Parameter.C45Parameter;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
+import Parser.TransitionBasedParser.ArcStandardOracle;
+import Parser.TransitionBasedParser.ArcStandardTransitionParser;
+import Parser.TransitionBasedParser.TransitionParser;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -55,4 +56,5 @@ public class ArcStandardTransitionParserTest {
         Assert.assertEquals(42.97643654402647, 100 * scores.getLAS(), 0.01);
         Assert.assertEquals(51.27738735014466, 100 * scores.getUAS(), 0.01);
     }
+
 }
