@@ -18,14 +18,19 @@ public class State {
         this.wordList = wordList;
         this.relations = relations;
     }
-
+    
+    public void print() {
+    	for(int i = 0; i < this.relationSize(); i++) {
+//    		this.relations.get(i).getKey()
+    	}
+    }
     public void applyShift() {
         if (wordList.size() > 0) {
             stack.add(wordList.remove(0));
         }
     }
 
-    public void applyLeftArc(UniversalDependencyType type) {
+	public void applyLeftArc(UniversalDependencyType type) {
         if (stack.size() > 1) {
             UniversalDependencyTreeBankWord beforeLast = stack.get(stack.size() - 2).getWord();
             int index = stack.get(stack.size() - 1).getToWord();

@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class WeightedGraph {
 
-    private final HashMap<UniversalDependencyTreeBankWord, ArrayList<SimpleEntry<UniversalDependencyTreeBankWord, SimpleEntry<Double, Integer>>>> edgeList;
+    public final HashMap<UniversalDependencyTreeBankWord, ArrayList<SimpleEntry<UniversalDependencyTreeBankWord, SimpleEntry<Double, Integer>>>> edgeList;
 
     public WeightedGraph() {
         edgeList = new HashMap<>();

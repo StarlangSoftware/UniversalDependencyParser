@@ -23,12 +23,12 @@ public class GraphParser {
 	private WeightedGraph generateGraph(UniversalDependencyTreeBankSentence sentence, GraphOracle oracle, UniversalDependencyTreeBankWord root) {
         WeightedGraph graph = new WeightedGraph();
         for (int i = 0; i < sentence.wordCount(); i++) {
-            double length = oracle.findLength(sentence, -1, i);
-            graph.addDirectedEdge(root, (UniversalDependencyTreeBankWord) sentence.getWord(i), new SimpleEntry<>(length, -1 * (i + 1)));
+            double score = oracle.computeScore(sentence, -1, i);
+            graph.addDirectedEdge(root, (UniversalDependencyTreeBankWord) sentence.getWord(i), new SimpleEntry<>(score, -1 * (i + 1)));
             for (int j = 0; j < sentence.wordCount(); j++) {
                 if (i != j) {
-                    length = oracle.findLength(sentence, i, j);
-                    graph.addDirectedEdge((UniversalDependencyTreeBankWord) sentence.getWord(i),(UniversalDependencyTreeBankWord) sentence.getWord(j), new SimpleEntry<>(length, (i * sentence.wordCount()) + j + 1));
+                    score = oracle.computeScore(sentence, i, j);
+                    graph.addDirectedEdge((UniversalDependencyTreeBankWord) sentence.getWord(i),(UniversalDependencyTreeBankWord) sentence.getWord(j), new SimpleEntry<>(score, (i * sentence.wordCount()) + j + 1));
                 }
             }
         }
@@ -42,8 +42,8 @@ public class GraphParser {
             return true;
         } else {
             for (int i = 0; i < connections.size(); i++) {
-                if (connections.get(i).getKey().getTo().equals(entry.getKey()) && listBest < connections.get(i).getKey().getLength()) {
-                    listBest = connections.get(i).getKey().getLength();
+                if (connections.get(i).getKey().getTo().equals(entry.getKey()) && listBest < connections.get(i).getKey().getScore()) {
+                    listBest = connections.get(i).getKey().getScore();
                     index = i;
                     break;
                 }
@@ -135,7 +135,7 @@ public class GraphParser {
         }
         HashMap<UniversalDependencyTreeBankWord, SimpleEntry<Double, Integer>> map = new HashMap<>();
         for (SimpleEntry<Connection, Integer> entry : cycle) {
-            map.put(entry.getKey().getTo(), new SimpleEntry<>(entry.getKey().getLength(), entry.getValue()));
+            map.put(entry.getKey().getTo(), new SimpleEntry<>(entry.getKey().getScore(), entry.getValue()));
         }
         for (UniversalDependencyTreeBankWord word : graph.getKeySet()) {
             if (!map.containsKey(word)) {
@@ -208,7 +208,7 @@ public class GraphParser {
         if (graphSystem.equals(GraphSystem.RANDOM_ORACLE)) {
             oracle = new RandomGraphOracle();
         } else {
-            oracle = new BasicGraphOracle();
+            oracle = new ArcFactoredGraphOracle();
         }
         ArrayList<Connection> list = new ArrayList<>();
         UniversalDependencyTreeBankWord root = new UniversalDependencyTreeBankWord(0, "root", "", UniversalDependencyPosType.DET, "", new UniversalDependencyTreeBankFeatures("tr", "_"), null, "", "");

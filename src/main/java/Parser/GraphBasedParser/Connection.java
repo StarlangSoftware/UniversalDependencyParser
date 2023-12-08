@@ -6,12 +6,12 @@ public class Connection {
 
     private final UniversalDependencyTreeBankWord from;
     private final UniversalDependencyTreeBankWord to;
-    private final double length;
+    private final double score;
 
-    public Connection(UniversalDependencyTreeBankWord from, UniversalDependencyTreeBankWord to, double length) {
+    public Connection(UniversalDependencyTreeBankWord from, UniversalDependencyTreeBankWord to, double score) {
         this.from = from;
         this.to = to;
-        this.length = length;
+        this.score = score;
     }
 
     public UniversalDependencyTreeBankWord getFrom() {
@@ -22,8 +22,8 @@ public class Connection {
         return to;
     }
 
-    public double getLength() {
-        return length;
+    public double getScore() {
+        return score;
     }
 
     @Override
@@ -32,11 +32,11 @@ public class Connection {
             return false;
         }
         Connection second = (Connection) obj;
-        return this.from.getName().equals(second.from.getName()) && this.from.getId() == second.from.getId() && this.to.getName().equals(second.to.getName()) && this.to.getId() == second.to.getId() && this.length == second.length;
+        return this.from.getName().equals(second.from.getName()) && this.from.getId() == second.from.getId() && this.to.getName().equals(second.to.getName()) && this.to.getId() == second.to.getId() && this.score == second.score;
     }
 
     @Override
     public String toString() {
-        return "[" + from.getId() + " " + from.getName() + ", " + to.getId() + " " + to.getName() + ", " + length + "]";
+        return "[" + from.getId() + " " + from.getName() + ", " + to.getId() + " " + to.getName() + ", " + score + "]";
     }
 }
