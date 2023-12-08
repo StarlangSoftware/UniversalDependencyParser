@@ -3,7 +3,6 @@ import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 import Parser.GraphBasedParser.GraphParser;
-import Parser.GraphBasedParser.GraphSystem;
 import Parser.GraphBasedParser.WeightedGraph;
 import org.junit.Assert;
 import org.junit.Test;
