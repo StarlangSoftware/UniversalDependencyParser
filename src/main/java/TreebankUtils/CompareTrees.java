@@ -3,13 +3,9 @@ package TreebankUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
-import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
-import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
 public class CompareTrees {
 
@@ -45,32 +41,13 @@ public class CompareTrees {
 		return sentences;
 	}
 	
-	public Tree buildTree(UniversalDependencyTreeBankSentence sentence) {
-		Tree tree = new Tree();
-		
-		for(int i = 0; i < sentence.wordCount(); i++) {
-			UniversalDependencyTreeBankWord word = (UniversalDependencyTreeBankWord) sentence.getWord(i);
-			Node node = new Node(word);
-			tree.addNode(node);
-			
-			if(word.getRelation().to() > 0) {
-				UniversalDependencyTreeBankWord toWord = (UniversalDependencyTreeBankWord) sentence.getWord(word.getRelation().to() - 1);
-				Node toNode = new Node(toWord);
-				Edge edge = new Edge(node, toNode, word.getRelation().toString());
-				tree.addEdge(edge);
-			}
-		}
-		
-		return tree;
-	}
-
 	public static void main(String args[]) throws IOException {
 		CompareTrees compare = new CompareTrees();
 		compare.loadCorpora();
 		
 		
-		Tree enTree = compare.buildTree(compare.enCorpus.get(0));
-		Tree trTree = compare.buildTree(compare.trCorpus.get(0));
+		Tree enTree = new Tree(compare.enCorpus.get(0));
+		Tree trTree = new Tree(compare.trCorpus.get(0));
 		
 		enTree.getDifference(trTree);
 		
