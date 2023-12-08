@@ -1,9 +1,10 @@
+package Parser.GraphBasedParser;
+
 import DependencyParser.Universal.UniversalDependencyPosType;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 import Parser.GraphBasedParser.GraphParser;
-import Parser.GraphBasedParser.GraphSystem;
 import Parser.GraphBasedParser.WeightedGraph;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,10 +22,10 @@ public class GraphParserTest {
     public void testChuLiuEdmonds() {
         GraphParser parser = new GraphParser();
         WeightedGraph graph = new WeightedGraph();
-        UniversalDependencyTreeBankWord root = new UniversalDependencyTreeBankWord(-1, "root", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(0, "root"), "_", "_");
-        UniversalDependencyTreeBankWord v1 = new UniversalDependencyTreeBankWord(1, "V1", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(1, "root"), "_", "_");
-        UniversalDependencyTreeBankWord v2 = new UniversalDependencyTreeBankWord(2, "V2", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(2, "root"), "_", "_");
-        UniversalDependencyTreeBankWord v3 = new UniversalDependencyTreeBankWord(3, "V3", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(3, "root"), "_", "_");
+        UniversalDependencyTreeBankWord root = new UniversalDependencyTreeBankWord(-1, "root", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(0, "root"), "_", "_");
+        UniversalDependencyTreeBankWord v1 = new UniversalDependencyTreeBankWord(1, "V1", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(1, "root"), "_", "_");
+        UniversalDependencyTreeBankWord v2 = new UniversalDependencyTreeBankWord(2, "V2", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(2, "root"), "_", "_");
+        UniversalDependencyTreeBankWord v3 = new UniversalDependencyTreeBankWord(3, "V3", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(3, "root"), "_", "_");
         graph.addDirectedEdge(root, v1, new SimpleEntry<>(5.0, 1));
         graph.addDirectedEdge(root, v2, new SimpleEntry<>(1.0, 2));
         graph.addDirectedEdge(root, v3, new SimpleEntry<>(1.0, 3));
@@ -44,9 +45,9 @@ public class GraphParserTest {
         Assert.assertEquals(expectedSet, set);
         graph.clear();
         expectedSet.clear();
-        UniversalDependencyTreeBankWord word1 = new UniversalDependencyTreeBankWord(2, "word1", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(2, "root"), "_", "_");
-        UniversalDependencyTreeBankWord word2 = new UniversalDependencyTreeBankWord(3, "word2", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(3, "root"), "_", "_");
-        UniversalDependencyTreeBankWord word3 = new UniversalDependencyTreeBankWord(4, "word3", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(4, "root"), "_", "_");
+        UniversalDependencyTreeBankWord word1 = new UniversalDependencyTreeBankWord(2, "word1", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(2, "root"), "_", "_");
+        UniversalDependencyTreeBankWord word2 = new UniversalDependencyTreeBankWord(3, "word2", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(3, "root"), "_", "_");
+        UniversalDependencyTreeBankWord word3 = new UniversalDependencyTreeBankWord(4, "word3", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(4, "root"), "_", "_");
         graph.addDirectedEdge(root, word1, new SimpleEntry<>(10.0, 1));
         graph.addDirectedEdge(root, word2, new SimpleEntry<>(4.0, 2));
         graph.addDirectedEdge(word1, word2, new SimpleEntry<>(10.0, 3));
@@ -65,8 +66,8 @@ public class GraphParserTest {
         Assert.assertEquals(expectedSet, set);
         graph.clear();
         expectedSet.clear();
-        UniversalDependencyTreeBankWord word4 = new UniversalDependencyTreeBankWord(5, "word4", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(5, "root"), "_", "_");
-        UniversalDependencyTreeBankWord word5 = new UniversalDependencyTreeBankWord(6, "word5", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(6, "root"), "_", "_");
+        UniversalDependencyTreeBankWord word4 = new UniversalDependencyTreeBankWord(5, "word4", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(5, "root"), "_", "_");
+        UniversalDependencyTreeBankWord word5 = new UniversalDependencyTreeBankWord(6, "word5", "_", UniversalDependencyPosType.DET, "_", new UniversalDependencyTreeBankFeatures("_"), new UniversalDependencyRelation(6, "root"), "_", "_");
         graph.addDirectedEdge(root, word1, new SimpleEntry<>(5.0, 1));
         graph.addDirectedEdge(root, word2, new SimpleEntry<>(7.0, 2));
         graph.addDirectedEdge(root, word3, new SimpleEntry<>(4.0, 3));

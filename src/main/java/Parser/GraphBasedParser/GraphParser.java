@@ -9,11 +9,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GraphParser {
-
-    public GraphParser() {
+	private GraphSystem graphSystem;
+	
+    public GraphParser(GraphSystem graphSystem) {
+    	this.graphSystem = graphSystem;
     }
+    
+    public GraphParser() {
+    	graphSystem = GraphSystem.BASIC_ORACLE;
+    }
+    
 
-    private WeightedGraph generateGraph(UniversalDependencyTreeBankSentence sentence, GraphOracle oracle, UniversalDependencyTreeBankWord root) {
+	private WeightedGraph generateGraph(UniversalDependencyTreeBankSentence sentence, GraphOracle oracle, UniversalDependencyTreeBankWord root) {
         WeightedGraph graph = new WeightedGraph();
         for (int i = 0; i < sentence.wordCount(); i++) {
             double length = oracle.findLength(sentence, -1, i);
@@ -196,9 +203,9 @@ public class GraphParser {
         }
     }
 
-    public ArrayList<Connection> findMaximumSpanningTree(UniversalDependencyTreeBankSentence sentence, GraphSystem system) {
+    public ArrayList<Connection> findMaximumSpanningTree(UniversalDependencyTreeBankSentence sentence) {
         GraphOracle oracle;
-        if (system.equals(GraphSystem.RANDOM_ORACLE)) {
+        if (graphSystem.equals(GraphSystem.RANDOM_ORACLE)) {
             oracle = new RandomGraphOracle();
         } else {
             oracle = new BasicGraphOracle();
