@@ -43,18 +43,18 @@ public class ArcStandardTransitionParserTest {
     public void testOracle() {
         ParserEvaluationScore scores = new ParserEvaluationScore();
         TransitionParser transitionParser = new ArcStandardTransitionParser();
-        UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus("tr_boun-ud-test.conllu");
+        UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus("tr_atis-ud-test.conllu");
         C45 c45 = new C45();
         int windowSize = 3;
-        c45.loadModel("models/tr_boun_standard_c45_" + windowSize + ".txt");
+        c45.loadModel("models/tr_atis_standard_c45_" + windowSize + ".txt");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
             UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardOracle(c45.getModel(), windowSize));
             scores.add(actual.compareParses(expected));
         }
-        Assert.assertEquals(60.11575031004547, 100 * scores.getLS(), 0.01);
-        Assert.assertEquals(42.97643654402647, 100 * scores.getLAS(), 0.01);
-        Assert.assertEquals(51.27738735014466, 100 * scores.getUAS(), 0.01);
+        Assert.assertEquals(75.27529607313518, 100 * scores.getLS(), 0.01);
+        Assert.assertEquals(66.86058591315187, 100 * scores.getLAS(), 0.01);
+        Assert.assertEquals(74.25722002908796, 100 * scores.getUAS(), 0.01);
     }
 
 }
