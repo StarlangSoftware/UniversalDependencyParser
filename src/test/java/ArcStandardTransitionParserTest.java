@@ -4,7 +4,7 @@ import Classification.Parameter.C45Parameter;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
 import DependencyParser.Universal.UniversalDependencyTreeBankSentence;
-import Parser.TransitionBasedParser.ArcStandardOracle;
+import Parser.TransitionBasedParser.ArcStandardCombinedOracle;
 import Parser.TransitionBasedParser.ArcStandardTransitionParser;
 import Parser.TransitionBasedParser.TransitionParser;
 import org.junit.Assert;
@@ -49,7 +49,7 @@ public class ArcStandardTransitionParserTest {
         c45.loadModel("models/tr_atis_standard_c45_" + windowSize + ".txt");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardOracle(c45.getModel(), windowSize));
+            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardCombinedOracle(c45.getModel(), windowSize));
             scores.add(actual.compareParses(expected));
         }
         Assert.assertEquals(75.27529607313518, 100 * scores.getLS(), 0.01);

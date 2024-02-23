@@ -1,5 +1,5 @@
 package Parser.GraphBasedParser;
 
-public enum edgeDirection {
+public enum EdgeDirection {
 	LEFT, RIGHT
 }
