@@ -3,8 +3,8 @@ package Parser.GraphBasedParser;
 import gnu.trove.TLinkableAdaptor;
 
 public class Feature extends TLinkableAdaptor{
-	private int index;
-	private double value;
+	private final int index;
+	private final double value;
 	
 	public Feature(int i, double v) {
 		index = i;

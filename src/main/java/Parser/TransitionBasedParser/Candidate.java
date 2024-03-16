@@ -4,8 +4,8 @@ import DependencyParser.Universal.UniversalDependencyType;
 
 public class Candidate {
 
-    private Command command;
-    private UniversalDependencyType universalDependencyType;
+    private final Command command;
+    private final UniversalDependencyType universalDependencyType;
 
     public Candidate(Command command, UniversalDependencyType universalDependencyType){
         this.command = command;

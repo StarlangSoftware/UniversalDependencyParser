@@ -23,7 +23,7 @@ public class CompareTrees {
 	}
 	
 	private ArrayList<UniversalDependencyTreeBankSentence> loadCorpus(String fileName, String lang) throws IOException {
-		ArrayList<UniversalDependencyTreeBankSentence> sentences = new ArrayList<UniversalDependencyTreeBankSentence>();
+		ArrayList<UniversalDependencyTreeBankSentence> sentences = new ArrayList<>();
 		
 		Scanner scanner = new Scanner(new File(fileName));
 		
@@ -35,13 +35,13 @@ public class CompareTrees {
 				sentences.add(new UniversalDependencyTreeBankSentence(lang, sentence.toString()));
 				sentence = new StringBuilder();
 			}else {
-				sentence.append(System.lineSeparator() + line);
+				sentence.append(System.lineSeparator()).append(line);
 			}
 		}
 		return sentences;
 	}
 	
-	public static void main(String args[]) throws IOException {
+	public static void main(String[] args) throws IOException {
 		CompareTrees compare = new CompareTrees();
 		compare.loadCorpora();
 		

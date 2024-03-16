@@ -21,8 +21,7 @@ public class TurkishSentenceAutoDependency extends SentenceAutoDependency {
 
     @Override
     public void autoDependency(AnnotatedSentence sentence) {
-        AnnotatedWord word, nextWord, candidate;
-        int j;
+        AnnotatedWord word, nextWord;
         /* Compound determination from semantic annotation */
         for (int i = 0; i < sentence.wordCount() - 1; i++){
             word = (AnnotatedWord) sentence.getWord(i);

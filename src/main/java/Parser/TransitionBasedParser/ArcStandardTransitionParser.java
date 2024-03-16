@@ -35,14 +35,14 @@ public class ArcStandardTransitionParser extends TransitionParser {
         }
         stack.add(new StackWord());
         State state = new State(stack, wordList, new ArrayList<>());
-        if (wordList.size() > 0) {
+        if (!wordList.isEmpty()) {
             instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
             stack.add(wordList.remove(0));
             if (wordList.size() > 1) {
                 instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                 stack.add(wordList.remove(0));
             }
-            while (wordList.size() > 0 || stack.size() > 1) {
+            while (!wordList.isEmpty() || stack.size() > 1) {
                 top = stack.peek().getWord();
                 topRelation = top.getRelation();
                 if (stack.size() > 1) {
@@ -55,7 +55,7 @@ public class ArcStandardTransitionParser extends TransitionParser {
                         instanceList.add(instanceGenerator.generate(state, windowSize, "LEFTARC(" + beforeTopRelation + ")"));
                         stack.remove(stack.size() - 2);
                     } else {
-                        if (wordList.size() > 0) {
+                        if (!wordList.isEmpty()) {
                             instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                             stack.add(wordList.remove(0));
                         } else {
@@ -63,7 +63,7 @@ public class ArcStandardTransitionParser extends TransitionParser {
                         }
                     }
                 } else {
-                    if (wordList.size() > 0) {
+                    if (!wordList.isEmpty()) {
                         instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                         stack.add(wordList.remove(0));
                     } else {

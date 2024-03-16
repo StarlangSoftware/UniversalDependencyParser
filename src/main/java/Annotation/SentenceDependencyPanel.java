@@ -7,7 +7,6 @@ import AnnotatedSentence.ViewLayerType;
 import AutoProcessor.TurkishSentenceAutoDependency;
 import DataCollector.Sentence.SentenceAnnotatorPanel;
 import DataStructure.CounterHashMap;
-import DependencyParser.DependencyRelation;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyType;
 
@@ -24,10 +23,10 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
     private boolean dragged = false;
     private int dragX = -1, dragY = -1;
 
-    private JScrollPane scrollPane;
-    private TurkishSentenceAutoDependency turkishSentenceAutoDependency;
-    private HashMap<String, ArrayList<AnnotatedWord>> mappedWords;
-    private HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences;
+    private final JScrollPane scrollPane;
+    private final TurkishSentenceAutoDependency turkishSentenceAutoDependency;
+    private final HashMap<String, ArrayList<AnnotatedWord>> mappedWords;
+    private final HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences;
 
     public SentenceDependencyPanel(String currentPath, String rawFileName, HashMap<String, ArrayList<AnnotatedWord>> mappedWords, HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences, JScrollPane scrollPane) {
         super(currentPath, rawFileName, ViewLayerType.DEPENDENCY);
@@ -177,7 +176,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Component cell = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
-            String examples = "<html>";
+            StringBuilder examples = new StringBuilder("<html>");
             int count = 0;
             if (mappedSentences.containsKey(selectedWord.getName())){
                 for (AnnotatedSentence annotatedSentence : mappedSentences.get(selectedWord.getName())){
@@ -185,7 +184,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                         AnnotatedWord word = (AnnotatedWord) annotatedSentence.getWord(i);
                         if (word.getName().equals(selectedWord.getName()) && word.getUniversalDependency() != null){
                             if (word.getUniversalDependency().toString().equals(value)){
-                                examples += annotatedSentence.toDependencyString(i) + "<br>";
+                                examples.append(annotatedSentence.toDependencyString(i)).append("<br>");
                                 count++;
                             }
                         }
@@ -195,8 +194,8 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                     }
                 }
             }
-            examples += "</html>";
-            ((JComponent) cell).setToolTipText(examples);
+            examples.append("</html>");
+            ((JComponent) cell).setToolTipText(examples.toString());
             return this;
         }
     }
@@ -225,7 +224,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                             parentRelation.toString().equals("CASE") || parentRelation.toString().equals("GOESWITH") ||
                             parentRelation.toString().equals("FIXED") || parentRelation.toString().equals("CC") ||
                             parentRelation.toString().equals("AUX") || parentRelation.toString().equals("COP"))){
-                JOptionPane.showMessageDialog(this, parentRelation.toString() + " not expected to have children!", "Dependency Rule", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, parentRelation + " not expected to have children!", "Dependency Rule", JOptionPane.ERROR_MESSAGE);
                 selectionMode = false;
                 errorMode = true;
             } else {
@@ -378,29 +377,29 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
         listModel.addElement("NONE");
         AnnotatedWord selectedWord = ((AnnotatedWord)sentence.getWord(selectedWordIndex));
         UniversalDependencyType[] typeList = possibleValues(selectedWord.getName());
-        for (int i = 0; i < typeList.length; i++){
-            if (draggedWordIndex > selectedWordIndex){
-                if (typeList[i].equals(UniversalDependencyType.FIXED) || typeList[i].equals(UniversalDependencyType.FLAT) ||
-                        typeList[i].equals(UniversalDependencyType.CONJ) || typeList[i].equals(UniversalDependencyType.APPOS) ||
-                        typeList[i].equals(UniversalDependencyType.GOESWITH)){
+        for (UniversalDependencyType universalDependencyType : typeList) {
+            if (draggedWordIndex > selectedWordIndex) {
+                if (universalDependencyType.equals(UniversalDependencyType.FIXED) || universalDependencyType.equals(UniversalDependencyType.FLAT) ||
+                        universalDependencyType.equals(UniversalDependencyType.CONJ) || universalDependencyType.equals(UniversalDependencyType.APPOS) ||
+                        universalDependencyType.equals(UniversalDependencyType.GOESWITH)) {
                     continue;
                 }
             }
-            if (draggedWordIndex + 1 < selectedWordIndex && typeList[i].equals(UniversalDependencyType.GOESWITH)){
+            if (draggedWordIndex + 1 < selectedWordIndex && universalDependencyType.equals(UniversalDependencyType.GOESWITH)) {
                 continue;
             }
-            if (selectedWord.getUniversalDependencyPos() != null){
+            if (selectedWord.getUniversalDependencyPos() != null) {
                 String uvPos = selectedWord.getUniversalDependencyPos();
-                String dependency = typeList[i].toString();
-                if (uvPos != null && !AnnotatedSentence.checkDependencyWithUniversalPosTag(dependency, uvPos)){
+                String dependency = universalDependencyType.toString();
+                if (uvPos != null && !AnnotatedSentence.checkDependencyWithUniversalPosTag(dependency, uvPos)) {
                     continue;
                 }
             }
             numberOfValidItemsUntilNow++;
-            if (selectedWord.getUniversalDependency() != null && selectedWord.getUniversalDependency().toString().equalsIgnoreCase(typeList[i].toString().replace('_', ':'))){
+            if (selectedWord.getUniversalDependency() != null && selectedWord.getUniversalDependency().toString().equalsIgnoreCase(universalDependencyType.toString().replace('_', ':'))) {
                 selectedIndex = numberOfValidItemsUntilNow;
             }
-            listModel.addElement(typeList[i].toString());
+            listModel.addElement(universalDependencyType.toString());
         }
         return selectedIndex;
     }

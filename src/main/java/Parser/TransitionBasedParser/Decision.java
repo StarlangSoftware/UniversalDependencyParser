@@ -4,7 +4,7 @@ import DependencyParser.Universal.UniversalDependencyType;
 
 public class Decision extends Candidate{
 
-    private double point;
+    private final double point;
 
     public Decision(Command command, UniversalDependencyType relation, double point) {
         super(command, relation);

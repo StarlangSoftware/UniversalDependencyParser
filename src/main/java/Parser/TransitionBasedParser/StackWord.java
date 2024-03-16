@@ -3,8 +3,8 @@ package Parser.TransitionBasedParser;
 import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
 public class StackWord {
-    private UniversalDependencyTreeBankWord word;
-    private int toWord;
+    private final UniversalDependencyTreeBankWord word;
+    private final int toWord;
 
     public StackWord(){
         word = new UniversalDependencyTreeBankWord();

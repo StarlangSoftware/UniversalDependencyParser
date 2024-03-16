@@ -1,10 +1,8 @@
 package TreebankUtils;
 
-import DependencyParser.Universal.UniversalDependencyRelation;
-
 public class Edge {
-	private Node fromNode;
-	private Node toNode;
+	private final Node fromNode;
+	private final Node toNode;
 	private String edgeLabel;
 	
 	public Edge(Node from, Node to) {

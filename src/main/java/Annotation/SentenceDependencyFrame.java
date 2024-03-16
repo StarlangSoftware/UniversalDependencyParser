@@ -14,6 +14,7 @@ import Util.DrawingButton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,9 +25,9 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
     static final protected String DELETEWORD = "deleteword";
     JList<String> errorList;
     JScrollPane scrollPane;
-    private JCheckBox autoDependencyDetectionOption;
-    private HashMap<String, ArrayList<AnnotatedWord>> mappedWords = new HashMap<>();
-    private HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences = new HashMap<>();
+    private final JCheckBox autoDependencyDetectionOption;
+    private final HashMap<String, ArrayList<AnnotatedWord>> mappedWords = new HashMap<>();
+    private final HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences = new HashMap<>();
 
     @Override
     protected SentenceAnnotatorPanel generatePanel(String currentPath, String rawFileName) {
@@ -63,7 +64,7 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                     if (mappedWords.containsKey(word.getName())){
                         annotatedWords = mappedWords.get(word.getName());
                     } else {
-                        annotatedWords = new ArrayList<AnnotatedWord>();
+                        annotatedWords = new ArrayList<>();
                     }
                     annotatedWords.add(word);
                     mappedWords.put(word.getName(), annotatedWords);
@@ -71,14 +72,14 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                     if (mappedSentences.containsKey(word.getName())){
                         annotatedSentences = mappedSentences.get(word.getName());
                     } else {
-                        annotatedSentences = new ArrayList<AnnotatedSentence>();
+                        annotatedSentences = new ArrayList<>();
                     }
                     annotatedSentences.add(sentence);
                     mappedSentences.put(word.getName(), annotatedSentences);
                 }
             }
         }
-        JMenuItem itemShowUnannotated = addMenuItem(projectMenu, "Show Unannotated Files", KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.CTRL_MASK));
+        JMenuItem itemShowUnannotated = addMenuItem(projectMenu, "Show Unannotated Files", KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_MASK));
         itemShowUnannotated.addActionListener(e -> {
             int count = 0;
             String result = JOptionPane.showInputDialog(null, "How many sentences you want to see:", "",
@@ -101,10 +102,8 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                 }
             }
         });
-        JMenuItem itemViewAnnotated = addMenuItem(projectMenu, "View Annotations", KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-        itemViewAnnotated.addActionListener(e -> {
-            new ViewSentenceDependencyAnnotationFrame(annotatedCorpus, this);
-        });
+        JMenuItem itemViewAnnotated = addMenuItem(projectMenu, "View Annotations", KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        itemViewAnnotated.addActionListener(e -> new ViewSentenceDependencyAnnotationFrame(annotatedCorpus, this));
         JOptionPane.showMessageDialog(this, "Annotated corpus is loaded!", "Dependency Annotation", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -118,7 +117,7 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
     protected void showErrors(SentenceDependencyPanel current){
         if (current != null){
             ArrayList<DependencyError> errors = current.sentence.getDependencyErrors();
-            if (errors.size() > 0){
+            if (!errors.isEmpty()){
                 DefaultListModel<String> listModel = new DefaultListModel<>();
                 for (DependencyError dependencyError : errors){
                     listModel.addElement(dependencyError.toString());

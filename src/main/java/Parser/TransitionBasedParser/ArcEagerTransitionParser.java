@@ -33,7 +33,7 @@ public class ArcEagerTransitionParser extends TransitionParser {
         }
         stack.add(new StackWord());
         State state = new State(stack, wordList, new ArrayList<>());
-        while (wordList.size() > 0 || stack.size() > 1) {
+        while (!wordList.isEmpty() || stack.size() > 1) {
             if (!wordList.isEmpty()) {
                 first = wordList.get(0).getWord();
                 firstRelation = wordMap.get(wordList.get(0).getToWord()).getRelation();
@@ -53,7 +53,7 @@ public class ArcEagerTransitionParser extends TransitionParser {
                 } else if (first != null && topRelation != null && topRelation.to() == first.getId()) {
                     instanceList.add(instanceGenerator.generate(state, windowSize, "LEFTARC(" + topRelation + ")"));
                     stack.pop();
-                } else if (wordList.size() > 0) {
+                } else if (!wordList.isEmpty()) {
                     instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                     stack.add(wordList.remove(0));
                 } else {
@@ -61,7 +61,7 @@ public class ArcEagerTransitionParser extends TransitionParser {
                     stack.pop();
                 }
             } else {
-                if (wordList.size() > 0) {
+                if (!wordList.isEmpty()) {
                     instanceList.add(instanceGenerator.generate(state, windowSize, "SHIFT"));
                     stack.add(wordList.remove(0));
                 } else {

@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Agenda {
 
-    private ConcurrentHashMap<State, Double> agenda;
-    private int beamSize;
+    private final ConcurrentHashMap<State, Double> agenda;
+    private final int beamSize;
 
-    public Agenda(int beamSize) throws CloneNotSupportedException {
+    public Agenda(int beamSize) {
         agenda = new ConcurrentHashMap<>();
         this.beamSize = beamSize;
     }

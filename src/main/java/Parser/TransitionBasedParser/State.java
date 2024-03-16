@@ -9,9 +9,9 @@ import java.util.Stack;
 
 public class State {
 
-    private Stack<StackWord> stack;
-    private ArrayList<StackWord> wordList;
-    private ArrayList<StackRelation> relations;
+    private final Stack<StackWord> stack;
+    private final ArrayList<StackWord> wordList;
+    private final ArrayList<StackRelation> relations;
 
     public State(Stack<StackWord> stack, ArrayList<StackWord> wordList, ArrayList<StackRelation> relations) {
         this.stack = stack;
@@ -25,7 +25,7 @@ public class State {
     	}
     }
     public void applyShift() {
-        if (wordList.size() > 0) {
+        if (!wordList.isEmpty()) {
             stack.add(wordList.remove(0));
         }
     }
@@ -51,7 +51,7 @@ public class State {
     }
 
     public void applyArcEagerLeftArc(UniversalDependencyType type) {
-        if (stack.size() > 0 && wordList.size() > 0) {
+        if (!stack.isEmpty() && !wordList.isEmpty()) {
             UniversalDependencyTreeBankWord lastElementOfStack = stack.peek().getWord();
             int index = wordList.get(0).getToWord();
             lastElementOfStack.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
@@ -61,7 +61,7 @@ public class State {
     }
 
     public void applyArcEagerRightArc(UniversalDependencyType type) {
-        if (stack.size() > 0 && wordList.size() > 0) {
+        if (!stack.isEmpty() && !wordList.isEmpty()) {
             UniversalDependencyTreeBankWord firstElementOfWordList = wordList.get(0).getWord();
             int index = stack.peek().getToWord();
             firstElementOfWordList.setRelation(new UniversalDependencyRelation(index, type.toString().replaceAll("_", ":")));
@@ -71,7 +71,7 @@ public class State {
     }
 
     public void applyReduce() {
-        if (stack.size() > 0) {
+        if (!stack.isEmpty()) {
             stack.pop();
         }
     }
@@ -137,7 +137,7 @@ public class State {
     }
 
     public UniversalDependencyTreeBankWord getPeek() {
-        if (stack.size() > 0) {
+        if (!stack.isEmpty()) {
             return stack.peek().getWord();
         }
         return null;
@@ -172,7 +172,7 @@ public class State {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         State o = new State(new Stack<>(), new ArrayList<>(), new ArrayList<>());
         for (StackWord element : stack) {
             if (!element.getWord().getName().equals("root")) {

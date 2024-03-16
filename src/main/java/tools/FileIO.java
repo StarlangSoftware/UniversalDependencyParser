@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.StringTokenizer;
 
-import Corpus.Sentence;
 import DependencyParser.Universal.UniversalDependencyPosType;
 import DependencyParser.Universal.UniversalDependencyRelation;
 import DependencyParser.Universal.UniversalDependencyTreeBankFeatures;
@@ -15,9 +14,9 @@ import Util.FileUtils;
 public class FileIO {
 	public static UniversalDependencyTreeBankSentence readSentence(String fileName) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(FileUtils.getInputStream(fileName), StandardCharsets.UTF_16));
-		Sentence sentence = new UniversalDependencyTreeBankSentence();
+		UniversalDependencyTreeBankSentence sentence = new UniversalDependencyTreeBankSentence();
 		
-		String line = "";
+		String line;
 		
 		while((line = reader.readLine()) != null) {
 			StringTokenizer tokenizer = new StringTokenizer(line);
@@ -42,6 +41,6 @@ public class FileIO {
 		}
 
 		reader.close();
-		return (UniversalDependencyTreeBankSentence) sentence;
+		return sentence;
 	}
 }

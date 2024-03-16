@@ -5,8 +5,8 @@ import DependencyParser.Universal.UniversalDependencyTreeBankWord;
 
 public class StackRelation {
 
-    private UniversalDependencyTreeBankWord word;
-    private UniversalDependencyRelation relation;
+    private final UniversalDependencyTreeBankWord word;
+    private final UniversalDependencyRelation relation;
 
     public StackRelation(UniversalDependencyTreeBankWord word, UniversalDependencyRelation relation){
         this.word = word;

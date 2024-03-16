@@ -75,7 +75,7 @@ public abstract class TransitionParser {
         return subsets;
     }
 
-    public State dependencyParseWithBeamSearch(ScoringOracle oracle, int beamSize, UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, TransitionSystem transitionSystem) throws CloneNotSupportedException {
+    public State dependencyParseWithBeamSearch(ScoringOracle oracle, int beamSize, UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, TransitionSystem transitionSystem) {
         UniversalDependencyTreeBankSentence sentence = createResultSentence(universalDependencyTreeBankSentence);
         State initialState = initialState(sentence);
         Agenda agenda = new Agenda(beamSize);

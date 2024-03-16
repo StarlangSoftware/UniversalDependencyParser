@@ -47,8 +47,8 @@ public class ArcFactoredGraphOracle implements GraphOracle {
 	}
 
 	private void extractGraphs(String path) throws IOException {
-    	for(File file : (new File(path)).listFiles()) {
-			if(file.getName().endsWith("train")) {
+    	for (File file : (new File(path)).listFiles()) {
+			if (file.getName().endsWith("train")) {
 				UniversalDependencyTreeBankSentence sentence = FileIO.readSentence(file.getAbsolutePath());
 				WeightedGraph graph = new WeightedGraph();
 				ArrayList<UniversalDependencyTreeBankWord> words = new ArrayList<UniversalDependencyTreeBankWord>();

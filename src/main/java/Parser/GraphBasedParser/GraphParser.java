@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GraphParser {
-	private GraphSystem graphSystem;
+	private final GraphSystem graphSystem;
 	
     public GraphParser(GraphSystem graphSystem) {
     	this.graphSystem = graphSystem;
@@ -150,12 +150,12 @@ public class GraphParser {
                 }
             }
         }
-        String name = "";
+        StringBuilder name = new StringBuilder();
         for (UniversalDependencyTreeBankWord word : map.keySet()) {
-            name += "-" + word.getName();
+            name.append("-").append(word.getName());
         }
-        name += "-";
-        UniversalDependencyTreeBankWord node = new UniversalDependencyTreeBankWord(Integer.MIN_VALUE, name, "_", UniversalDependencyPosType.DET,"_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(Integer.MAX_VALUE, "root"),"_","_");
+        name.append("-");
+        UniversalDependencyTreeBankWord node = new UniversalDependencyTreeBankWord(Integer.MIN_VALUE, name.toString(), "_", UniversalDependencyPosType.DET,"_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(Integer.MAX_VALUE, "root"),"_","_");
         for (UniversalDependencyTreeBankWord word : map.keySet()) {
             for (int i = 0; i < graph.get(word).size(); i++) {
                 if (!cycleContains(graph.get(word, i).getKey(), cycle)) {
