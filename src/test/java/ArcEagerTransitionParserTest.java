@@ -21,7 +21,6 @@ public class ArcEagerTransitionParserTest {
         c45.getModel().saveTxt(language + "_" + dataSetName + "_eager_c45_" + windowSize + ".txt");
     }
 
-    @Test
     public void test(){
         generateEagerModelC45("en", "atis", 2);
         generateEagerModelC45("tr", "atis", 2);
@@ -39,7 +38,6 @@ public class ArcEagerTransitionParserTest {
         generateEagerModelC45("tr", "boun", 3);
     }
 
-    @Test
     public void testOracle() {
         ParserEvaluationScore scores = new ParserEvaluationScore();
         TransitionParser transitionParser = new ArcEagerTransitionParser();

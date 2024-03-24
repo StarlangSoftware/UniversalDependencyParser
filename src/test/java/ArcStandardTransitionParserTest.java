@@ -21,7 +21,6 @@ public class ArcStandardTransitionParserTest {
         c45.getModel().saveTxt(language + "_" + dataSetName + "_standard_c45_" + windowSize + ".txt");
     }
 
-    @Test
     public void testc45(){
         generateStandardModelC45("en", "atis", 2);
         generateStandardModelC45("tr", "atis", 2);

@@ -17,8 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
 
@@ -53,7 +56,14 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                 showErrors((SentenceDependencyPanel) ((JScrollPane) projectPane.getSelectedComponent()).getViewport().getView());
             }
         });
-        AnnotatedCorpus annotatedCorpus = new AnnotatedCorpus(new File(TreeEditorPanel.phrasePath));
+        String subFolder = "false";
+        Properties properties1 = new Properties();
+        try {
+            properties1.load(Files.newInputStream(new File("config.properties").toPath()));
+            subFolder = properties1.getProperty("subFolder");
+        } catch (IOException ignored) {
+        }
+        AnnotatedCorpus annotatedCorpus = readCorpus(subFolder);
         for (int i = 0; i < annotatedCorpus.sentenceCount(); i++){
             AnnotatedSentence sentence = (AnnotatedSentence) annotatedCorpus.getSentence(i);
             for (int j = 0; j < sentence.wordCount(); j++){
