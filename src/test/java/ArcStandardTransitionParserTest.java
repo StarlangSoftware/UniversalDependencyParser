@@ -1,5 +1,5 @@
-import Classification.Classifier.C45;
 import Classification.DataSet.DataSet;
+import Classification.Model.DecisionTree.DecisionTree;
 import Classification.Parameter.C45Parameter;
 import DependencyParser.ParserEvaluationScore;
 import DependencyParser.Universal.UniversalDependencyTreeBankCorpus;
@@ -16,9 +16,9 @@ public class ArcStandardTransitionParserTest {
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus(language + "_" + dataSetName + "-ud-train.conllu");
         TransitionParser transitionParser = new ArcStandardTransitionParser();
         DataSet dataSet = transitionParser.simulateParseOnCorpus(corpus, windowSize);
-        C45 c45 = new C45();
+        DecisionTree c45 = new DecisionTree();
         c45.train(dataSet.getInstanceList(), new C45Parameter(1, true, 0.2));
-        c45.getModel().saveTxt(language + "_" + dataSetName + "_standard_c45_" + windowSize + ".txt");
+        c45.saveTxt(language + "_" + dataSetName + "_standard_c45_" + windowSize + ".txt");
     }
 
     public void testc45(){
@@ -43,12 +43,12 @@ public class ArcStandardTransitionParserTest {
         ParserEvaluationScore scores = new ParserEvaluationScore();
         TransitionParser transitionParser = new ArcStandardTransitionParser();
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus("tr_atis-ud-test.conllu");
-        C45 c45 = new C45();
+        DecisionTree c45 = new DecisionTree();
         int windowSize = 3;
         c45.loadModel("models/tr_atis_standard_c45_" + windowSize + ".txt");
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             UniversalDependencyTreeBankSentence actual = (UniversalDependencyTreeBankSentence) corpus.getSentence(i);
-            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardCombinedOracle(c45.getModel(), windowSize));
+            UniversalDependencyTreeBankSentence expected = transitionParser.dependencyParse(actual, new ArcStandardCombinedOracle(c45, windowSize));
             scores.add(actual.compareParses(expected));
         }
         Assert.assertEquals(75.27529607313518, 100 * scores.getLS(), 0.01);
