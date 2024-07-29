@@ -74,6 +74,13 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
                 g.setColor(Color.BLUE);
                 g.drawString(word.getMetamorphicParse().getWord().getName(), currentLeft, (lineIndex + 1) * lineSpace + 60);
             }
+            if (word.getParse() != null){
+                g.setColor(Color.BLUE);
+                ArrayList<String> features = word.getParse().getUniversalDependencyFeatures(word.getUniversalDependencyPos());
+                for (int i = 0; i < features.size(); i++){
+                    g.drawString(features.get(i), currentLeft, (lineIndex + 1) * lineSpace + 30 * (i + 2));
+                }
+            }
         }
         if (word.getUniversalDependency() != null){
             String correct = word.getUniversalDependency().toString().toLowerCase();
