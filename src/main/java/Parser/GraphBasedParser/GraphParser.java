@@ -9,31 +9,39 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GraphParser {
-	private final GraphSystem graphSystem;
-	
-    public GraphParser(GraphSystem graphSystem) {
-    	this.graphSystem = graphSystem;
-    }
-    
-    public GraphParser() {
-    	graphSystem = GraphSystem.BASIC_ORACLE;
-    }
-    
 
-	private WeightedGraph generateGraph(UniversalDependencyTreeBankSentence sentence, GraphOracle oracle, UniversalDependencyTreeBankWord root) {
+    public GraphParser() {
+    }
+
+    /**
+     * Generates a weighted graph from a given sentence and oracle, using a specified root word.
+     * @param sentence The sentence to convert into a graph.
+     * @param oracle   The oracle to determine the lengths of the edges.
+     * @param root     The root word to be used as the starting node in the graph.
+     * @return A {@link WeightedGraph} representing the sentence with weights assigned to the edges.
+     */
+
+    private WeightedGraph generateGraph(UniversalDependencyTreeBankSentence sentence, GraphOracle oracle, UniversalDependencyTreeBankWord root) {
         WeightedGraph graph = new WeightedGraph();
         for (int i = 0; i < sentence.wordCount(); i++) {
-            double score = oracle.computeScore(sentence, -1, i);
-            graph.addDirectedEdge(root, (UniversalDependencyTreeBankWord) sentence.getWord(i), new SimpleEntry<>(score, -1 * (i + 1)));
+            double length = oracle.findLength(sentence, -1, i);
+            graph.addDirectedEdge(root, (UniversalDependencyTreeBankWord) sentence.getWord(i), new SimpleEntry<>(length, -1 * (i + 1)));
             for (int j = 0; j < sentence.wordCount(); j++) {
                 if (i != j) {
-                    score = oracle.computeScore(sentence, i, j);
-                    graph.addDirectedEdge((UniversalDependencyTreeBankWord) sentence.getWord(i),(UniversalDependencyTreeBankWord) sentence.getWord(j), new SimpleEntry<>(score, (i * sentence.wordCount()) + j + 1));
+                    length = oracle.findLength(sentence, i, j);
+                    graph.addDirectedEdge((UniversalDependencyTreeBankWord) sentence.getWord(i),(UniversalDependencyTreeBankWord) sentence.getWord(j), new SimpleEntry<>(length, (i * sentence.wordCount()) + j + 1));
                 }
             }
         }
         return graph;
     }
+
+    /**
+     * Determines if a given edge is the best connection among a list of connections.
+     * @param entry       The edge to check.
+     * @param connections The list of existing connections.
+     * @return true if the edge is better than any existing connection to the same node, false otherwise.
+     */
 
     private boolean isBestConnection(SimpleEntry<UniversalDependencyTreeBankWord, SimpleEntry<Double, Integer>> entry, ArrayList<SimpleEntry<Connection, Integer>> connections) {
         double listBest = Integer.MIN_VALUE;
@@ -58,6 +66,12 @@ public class GraphParser {
         return false;
     }
 
+    /**
+     * Finds all connections in the graph that are the best connections for their respective nodes.
+     * @param graph The weighted graph to find connections in.
+     * @return A list of the best connections for each node.
+     */
+
     private ArrayList<SimpleEntry<Connection, Integer>> findConnections(WeightedGraph graph) {
         ArrayList<SimpleEntry<Connection, Integer>> connections = new ArrayList<>();
         for (UniversalDependencyTreeBankWord word : graph.getKeySet()) {
@@ -71,6 +85,13 @@ public class GraphParser {
         return connections;
     }
 
+    /**
+     * Checks if a word is part of a cycle in a list of connections.
+     * @param word  The word to check.
+     * @param cycle The list of connections.
+     * @return true if the word is in the cycle, false otherwise.
+     */
+
     private boolean cycleContains(UniversalDependencyTreeBankWord word, ArrayList<SimpleEntry<Connection, Integer>> cycle) {
         for (SimpleEntry<Connection, Integer> entry : cycle) {
             if (entry.getKey().getFrom() == word || entry.getKey().getTo() == word) {
@@ -80,6 +101,13 @@ public class GraphParser {
         return false;
     }
 
+    /**
+     * Checks if a specific connection already exists in a list of temporary connections.
+     * @param temporaryConnections The list of temporary connections.
+     * @param current              The connection to check.
+     * @return A {@link SimpleEntry} containing the value of the connection if it exists, and a boolean indicating its presence.
+     */
+
     private SimpleEntry<Integer, Boolean> containsConnection(ArrayList<SimpleEntry<Connection, Integer>> temporaryConnections, Connection current) {
         for (SimpleEntry<Connection, Integer> temporaryConnection : temporaryConnections) {
             if (temporaryConnection.getKey().equals(current)) {
@@ -88,6 +116,15 @@ public class GraphParser {
         }
         return new SimpleEntry<>(Integer.MIN_VALUE, false);
     }
+
+    /**
+     * Finds a cycle in the graph using a depth-first search approach.
+     * @param graph                 The graph to search for cycles in.
+     * @param temporaryConnections  The list of temporary connections.
+     * @param cycle                 The current cycle being constructed.
+     * @param currentWord           The current word being processed.
+     * @return true if a cycle is found, false otherwise.
+     */
 
     private boolean findCycle(WeightedGraph graph, ArrayList<SimpleEntry<Connection, Integer>> temporaryConnections, ArrayList<SimpleEntry<Connection, Integer>> cycle, UniversalDependencyTreeBankWord currentWord) {
         for (int i = 0; i < graph.get(currentWord).size(); i++) {
@@ -109,6 +146,14 @@ public class GraphParser {
         return false;
     }
 
+    /**
+     * Expands the graph by updating it with the best edges and kicks out information.
+     * @param graph         The graph to expand.
+     * @param clone         A clone of the original graph.
+     * @param bestInEdge    A list of the best edges to keep.
+     * @param kicksOut      A map of edges to be kicked out.
+     */
+
     private void expandGraph(WeightedGraph graph, WeightedGraph clone, ArrayList<Integer> bestInEdge, HashMap<Integer, ArrayList<Integer>> kicksOut) {
         for (int i = bestInEdge.size() - 1; i > -1; i--) {
             if (kicksOut.containsKey(bestInEdge.get(i))) {
@@ -128,6 +173,14 @@ public class GraphParser {
             }
         }
     }
+
+    /**
+     * Contracts the graph by merging cycles and updating the graph and kicks out information.
+     * @param graph         The graph to contract.
+     * @param bestInEdge    A list of the best edges to keep.
+     * @param kicksOut      A map of edges to be kicked out.
+     * @param cycle         The cycle to contract.
+     */
 
     private void contractGraph(WeightedGraph graph, ArrayList<Integer> bestInEdge, HashMap<Integer, ArrayList<Integer>> kicksOut, ArrayList<SimpleEntry<Connection, Integer>> cycle) {
         for (SimpleEntry<Connection, Integer> entry : cycle) {
@@ -150,12 +203,12 @@ public class GraphParser {
                 }
             }
         }
-        StringBuilder name = new StringBuilder();
+        String name = "";
         for (UniversalDependencyTreeBankWord word : map.keySet()) {
-            name.append("-").append(word.getName());
+            name += "-" + word.getName();
         }
-        name.append("-");
-        UniversalDependencyTreeBankWord node = new UniversalDependencyTreeBankWord(Integer.MIN_VALUE, name.toString(), "_", UniversalDependencyPosType.DET,"_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(Integer.MAX_VALUE, "root"),"_","_");
+        name += "-";
+        UniversalDependencyTreeBankWord node = new UniversalDependencyTreeBankWord(Integer.MIN_VALUE, name, "_", UniversalDependencyPosType.DET,"_", new UniversalDependencyTreeBankFeatures("tr", "_"), new UniversalDependencyRelation(Integer.MAX_VALUE, "root"),"_","_");
         for (UniversalDependencyTreeBankWord word : map.keySet()) {
             for (int i = 0; i < graph.get(word).size(); i++) {
                 if (!cycleContains(graph.get(word, i).getKey(), cycle)) {
@@ -176,6 +229,13 @@ public class GraphParser {
             }
         }
     }
+
+    /**
+     * Computes the maximum spanning tree of the given graph using the Chu-Liu Edmonds algorithm.
+     * @param graph      The graph to process.
+     * @param bestInEdge A list of the best edges to include in the spanning tree.
+     * @param kicksOut   A map of edges to be excluded.
+     */
 
     public void chuLiuEdmonds(WeightedGraph graph, ArrayList<Integer> bestInEdge, HashMap<Integer, ArrayList<Integer>> kicksOut) {
         ArrayList<SimpleEntry<Connection, Integer>> temporaryConnections = findConnections(graph);
@@ -203,12 +263,19 @@ public class GraphParser {
         }
     }
 
-    public ArrayList<Connection> findMaximumSpanningTree(UniversalDependencyTreeBankSentence sentence) {
+    /**
+     * Generates the Graph and fields of the Chu-Liu Edmonds spanning tree algorithm.
+     * @param sentence is a {@link UniversalDependencyTreeBankSentence} that will be converted to a graph and then have its spanning tree calculated.
+     * @param system   decides the {@link GraphOracle} that assigns weights to the edges in the graph.
+     * @return the {@link Connection}s of the maximum spanning tree.
+     * */
+
+    public ArrayList<Connection> findMaximumSpanningTree(UniversalDependencyTreeBankSentence sentence, GraphSystem system) {
         GraphOracle oracle;
-        if (graphSystem.equals(GraphSystem.RANDOM_ORACLE)) {
+        if (system.equals(GraphSystem.RANDOM_ORACLE)) {
             oracle = new RandomGraphOracle();
         } else {
-            oracle = new ArcFactoredGraphOracle();
+            oracle = new BasicGraphOracle();
         }
         ArrayList<Connection> list = new ArrayList<>();
         UniversalDependencyTreeBankWord root = new UniversalDependencyTreeBankWord(0, "root", "", UniversalDependencyPosType.DET, "", new UniversalDependencyTreeBankFeatures("tr", "_"), null, "", "");

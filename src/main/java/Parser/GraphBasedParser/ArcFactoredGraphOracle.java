@@ -16,11 +16,6 @@ public class ArcFactoredGraphOracle implements GraphOracle {
 	private HashMap<Feature, Double> FeatureVector = new HashMap<Feature, Double>();
 	private ArrayList<String> bagOfWords = new ArrayList<String>();
 	private ArrayList<String> bagOfPOS = new ArrayList<String>();
-	
-	@Override
-    public double computeScore(UniversalDependencyTreeBankSentence sentence, int fromIndex, int toIndex) {
-        return 0;
-    }
     
     
     public void train(String path) throws IOException {
@@ -74,8 +69,13 @@ public class ArcFactoredGraphOracle implements GraphOracle {
 			}
 		}
     }
-        
-    // Perceptron ile training setten feature weightlerini çıkar
+
+	@Override
+	public double findLength(UniversalDependencyTreeBankSentence sentence, int fromIndex, int toIndex) {
+		return 0;
+	}
+
+	// Perceptron ile training setten feature weightlerini çıkar
     // Feature set için mcdonalda bak: 
     // Online Large-Margin Training of Dependency Parsers
 }
