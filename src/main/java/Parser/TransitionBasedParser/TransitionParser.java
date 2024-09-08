@@ -17,7 +17,6 @@ public abstract class TransitionParser {
      * @param universalDependencyTreeBankSentence the sentence to be cloned
      * @return a new {@link UniversalDependencyTreeBankSentence} with copied words but no dependencies
      */
-
     protected UniversalDependencyTreeBankSentence createResultSentence(UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence) {
         UniversalDependencyTreeBankSentence sentence = new UniversalDependencyTreeBankSentence();
         for (int i = 0; i < universalDependencyTreeBankSentence.wordCount(); i++) {
@@ -33,7 +32,6 @@ public abstract class TransitionParser {
      * @param windowSize the size of the window used in parsing
      * @return a {@link DataSet} containing instances from parsing each sentence in the corpus
      */
-
     public DataSet simulateParseOnCorpus(UniversalDependencyTreeBankCorpus corpus, int windowSize) {
         DataSet dataSet = new DataSet();
         for (int i = 0; i < corpus.sentenceCount(); i++) {
@@ -48,7 +46,6 @@ public abstract class TransitionParser {
      * @param windowSize the size of the window used in parsing
      * @return a list of {@link Instance} objects representing the parsing process
      */
-
     public abstract ArrayList<Instance> simulateParse(UniversalDependencyTreeBankSentence sentence, int windowSize);
 
     /**
@@ -57,7 +54,6 @@ public abstract class TransitionParser {
      * @param oracle the oracle used for guiding the parsing process
      * @return a {@link UniversalDependencyTreeBankSentence} with dependencies parsed
      */
-
     public abstract UniversalDependencyTreeBankSentence dependencyParse(UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, Oracle oracle);
 
     /**
@@ -65,7 +61,6 @@ public abstract class TransitionParser {
      * @param agenda the agenda containing the states
      * @return true if there are states to process, false otherwise
      */
-
     private boolean checkStates(Agenda agenda) {
         for (State state : agenda.getKeySet()) {
             if (state.wordListSize() > 0 || state.stackSize() > 1) {
@@ -80,7 +75,6 @@ public abstract class TransitionParser {
      * @param sentence the sentence to initialize the state with
      * @return a {@link State} representing the starting point for parsing
      */
-
     protected State initialState(UniversalDependencyTreeBankSentence sentence) {
         ArrayList<StackWord> wordList = new ArrayList<>();
         for (int i = 0; i < sentence.wordCount(); i++) {
@@ -97,7 +91,6 @@ public abstract class TransitionParser {
      * @param state the current parsing state
      * @return a list of possible {@link Candidate} actions to be applied
      */
-
     private ArrayList<Candidate> constructCandidates(TransitionSystem transitionSystem, State state) {
         if (state.stackSize() == 1 && state.wordListSize() == 0) {
             return new ArrayList<>();
@@ -130,7 +123,6 @@ public abstract class TransitionParser {
      * @param transitionSystem the transition system used (ARC_STANDARD or ARC_EAGER)
      * @return the best parsing state from the beam search
      */
-
     public State dependencyParseWithBeamSearch(ScoringOracle oracle, int beamSize, UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, TransitionSystem transitionSystem) {
         UniversalDependencyTreeBankSentence sentence = createResultSentence(universalDependencyTreeBankSentence);
         State initialState = initialState(sentence);
@@ -157,7 +149,6 @@ public abstract class TransitionParser {
      * @param oracle the oracle used for guiding the parsing process
      * @return a {@link UniversalDependencyTreeBankCorpus} containing the parsed sentences
      */
-
     public UniversalDependencyTreeBankCorpus dependencyParseCorpus(UniversalDependencyTreeBankCorpus universalDependencyTreeBankCorpus, Oracle oracle) {
         UniversalDependencyTreeBankCorpus corpus = new UniversalDependencyTreeBankCorpus();
         for (int i = 0; i < universalDependencyTreeBankCorpus.sentenceCount(); i++) {

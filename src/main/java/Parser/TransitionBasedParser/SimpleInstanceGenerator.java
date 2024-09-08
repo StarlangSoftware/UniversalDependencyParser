@@ -20,7 +20,6 @@ public class SimpleInstanceGenerator extends InstanceGenerator {
      * @param command The command to be associated with the generated instance.
      * @return The generated {@link Instance} object with attributes based on the state and command.
      */
-
     @Override
     public Instance generate(State state, int windowSize, String command) {
         Instance instance = new Instance(command);

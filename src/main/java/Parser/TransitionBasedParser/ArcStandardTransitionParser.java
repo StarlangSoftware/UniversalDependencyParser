@@ -20,7 +20,6 @@ public class ArcStandardTransitionParser extends TransitionParser {
      * @param id The ID to check for.
      * @return True if no more relations with the specified ID are found; false otherwise.
      */
-
     private boolean checkForMoreRelation(ArrayList<StackWord> wordList, int id) {
         for (StackWord word : wordList) {
             if (word.getWord().getRelation().to() == id) {
@@ -36,7 +35,6 @@ public class ArcStandardTransitionParser extends TransitionParser {
      * @param windowSize The size of the window used for feature generation.
      * @return An ArrayList of {@link Instance} objects representing the parsed actions.
      */
-
     public ArrayList<Instance> simulateParse(UniversalDependencyTreeBankSentence sentence, int windowSize) {
         UniversalDependencyTreeBankWord top, beforeTop;
         UniversalDependencyRelation topRelation, beforeTopRelation;
@@ -95,7 +93,6 @@ public class ArcStandardTransitionParser extends TransitionParser {
      * @param oracle The oracle used to make parsing decisions.
      * @return The parsed sentence with dependency relations established.
      */
-
     public UniversalDependencyTreeBankSentence dependencyParse(UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, Oracle oracle) {
         UniversalDependencyTreeBankSentence sentence = createResultSentence(universalDependencyTreeBankSentence);
         State state = initialState(sentence);

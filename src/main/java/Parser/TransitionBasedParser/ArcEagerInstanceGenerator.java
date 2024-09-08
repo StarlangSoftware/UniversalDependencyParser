@@ -15,7 +15,6 @@ public class ArcEagerInstanceGenerator extends InstanceGenerator {
      * @param word The UniversalDependencyTreeBankWord to check.
      * @return true if the relation is valid, false otherwise.
      */
-
     private boolean suitable(UniversalDependencyTreeBankWord word) {
         try {
             word.getRelation().toString();
@@ -33,7 +32,6 @@ public class ArcEagerInstanceGenerator extends InstanceGenerator {
      * @param command The command associated with the instance.
      * @return The generated Instance object.
      */
-
     @Override
     public Instance generate(State state, int windowSize, String command) {
         Instance instance = new Instance(command);

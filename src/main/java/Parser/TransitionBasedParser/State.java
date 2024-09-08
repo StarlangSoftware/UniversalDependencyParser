@@ -20,7 +20,6 @@ public class State {
      * @param wordList  The list of words to be processed.
      * @param relations The relations established between words.
      */
-
     public State(Stack<StackWord> stack, ArrayList<StackWord> wordList, ArrayList<StackRelation> relations) {
         this.stack = stack;
         this.wordList = wordList;
@@ -37,7 +36,6 @@ public class State {
      * Applies the SHIFT operation to the parser state.
      * Moves the first word from the wordList to the stack.
      */
-
     public void applyShift() {
         if (!wordList.isEmpty()) {
             stack.add(wordList.remove(0));
@@ -50,7 +48,6 @@ public class State {
      * and then removes the second-to-top element from the stack.
      * @param type The type of the dependency relation.
      */
-
 	public void applyLeftArc(UniversalDependencyType type) {
         if (stack.size() > 1) {
             UniversalDependencyTreeBankWord beforeLast = stack.get(stack.size() - 2).getWord();
@@ -68,7 +65,6 @@ public class State {
      *
      * @param type The type of the dependency relation.
      */
-
     public void applyRightArc(UniversalDependencyType type) {
         if (stack.size() > 1) {
             UniversalDependencyTreeBankWord last = stack.get(stack.size() - 1).getWord();
@@ -86,7 +82,6 @@ public class State {
      *
      * @param type The type of the dependency relation.
      */
-
     public void applyArcEagerLeftArc(UniversalDependencyType type) {
         if (!stack.isEmpty() && !wordList.isEmpty()) {
             UniversalDependencyTreeBankWord lastElementOfStack = stack.peek().getWord();
@@ -104,7 +99,6 @@ public class State {
      *
      * @param type The type of the dependency relation.
      */
-
     public void applyArcEagerRightArc(UniversalDependencyType type) {
         if (!stack.isEmpty() && !wordList.isEmpty()) {
             UniversalDependencyTreeBankWord firstElementOfWordList = wordList.get(0).getWord();
@@ -119,7 +113,6 @@ public class State {
      * Applies the REDUCE operation to the parser state.
      * Removes the top element from the stack.
      */
-
     public void applyReduce() {
         if (!stack.isEmpty()) {
             stack.pop();
@@ -133,7 +126,6 @@ public class State {
      * @param type The type of dependency relation, relevant for ARC operations.
      * @param transitionSystem The transition system (e.g., ARC_STANDARD, ARC_EAGER) that determines which command to apply.
      */
-
     public void apply(Command command, UniversalDependencyType type, TransitionSystem transitionSystem) {
         switch (transitionSystem) {
             case ARC_STANDARD:
@@ -178,7 +170,6 @@ public class State {
      * Returns the number of relations established in the current state.
      * @return The size of the relations list.
      */
-
     public int relationSize() {
         return relations.size();
     }
@@ -187,7 +178,6 @@ public class State {
      * Returns the number of words remaining in the wordList.
      * @return The size of the wordList.
      */
-
     public int wordListSize() {
         return wordList.size();
     }
@@ -196,7 +186,6 @@ public class State {
      * Returns the number of words currently in the stack.
      * @return The size of the stack.
      */
-
     public int stackSize() {
         return stack.size();
     }
@@ -206,7 +195,6 @@ public class State {
      * @param index The position of the word in the stack.
      * @return The word at the specified position, or null if the index is out of bounds.
      */
-
     public UniversalDependencyTreeBankWord getStackWord(int index) {
         int size = stack.size() - 1;
         if (size - index < 0) {
@@ -219,7 +207,6 @@ public class State {
      * Retrieves the top word from the stack.
      * @return The top word of the stack, or null if the stack is empty.
      */
-
     public UniversalDependencyTreeBankWord getPeek() {
         if (!stack.isEmpty()) {
             return stack.peek().getWord();
@@ -232,7 +219,6 @@ public class State {
      * @param index The position of the word in the wordList.
      * @return The word at the specified position, or null if the index is out of bounds.
      */
-
     public UniversalDependencyTreeBankWord getWordListWord(int index) {
         if (index > wordList.size() - 1) {
             return null;
@@ -245,7 +231,6 @@ public class State {
      * @param index The position of the relation in the relations list.
      * @return The relation at the specified position, or null if the index is out of bounds.
      */
-
     public StackRelation getRelation(int index) {
         if (index < relations.size()) {
             return relations.get(index);

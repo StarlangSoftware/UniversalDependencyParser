@@ -21,7 +21,6 @@ public class ArcEagerTransitionParser extends TransitionParser {
      * @param windowSize The size of the window used for feature generation.
      * @return An ArrayList of {@link Instance} objects representing the parsed actions.
      */
-
     @Override
     public ArrayList<Instance> simulateParse(UniversalDependencyTreeBankSentence sentence, int windowSize) {
         UniversalDependencyTreeBankWord top, first;
@@ -85,7 +84,6 @@ public class ArcEagerTransitionParser extends TransitionParser {
      * @param oracle The oracle used to make parsing decisions.
      * @return The parsed sentence with dependency relations established.
      */
-
     @Override
     public UniversalDependencyTreeBankSentence dependencyParse(UniversalDependencyTreeBankSentence universalDependencyTreeBankSentence, Oracle oracle) {
         UniversalDependencyTreeBankSentence sentence = createResultSentence(universalDependencyTreeBankSentence);

@@ -17,7 +17,6 @@ public abstract class Oracle {
      * @param model the model used for making predictions
      * @param windowSize the size of the window used in parsing
      */
-
     public Oracle(Model model, int windowSize) {
         this.commandModel = model;
         this.windowSize = windowSize;
@@ -28,7 +27,6 @@ public abstract class Oracle {
      * @param state the current parsing state
      * @return a {@link Decision} object representing the action to be taken
      */
-
     protected abstract Decision makeDecision(State state);
 
     /**
@@ -37,7 +35,6 @@ public abstract class Oracle {
      * @param transitionSystem the transition system being used (e.g., ARC_STANDARD or ARC_EAGER)
      * @return a list of {@link Decision} objects, each with a score indicating its suitability
      */
-
     protected abstract ArrayList<Decision> scoreDecisions(State state, TransitionSystem transitionSystem);
 
     /**
@@ -47,7 +44,6 @@ public abstract class Oracle {
      * @param state the current parsing state
      * @return the best action as a string, or an empty string if no valid action is found
      */
-
     protected String findBestValidEagerClassInfo(HashMap<String, Double> probabilities, State state) {
         double bestValue = 0.0;
         String best = "";
@@ -76,7 +72,6 @@ public abstract class Oracle {
      * @param state the current parsing state
      * @return the best action as a string, or an empty string if no valid action is found
      */
-
     protected String findBestValidStandardClassInfo(HashMap<String, Double> probabilities, State state) {
         double bestValue = 0.0;
         String best = "";
@@ -101,7 +96,6 @@ public abstract class Oracle {
      * @param best the best action represented as a string, possibly with a dependency type in parentheses
      * @return a {@link Candidate} object representing the action, or null if the action is unknown
      */
-
     protected Candidate getDecisionCandidate(String best) {
         String command, relation;
         UniversalDependencyType type;

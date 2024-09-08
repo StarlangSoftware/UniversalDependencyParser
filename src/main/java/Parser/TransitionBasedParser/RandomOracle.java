@@ -18,7 +18,6 @@ public class RandomOracle extends Oracle {
      * @param state The current state of the parser.
      * @return A Decision object representing the randomly chosen action.
      */
-
     @Override
     public Decision makeDecision(State state) {
         Random random = new Random();
