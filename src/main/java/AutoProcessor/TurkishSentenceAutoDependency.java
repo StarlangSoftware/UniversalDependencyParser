@@ -39,8 +39,8 @@ public class TurkishSentenceAutoDependency extends SentenceAutoDependency {
             if (word.getUniversalDependency() != null){
                 continue;
             }
-            if ((word.getArgument() != null && word.getArgument().getArgumentType().equals("PREDICATE")) ||
-                    (word.getFrameElement() != null && word.getFrameElement().getFrameElementType().equals("PREDICATE"))){
+            if ((word.getArgumentList() != null && word.getArgumentList().containsPredicate()) ||
+                    (word.getFrameElementList() != null && word.getFrameElementList().containsPredicate())){
                 word.setUniversalDependency(0, "ROOT");
                 break;
             }
