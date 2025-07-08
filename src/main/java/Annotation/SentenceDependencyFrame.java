@@ -33,7 +33,7 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
     private final HashMap<String, ArrayList<AnnotatedSentence>> mappedSentences = new HashMap<>();
 
     @Override
-    protected SentenceAnnotatorPanel generatePanel(String currentPath, String rawFileName) {
+    public SentenceAnnotatorPanel generatePanel(String currentPath, String rawFileName) {
         return new SentenceDependencyPanel(currentPath, rawFileName, mappedWords, mappedSentences, scrollPane);
     }
 
