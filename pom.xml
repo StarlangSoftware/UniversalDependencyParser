@@ -6,7 +6,7 @@
 
     <groupId>io.github.starlangsoftware</groupId>
     <artifactId>UniversalDependencyParser</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
 
     <name>NlpToolkit.UniversalDependencyParser</name>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
             <artifactId>DataCollector</artifactId>
-            <version>1.0.74</version>
+            <version>1.0.75</version>
         </dependency>
         <dependency>
             <groupId>io.github.starlangsoftware</groupId>
