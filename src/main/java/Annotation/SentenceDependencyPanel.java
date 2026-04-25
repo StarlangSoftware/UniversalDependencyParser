@@ -398,7 +398,7 @@ public class SentenceDependencyPanel extends SentenceAnnotatorPanel {
             if (selectedWord.getUniversalDependencyPos() != null) {
                 String uvPos = selectedWord.getUniversalDependencyPos();
                 String dependency = universalDependencyType.toString();
-                if (uvPos != null && !AnnotatedSentence.checkDependencyWithUniversalPosTag(dependency, uvPos)) {
+                if (uvPos != null && !SentenceDependencyFrame.checkDependencyWithUniversalPosTag(dependency, uvPos)) {
                     continue;
                 }
             }
