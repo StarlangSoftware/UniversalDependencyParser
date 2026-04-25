@@ -1,7 +1,6 @@
 package DependencyError;
 
 import AnnotatedSentence.AnnotatedWord;
-import DependencyError.DependencyErrorType;
 
 public class DependencyError {
 
