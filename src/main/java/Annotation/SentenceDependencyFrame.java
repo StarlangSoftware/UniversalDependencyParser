@@ -125,13 +125,6 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
         }
     }
 
-    public static boolean checkDependencyWithToUniversalPosTag(String dependency, String universalPos, String fromPos) {
-        if (dependency.equals("OBL") && universalPos.equals("NOUN")) {
-            return !fromPos.equals("NOUN");
-        }
-        return true;
-    }
-
     /**
      * Checks if there is an error with the dependency relation and the universal pos tag of the word.
      *
@@ -309,17 +302,6 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                             "",
                             ""));
                 }
-                if (to > 0 && to <= sentence.wordCount() && ((AnnotatedWord) sentence.getWord(to - 1)).getUniversalDependencyPos() != null){
-                    String universalPos = word.getUniversalDependencyPos();
-                    String toPos = ((AnnotatedWord) sentence.getWord(to - 1)).getUniversalDependencyPos();
-                    if (!checkDependencyWithToUniversalPosTag(dependency, universalPos, toPos)){
-                        errorList.add(new DependencyError(DependencyErrorType.SHOULDNT_BE_OF_POS,
-                                from,
-                                (AnnotatedWord) sentence.getWord(from - 1),
-                                dependency,
-                                toPos));
-                    }
-                }
                 if (word.getUniversalDependencyPos() != null) {
                     String universalPos = word.getUniversalDependencyPos();
                     if (!checkDependencyWithUniversalPosTag(dependency, universalPos)) {
@@ -349,6 +331,16 @@ public class SentenceDependencyFrame extends SentenceAnnotatorFrame {
                                     (AnnotatedWord) sentence.getWord(from - 1),
                                     toDependency,
                                     ""));
+                        }
+                        String universalPos = word.getUniversalDependencyPos();
+                        if (dependency.equals("OBL") && (universalPos.equals("NOUN") || universalPos.equals("PROPN") || universalPos.equals("PRON"))){
+                            if (toDependency.equals("NSUBJ") || toDependency.equals("OBJ") || toDependency.equals("IOBJ") || toDependency.equals("OBL") || toDependency.equals("VOCATIVE") || toDependency.equals("DISLOCATED") || toDependency.equals("EXPL") || toDependency.equals("NMOD")){
+                                errorList.add(new DependencyError(DependencyErrorType.SHOULDNT_BE_OF_POS,
+                                        from,
+                                        (AnnotatedWord) sentence.getWord(from - 1),
+                                        dependency,
+                                        universalPos));
+                            }
                         }
                     }
                 }
